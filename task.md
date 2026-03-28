@@ -7,6 +7,55 @@
 
 ---
 
+## CEO Decision Required: Development Timeline
+
+### Option A: Full Scope (50 weeks, ~12.5 months)
+
+Phase 1~3 all features complete before launch. Quality: 100%.
+
+```
+Phase 1 (14w): SmartMove full (7 transport + Wi-Fi + geofence + MRV + ads + full admin)
+Phase 2 (18w): Multi-sport full (GPX + bidirectional + Strava + Garmin + ParkRun + crew + SSP exchange)
+Phase 3 (18w): Commerce full (Normal + Dark Room + AI desc + Smart Store + full automation)
+Total: 50 weeks
+```
+
+### Option B: 3-Month MVP (13 weeks) ← then iterate
+
+Phase 1~3 core features only, launch fast, add rest weekly.
+
+```
+Week 1-2:   Foundation (API + DB + Auth + Flutter)
+Week 3-4:   P1 MVP: walk/run/cycle detection + SSP (Plan C tagging)
+Week 5:     P1 MVP: carbon calc (T-map) + home screen
+Week 6:     P1+: AdMob rewarded + offerwall + basic admin (5 modules only)
+Week 7-8:   P2 MVP: GPX course import + Strava sync + basic ranking
+Week 9:     P2 MVP: stamp tour + activity history UI
+Week 10-11: P3 MVP: Normal Shop (port WB3 commerce) + order/payment/shipping
+Week 12:    P3 MVP: basic notifications + my page + settings
+Week 13:    Integration test + App Store submission
+
+EXCLUDED (add after launch, weekly updates):
+  - Wi-Fi SSID bus/subway detection (GPS speed fallback used)
+  - Geofence car/taxi inference (simple popup instead)
+  - MRV vehicle verification (Phase 4 STO timing)
+  - Pattern learning (manual registration only)
+  - Garmin (Strava covers 80%)
+  - Bidirectional courses (forward only first)
+  - ParkRun events (course challenge only)
+  - Crew / social feed
+  - SSP external exchange (Naver Pay, Kakao, etc.)
+  - Dark Room (Normal Shop only first)
+  - AI product description
+  - Smart Store auto-import
+  - Full operations automation
+  - Full admin (27 modules → 5 core only)
+```
+
+**After 3-month launch: add excluded features 2-3 per week for next 6 months**
+
+---
+
 ## Korea Tourism Organization Proposal
 
 - [ ] Review and finalize email draft, fill in sender info (name/title/contact)
