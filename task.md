@@ -1,7 +1,7 @@
 # Task List - App Renewal
 
-**Last updated:** 2026-03-28
-**Current phase:** Phase 1 - 3Way Sensor + Carbon Reduction
+**Last updated:** 2026-03-29
+**Current phase:** Pre-Dev (BRD complete, PRD next)
 **Design spec:** `docs/superpowers/specs/2026-03-28-app-renewal-design.md`
 **Full roadmap:** `docs/superpowers/specs/2026-03-28-full-roadmap-phase1-2-3.md`
 
@@ -29,7 +29,7 @@
 
 ## NEXT: Week -3 BRD + PRD (Start immediately)
 
-- [x] BRD: business goals, target users, success metrics, competitive analysis ← DONE (docs/BRD/BRD_complete.md)
+- [x] BRD complete (docs/BRD/BRD_complete.md) ← DONE
 - [ ] PRD Phase 1: 3Way Sensor + Carbon Reduction (detailed specs, acceptance criteria)
 - [ ] PRD Phase 2: Multi-Sport Challenge Platform (detailed specs)
 - [ ] PRD Phase 3: Dark Commerce + Smart Commerce (detailed specs)

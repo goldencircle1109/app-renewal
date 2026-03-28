@@ -123,3 +123,10 @@
   - Foreign user participation (i18n + tourist mode)
   - Multi-sport category structure (cross-sport tagging)
   - GTM strategy (MAU 4,000 → 10,000 target)
+
+### Shareholder Report (AGM 2026.03.31)
+- Created McKinsey-style shareholder report for annual general meeting:
+  - Word: `docs/shareholder/WB_App_Renewal_Shareholder_Report_2026.docx` (9 sections)
+  - PPT: `docs/shareholder/WB_App_Renewal_Shareholder_Report_2026.pptx` (10 slides)
+  - Midnight Executive palette (navy + ice blue)
+  - Content: Executive Summary, Why Renewal, 4-Phase Strategy, Phase 1 Detail, Revenue, Commerce, STO, Risk, Timeline, Conclusion
