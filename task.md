@@ -3,6 +3,7 @@
 **Last updated:** 2026-03-28
 **Current phase:** Phase 1 - 3Way Sensor + Carbon Reduction
 **Design spec:** `docs/superpowers/specs/2026-03-28-app-renewal-design.md`
+**Full roadmap:** `docs/superpowers/specs/2026-03-28-full-roadmap-phase1-2-3.md`
 
 ---
 
@@ -93,25 +94,105 @@
 
 ---
 
-## Phase 2 (After Phase 1): Riding + Park Run
+## Phase 2 - Week 15-16: GPX Segment Management
 
-- [ ] GPS riding recording (full route tracking)
-- [ ] Strava API sync
-- [ ] Garmin API sync
-- [ ] Riding statistics + history
-- [ ] Representative Course 60 digital stamp tour
-- [ ] Segment ranking system
-- [ ] Park Run weekly events
-- [ ] SSP -> External rewards exchange (Naver Pay, Kakao Gift, Onnuri, ZeroPay)
+- [ ] GPX parser (XML -> coordinates + metadata)
+- [ ] Coordinate cleanup (noise removal + Douglas-Peucker simplification)
+- [ ] Batch import KTO 60 courses + National Cycling 12 routes
+- [ ] Admin segment CRUD + map preview
+- [ ] Segment categories (8 types) + user segment creation
 
-## Phase 3 (After Phase 2): Commerce
+## Phase 2 - Week 17-18: GPS Matching Engine
 
-- [ ] B2B/B2C product sales (native, not WebView)
-- [ ] C2C used goods marketplace
-- [ ] Rental system
-- [ ] Payment gateway integration
-- [ ] Partner portal + settlement
-- [ ] Shipping integration
+- [ ] Bounding box filter + start/end point detection (50m radius)
+- [ ] Route similarity validation (80% checkpoint threshold)
+- [ ] Time validation (speed filters + stop time filters)
+- [ ] Post-activity batch matching + Strava sync matching
+
+## Phase 2 - Week 19-20: Ranking System
+
+- [ ] KOR/QOR (Course King/Queen) per segment
+- [ ] Local Legend (90-day rolling window most completions)
+- [ ] Segment leaderboard + season ranking (quarterly points)
+- [ ] Crew ranking + ranking notifications
+
+## Phase 2 - Week 21-22: Strava + Garmin Integration
+
+- [ ] Strava OAuth + activity sync + webhook
+- [ ] Garmin Connect IQ + activity sync
+- [ ] Post-sync segment matching pipeline
+- [ ] Native GPS riding recording (non-Strava)
+
+## Phase 2 - Week 23-25: Park Run Events
+
+- [ ] Event types (Park Run 5km / Bike Run 15-30km / Special)
+- [ ] Event series + registration + QR/NFC check-in
+- [ ] Live leaderboard (WebSocket) + GPS tracking
+- [ ] Completion detection + results + SNS share cards
+- [ ] Volunteer matching system
+
+## Phase 2 - Week 25-26: Digital Stamp Tour
+
+- [ ] Stamp/badge data model + checkpoint GPS trigger
+- [ ] Stamp book UI + collection progress
+- [ ] KTO tourism info integration
+
+## Phase 2 - Week 27-28: Crew Hub
+
+- [ ] Crew CRUD + member management + roles
+- [ ] Crew events + inter-crew challenges
+- [ ] Social feed + kudos + comments
+- [ ] Crew search + leaderboard
+
+## Phase 2 - Week 29-30: SSP External Exchange
+
+- [ ] Naver Pay Points (Daou Addcon B2B API)
+- [ ] Kakao Gift Biz API (mobile voucher delivery)
+- [ ] Giftishow Biz / ZeroPay voucher / Onnuri gift certificate
+- [ ] Exchange rate admin + tax handling (22% > 50K KRW)
+
+---
+
+## Phase 3 - Week 31-33: Dealer Portal (Dark Commerce)
+
+- [ ] Dealer registration + approval workflow
+- [ ] Dealer tier system (Bronze/Silver/Gold)
+- [ ] Product registration (photos, condition, pricing)
+- [ ] Shipment notification (masked consumer info)
+- [ ] Settlement dashboard + NDA digital signing
+
+## Phase 3 - Week 33-34: Anonymity Architecture
+
+- [ ] API response filtering (zero dealer info leak)
+- [ ] Shipping label system (LB brand only)
+- [ ] CS routing + notification filtering
+- [ ] Access control + audit trail
+
+## Phase 3 - Week 35-36: Flash Sale System
+
+- [ ] Sale creation (duration countdown, 1-unit inventory)
+- [ ] Status transitions (Draft -> Active -> Sold Out/Expired)
+- [ ] Upcoming preview (blurred cards) + auto-cancel/confirm
+- [ ] Consumer flash sale list + detail UI
+
+## Phase 3 - Week 37-38: Admin Inspection
+
+- [ ] Product approval workflow + photo review
+- [ ] Price adjustment authority + quality scoring
+- [ ] Category + commission rate management
+
+## Phase 3 - Week 39-40: Consumer Experience + Payment
+
+- [ ] Dark Commerce tab in Flutter app
+- [ ] Purchase flow (existing PG integration)
+- [ ] Order tracking (LB as sender) + returns (defective only)
+
+## Phase 3 - Week 41-42: Settlement + Native Commerce
+
+- [ ] Settlement ledger (double-entry) + VAT chain
+- [ ] Tax invoice auto-generation + dealer monthly reporting
+- [ ] Existing commerce WebView -> native conversion (basic)
+- [ ] Integration testing + Phase 3 launch
 
 ---
 
@@ -123,3 +204,4 @@
 - [x] App Renewal Phase 1 design spec - 2026-03-28
 - [x] Existing WB3 DB/architecture/feature analysis - 2026-03-28
 - [x] 3Way Sensor existing research review - 2026-03-28
+- [x] Full roadmap Phase 1+2+3 design spec - 2026-03-28

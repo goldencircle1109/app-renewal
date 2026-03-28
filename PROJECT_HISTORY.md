@@ -70,3 +70,15 @@
 - Design spec written and committed:
   - `docs/superpowers/specs/2026-03-28-app-renewal-design.md`
   - Covers: architecture, 3Way Sensor flow, carbon calc, SSP system, data model, admin features, app screens, 14-week schedule
+
+### Full Roadmap Phase 1+2+3
+- Explored parkrun/ folder (06_통합_기능_기획문서.md, 04_한국형_파크런_사업계획서.md) for Phase 2 scope
+- Explored darkcommerce/ folder (01~03 + WB3 분석서) for Phase 3 scope
+- Created unified roadmap covering all 3 phases:
+  - `docs/superpowers/specs/2026-03-28-full-roadmap-phase1-2-3.md`
+  - Phase 1 (14 weeks): 3Way Sensor + Carbon Reduction + Admin
+  - Phase 2 (16 weeks): GPX Segments + GPS Matching + Rankings + Strava/Garmin + Park Run + Stamp Tour + Crew + SSP Exchange
+  - Phase 3 (12 weeks): Dark Commerce (깜깜이방) — Dealer Portal + Anonymity + Flash Sale + Settlement + Native Commerce
+  - Total: 42 weeks (~10.5 months), accelerated 32-36 weeks
+  - 34 new DB tables, 15 external API integrations, 20 admin modules, ~60 app screens
+- Updated task.md with detailed Phase 2/3 weekly task breakdown
