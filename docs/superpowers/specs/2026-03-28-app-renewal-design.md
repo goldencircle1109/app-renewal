@@ -616,7 +616,7 @@ T_EMISSION_FACTOR (
 |-----|------|
 | 1-2 | Express+TS+Prisma project setup, folder structure |
 | 3-4 | Aurora MySQL connection + `prisma db pull` introspect |
-| 5-6 | Firebase Auth (Google/Apple/Kakao) + i18n (KO/EN/JA/ZH) |
+| 5-6 | Firebase Auth (Google/Apple/Kakao) + i18n (KO/EN (JA/ZH later)) |
 | 7-8 | Flutter project creation, routing, state management |
 | 9-10 | Member API (register/login/profile/address) |
 | 11-14 | Flutter ↔ API integration, login screen working |

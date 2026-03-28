@@ -68,7 +68,7 @@ Build foundation + automatic activity/transport detection + carbon reduction cal
 | DB Connection | Aurora MySQL Prisma introspect (107 tables) |
 | New Tables | T_ACTIVITY_RECORD, T_MEMBER_LOCATION, T_CARBON_DAILY, T_SSP_RATE_CONFIG, T_WIFI_SSID_PATTERN, T_EMISSION_FACTOR |
 | Auth | Firebase Auth (Google/Apple/Kakao, 3 providers — foreign user support) |
-| i18n | flutter_localizations + intl (KO/EN/JA/ZH) |
+| i18n | flutter_localizations + intl (KO/EN (JA/ZH later)) |
 | Flutter App | Project skeleton, routing, state management |
 | Member API | Register/login/profile/address CRUD |
 
