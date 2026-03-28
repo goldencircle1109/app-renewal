@@ -142,6 +142,9 @@ C:\Dev\app renewal\
 | **Driver License** | 도로교통공단 자동검증 API | license verification |
 | **Vehicle Ownership** | CODEF API (자동차등록원부, 보험다모아, 하이패스) | MRV evidence |
 | **Document OCR** | Claude Vision API (Haiku) | insurance cert, contract OCR |
+| **Ads (Rewarded)** | Google AdMob (`google_mobile_ads`) | rewarded video, banner |
+| **Offerwall** | AdiSON (엔비티) or NAS (MAFIN) | CPA/CPE mission center |
+| **Ads (Banner)** | Kakao AdFit (optional) | dashboard banner |
 | **Deployment (API)** | AWS Lambda or EC2 | existing AWS account |
 | **Deployment (Admin)** | Vercel | free/pro |
 
@@ -426,6 +429,75 @@ Every SSP transaction recorded with:
 - Bonus multiplier (if applicable)
 
 Full audit trail for MRV compliance.
+
+---
+
+## 5.3 Ad Revenue + Offerwall System
+
+### Revenue Strategy
+
+SSP point costs are covered by ad revenue. Ads are **optional SSP boosters**, never forced.
+
+```
+User completes activity → 10 SSP earned
+    ↓
+"Watch ad for 2x SSP" button (optional)
+    ↓
+User watches 15-30s rewarded video → +10 SSP bonus
+    ↓
+Revenue flow:
+  Advertiser pays ~₩33 → Google AdMob takes ~40% → WB receives ~₩20
+  WB gives user 10 SSP (~₩10 value) → WB keeps ~₩10 margin
+  + User retention increases → more ad views → compounding revenue
+```
+
+### Ad Placements
+
+| Format | Placement | Revenue | UX Impact |
+|--------|-----------|---------|-----------|
+| **Rewarded Video** (AdMob) | "Watch ad for 2x SSP" after activity | **High (~₩33/view)** | None (voluntary) |
+| **Rewarded Video** (AdMob) | "Today's bonus SSP" on home screen | High | None |
+| **Offerwall** (AdiSON/NAS) | "Mission Center" dedicated tab | **Very High (₩1K~70K/action)** | None (separate tab) |
+| Native Ad (AdMob) | Between activity history items | Medium | Minimal |
+| Banner (Kakao AdFit) | Carbon dashboard bottom | Low | Minimal |
+| ~~Interstitial~~ | ~~Not used~~ | - | ~~Bad UX~~ |
+
+### Offerwall Integration
+
+```
+[User taps "Mission Center" tab]
+    ↓
+[AdiSON offerwall loads (native SDK or WebView)]
+    ↓
+[User completes mission: install app, sign up for card, etc.]
+    ↓
+[AdiSON server → postback to WB API: POST /api/offerwall/callback]
+    ↓
+[WB server: verify + credit SSP to user]
+```
+
+**Offerwall priority:**
+1. AdiSON (엔비티) — No.1 Korea, self-serve partner center, KOSDAQ-listed
+2. TNK Factory — Neowiz subsidiary, 15yr track record
+3. NAS (MAFIN) — Quick test only, too small for long-term
+
+### Revenue Projection
+
+| MAU | Rewarded Video | Offerwall CPA | Banner | **Monthly Total** |
+|-----|---------------|---------------|--------|-----------------|
+| 10,000 | ₩162K | ₩500K | ₩101K | **₩763K** |
+| 50,000 | ₩810K | ₩2.5M | ₩506K | **₩3.82M** |
+| 100,000 | ₩1.62M | ₩5M | ₩1.01M | **₩7.63M** |
+
+### Implementation (Week 7-8, ~7-9 days)
+
+| Task | Duration |
+|------|----------|
+| AdMob Flutter package (`google_mobile_ads`) | 1 day |
+| Rewarded video integration (2x SSP after activity) | 2 days |
+| Offerwall WebView/SDK + postback callback API | 3 days |
+| "Mission Center" tab UI | 2 days |
+| Kakao AdFit banner (optional) | 1 day |
 
 ---
 

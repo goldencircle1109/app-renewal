@@ -93,6 +93,10 @@
 - [ ] MRV: CODEF API 연동 (자동차등록원부, 보험다모아, 하이패스)
 - [ ] MRV: Claude Vision API OCR (보험증권, 리스계약서, 재직증명서 자동 검증)
 - [ ] MRV: 3-Tier 인증 플로우 (자동/반자동/행동기반) + 관리자 검수 큐
+- [ ] AdMob 리워드 동영상 연동 (google_mobile_ads, "광고 보고 2배 SSP")
+- [ ] 오퍼월 연동 (애디슨 AdiSON SDK + postback callback API)
+- [ ] "미션센터" 탭 UI (오퍼월 + 리워드 동영상 목록)
+- [ ] 배너 광고 (카카오 애드핏 or AdMob, 대시보드 하단)
 
 ## Week 9-10: Flutter App UI
 

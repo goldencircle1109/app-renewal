@@ -108,6 +108,9 @@ Build foundation + automatic activity/transport detection + carbon reduction cal
 | **MRV: Document OCR** | Claude Vision API (Haiku) — insurance cert, lease/rental contract, employment cert auto-OCR |
 | **MRV: 3-Tier Verification** | Tier1 auto (API only) / Tier2 semi-auto (API+OCR) / Tier3 behavior-based |
 | **MRV: Verification UI** | Vehicle type selection, document upload, OCR result, admin review queue |
+| **AdMob Rewarded Video** | google_mobile_ads Flutter SDK, "watch ad for 2x SSP" after activity |
+| **Offerwall (AdiSON)** | Mission Center tab, AdiSON partner center SDK, postback callback API |
+| **Banner Ads** | Kakao AdFit or AdMob banner on dashboard bottom |
 
 ### Flutter App UI (Week 9-10)
 
