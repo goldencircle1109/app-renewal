@@ -29,7 +29,7 @@
 
 ## NEXT: Week -3 BRD + PRD (Start immediately)
 
-- [ ] BRD: business goals, target users, success metrics, competitive analysis
+- [x] BRD: business goals, target users, success metrics, competitive analysis ← DONE (docs/BRD/BRD_complete.md)
 - [ ] PRD Phase 1: 3Way Sensor + Carbon Reduction (detailed specs, acceptance criteria)
 - [ ] PRD Phase 2: Multi-Sport Challenge Platform (detailed specs)
 - [ ] PRD Phase 3: Dark Commerce + Smart Commerce (detailed specs)
@@ -310,5 +310,9 @@
 - [x] Full roadmap Phase 1+2+3 design spec - 2026-03-28
 - [x] Phase 2 update: multi-sport + bidirectional + GPX auto-pipeline + org system - 2026-03-28
 - [x] Phase 3 update: ops automation + AI product desc + Smart Store import - 2026-03-28
+- [x] iOS Wi-Fi SSID restriction research + GPS/geofence alternative - 2026-03-29
+- [x] GTM strategy created (docs/GTM/) - 2026-03-29
+- [x] Actual metrics confirmed: MAU ~4,000 (app 2,130 + web 2,000) - 2026-03-29
+- [x] Doc review: 7 CEO decisions resolved + 13 inconsistencies fixed - 2026-03-29
 - [x] MRV 3-Tier vehicle verification + Claude Vision OCR - 2026-03-28
 - [x] Phase 4 added: Carbon Token Securities (STO) + Global Expansion - 2026-03-28

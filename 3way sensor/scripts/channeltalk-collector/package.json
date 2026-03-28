@@ -1,0 +1,18 @@
+{
+  "name": "channeltalk-collector",
+  "version": "1.0.0",
+  "description": "채널톡 CS 데이터 수집 스크립트 — 대화 목록 + 메시지를 JSON으로 저장",
+  "main": "collect.js",
+  "scripts": {
+    "collect": "node collect.js",
+    "collect:closed": "node collect.js --state closed",
+    "collect:opened": "node collect.js --state opened",
+    "export:csv": "node export-csv.js",
+    "analyze": "node analyze.js",
+    "analyze:test": "node analyze.js --limit 3",
+    "analyze:dry-run": "node analyze.js --dry-run"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.0"
+  }
+}

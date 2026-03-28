@@ -71,7 +71,7 @@
   - `docs/superpowers/specs/2026-03-28-app-renewal-design.md`
   - Covers: architecture, 3Way Sensor flow, carbon calc, SSP system, data model, admin features, app screens, 14-week schedule
 
-### Full Roadmap Phase 1+2+3
+### Full Roadmap Phase 1+2+3+4
 - Explored parkrun/ folder (06_통합_기능_기획문서.md, 04_한국형_파크런_사업계획서.md) for Phase 2 scope
 - Explored darkcommerce/ folder (01~03 + WB3 분석서) for Phase 3 scope
 - Created unified roadmap covering all 3 phases:
@@ -82,3 +82,44 @@
   - Total: 42 weeks (~10.5 months), accelerated 32-36 weeks
   - 34 new DB tables, 15 external API integrations, 20 admin modules, ~60 app screens
 - Updated task.md with detailed Phase 2/3 weekly task breakdown
+
+---
+
+## 2026-03-29
+
+### Document Review + CEO Decisions + Real Metrics
+
+- Spec-Kit v0.4.3 installed (specify CLI via uv)
+- BRD complete (12 sections, 1,700+ lines): docs/BRD/BRD_complete.md
+- Project CLAUDE.md created (legacy reference rules, tech stack, session checklist)
+- 3-agent document review (product-manager, tech-architect, business-analyst):
+  - 47 BRD gaps, 46 technical gaps, 19 cross-document inconsistencies identified
+- CEO decisions (7 items):
+  1. Rental system: included in Phase 3 (port from legacy)
+  2. C2C marketplace: excluded from Phase 3 (DB ready only)
+  3. Premium pricing: admin-configurable (no fixed price in docs)
+  4. GTM strategy: created (docs/GTM/, 4 files)
+  5. iOS Wi-Fi SSID: blocked by Apple → GPS speed + bus stop geofence + CMMotion alternative
+  6. Lambda vs EC2: decided by feature needs (WebSocket → EC2 for Phase 2)
+  7. SSP expiration: CARBON = no expiry, AD/SHOP = 1 year
+- Actual metrics confirmed via Google Play Console + Google Analytics:
+  - Android installs: 7,180 / MAU: 1,490
+  - Web MAU: ~2,000 / DAU: ~137
+  - Total MAU (app+web): ~4,000
+  - All metrics trending down (-30~35%)
+  - Android rating: 1.00★
+- Document inconsistencies fixed:
+  - Login providers: 4 → 3 (Google/Apple/Kakao) across all docs
+  - i18n: 4 languages → KO/EN only across all docs
+  - CLAUDE.md: Phase 4 + Node.js 20 LTS added
+  - SSP expiration policy added to design spec
+  - iOS Wi-Fi alternative (GPS+geofence) added to design spec
+- Additional features documented:
+  - SSP Plan C (source tagging: CARBON/AD/SHOP/BONUS)
+  - Ad revenue + offerwall (AdMob + AdiSON)
+  - MRV 3-Tier vehicle verification + Claude Vision OCR
+  - Phase 3 dual commerce (Normal Shop + Dark Room + SSP entry ticket)
+  - Phase 4 STO (Korea STO + overseas blockchain)
+  - Foreign user participation (i18n + tourist mode)
+  - Multi-sport category structure (cross-sport tagging)
+  - GTM strategy (MAU 4,000 → 10,000 target)

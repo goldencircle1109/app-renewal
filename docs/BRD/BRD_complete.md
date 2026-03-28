@@ -1368,7 +1368,7 @@ ROI:                    약 2,900%
 | 의존 대상 | 내용 | 영향 범위 | 관리 방안 |
 |----------|------|---------|---------|
 | Aurora MySQL (기존 WB3) | 107개 테이블, 기존 회원·주문·파트너 데이터 | 전 Phase | 마이그레이션 전 완전 백업; Prisma db pull로 스키마 역설계; 신규 테이블 6개 추가 |
-| Firebase Auth | 기존 소셜 로그인 연동 (Kakao/Naver/Google/Apple) | Phase 1~3 | Firebase Admin SDK 기존 설정 유지; 사용자 UID 매핑 유지 |
+| Firebase Auth | 기존 소셜 로그인 연동 (Google/Apple/Kakao (3 providers)) | Phase 1~3 | Firebase Admin SDK 기존 설정 유지; 사용자 UID 매핑 유지 |
 | FCM (Firebase Cloud Messaging) | 기존 푸시 알림 인프라 | Phase 1~3 | 기존 토큰 마이그레이션; 신규 알림 카테고리 추가 |
 | 이니시스·PortOne·네이버페이 | 기존 결제 PG 연동 키 및 MID | Phase 3 | 기존 계정 재활성화; 새 API 서버에 환경변수 이전 |
 

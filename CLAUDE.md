@@ -46,6 +46,7 @@ When developing any feature, ALWAYS check the legacy codebase first:
 
 | Layer | Technology |
 |-------|-----------|
+| Runtime | Node.js 20 LTS |
 | API | Express + TypeScript + Prisma |
 | DB | Aurora MySQL (existing, connected via Prisma introspect) |
 | App | Flutter (existing framework, code rewritten) |
@@ -86,6 +87,7 @@ Pre-Dev (3w): BRD + PRD + Screen Planning + Design System  ← CURRENT
 Phase 1 (14w): 3Way Sensor + Carbon Reduction + SSP + Admin
 Phase 2 (18w): Multi-Sport Challenge (GPX, ranking, events, crew)
 Phase 3 (18w): Dark Commerce + Smart Commerce (ops automation, AI desc)
+Phase 4 (20w): Carbon Token Securities (STO) + Global Expansion
 ```
 
 ## Session Start Checklist

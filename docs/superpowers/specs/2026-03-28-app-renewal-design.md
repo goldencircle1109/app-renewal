@@ -135,7 +135,7 @@ C:\Dev\app renewal\
 | **Mobile App** | Flutter + Dart | 3.x |
 | **Admin Web** | Next.js + TypeScript + Tailwind + shadcn/ui | 14.x |
 | **Auth** | Firebase Admin SDK (Google, Apple, Kakao) | 3 providers only |
-| **i18n** | flutter_localizations + intl | Korean, English, Japanese, Chinese |
+| **i18n** | flutter_localizations + intl | KO/EN (JA/ZH later) |
 | **Push** | Firebase Cloud Messaging | existing |
 | **Car Route** | T-map API | route distance |
 | **Geocoding** | Kakao Address API | address → coords |
@@ -238,12 +238,54 @@ After 5+ repeated trips with same origin/destination:
 | Private Car | Geofence | 90%+ |
 | Taxi | Elimination | 85%+ |
 
-### 3.6 Battery Optimization
+### 3.6 Platform-Specific Transport Detection
+
+**iOS Wi-Fi SSID scan is BLOCKED by Apple** (NEHotspotHelper denied for fitness apps, CNCopyCurrentNetworkInfo deprecated). Alternative approach:
+
+| Method | Android | iOS | Purpose |
+|--------|---------|-----|---------|
+| Wi-Fi SSID scan | ✅ (30min intervals) | ❌ **Blocked** | Bus/subway detection |
+| **GPS speed pattern** | ✅ | ✅ | Bus (20-60km/h) vs walk (4-6km/h) |
+| **Bus stop geofencing** | ✅ | ✅ | CLCircularRegion, battery efficient |
+| **CMMotionActivity** | ✅ | ✅ | `automotive` type detection |
+| Cellular tower | ✅ (limited) | ❌ | Not viable on either platform |
+
+**iOS transport detection stack:**
+```
+IN_VEHICLE detected (CMMotionActivity)
+    ↓
+GPS speed > 15km/h? → likely bus/car/subway
+    ↓
+Near bus stop geofence? → BUS
+    ↓
+GPS signal lost (underground)? → SUBWAY
+    ↓
+Near home/work geofence? → PRIVATE_CAR
+    ↓
+None of above → TAXI
+```
+
+**Android**: Wi-Fi SSID scan (primary) + GPS speed (backup)
+**iOS**: GPS speed + bus stop geofencing + CMMotionActivity (no Wi-Fi)
+
+### 3.6.1 Battery Optimization
 
 - Activity Recognition: Transition API (event-driven, not polling)
-- GPS: Duty cycling (5s on, 25s off during activity)
-- Wi-Fi scan: Only when IN_VEHICLE detected
+- GPS: `kCLLocationAccuracyHundredMeters` + `distanceFilter: 50m` (iOS), FusedLocationProvider (Android)
+- Wi-Fi scan: Android only, when IN_VEHICLE detected
+- Bus stop geofence: CLCircularRegion (iOS), max 20 regions monitored
 - Target: ≤5% additional daily battery drain
+
+### 3.6.2 SSP Expiration Policy
+
+| SSP Source | Expiration | Reason |
+|-----------|-----------|--------|
+| **CARBON** | **No expiration** | Future STO token conversion (Phase 4) |
+| **AD** | **1 year from earn date** | Funded by ad revenue, time-limited |
+| **SHOP** | **1 year from earn date** | Funded by commerce margin |
+| **BONUS** | **Admin configurable** | Default 1 year |
+
+Expired SSP: auto-removed by daily cron job. `T_SSP_LEDGER.EXPIRES_AT` field: NULL for CARBON, datetime for others.
 
 ---
 
@@ -765,7 +807,7 @@ T_EMISSION_FACTOR (
 ## 8. App Screens (Flutter)
 
 ### 8.1 Onboarding
-1. Language selection (한국어 / English / 日本語 / 中文)
+1. Language selection (한국어 / English) — JA/ZH added later
 2. Welcome + app intro (3 slides, localized)
 3. Social login (Google / Apple / Kakao) — 3 providers, supports foreign users
 4. Profile setup (name, nationality — optional for foreign users)
