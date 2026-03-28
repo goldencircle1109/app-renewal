@@ -110,7 +110,7 @@ slide.background = { color: NAVY };
 slide.addText("4단계 성장 전략", { x: 0.5, y: 0.3, w: 12, fontSize: 28, color: WHITE, bold: true, fontFace: "Arial Black" });
 
 const phases = [
-  { num: "1", title: "3Way Sensor", period: "14주", desc: "교통수단 자동감지\n탄소저감 계산\nSSP 포인트", revenue: "광고+오퍼월", color: "2ECC71" },
+  { num: "1", title: "SmartMove", period: "14주", desc: "교통수단 자동감지\n탄소저감 계산\nSSP 포인트", revenue: "광고+오퍼월", color: "2ECC71" },
   { num: "2", title: "멀티스포츠", period: "18주", desc: "GPX 코스 자동생성\n양방향 랭킹\n파크런 이벤트", revenue: "+구독+스폰서", color: "3498DB" },
   { num: "3", title: "커머스", period: "18주", desc: "일반샵+깜깜이방\nAI 상품설명\n운영 자동화", revenue: "+수수료 8~20%", color: "9B59B6" },
   { num: "4", title: "STO", period: "20주", desc: "탄소 토큰증권\n한국 STO\n해외 블록체인", revenue: "+토큰+B2B ESG", color: "E67E22" },
@@ -138,15 +138,15 @@ for (let i = 0; i < 3; i++) {
 // ===== SLIDE 5: PHASE 1 DETAIL =====
 slide = pres.addSlide();
 slide.background = { color: WHITE };
-slide.addText("Phase 1: 3Way Sensor + 탄소저감", { x: 0.5, y: 0.3, w: 12, fontSize: 28, color: NAVY, bold: true, fontFace: "Arial Black" });
+slide.addText("Phase 1: SmartMove + 탄소저감", { x: 0.5, y: 0.3, w: 12, fontSize: 28, color: NAVY, bold: true, fontFace: "Arial Black" });
 slide.addText("스마트폰 센서로 7가지 교통수단을 100% 자동 감지하고, 자동차 대비 탄소저감량을 실시간 계산합니다.", {
   x: 0.5, y: 0.9, w: 12, fontSize: 13, color: NAVY, fontFace: "Arial", fill: { color: ICE }, margin: [8, 12, 8, 12]
 });
 
 // Transport detection table
 const transportData = [
-  ["걷기", "3Way Sensor", "93%+"],
-  ["러닝", "3Way Sensor", "95%+"],
+  ["걷기", "SmartMove", "93%+"],
+  ["러닝", "SmartMove", "95%+"],
   ["자전거", "센서 + GPS", "90%+"],
   ["버스", "GPS + 정류장 지오펜스", "90%+"],
   ["지하철", "GPS 신호 소실", "85%+"],

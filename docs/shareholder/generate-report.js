@@ -244,12 +244,12 @@ const doc = new Document({
         // ===== 3. FOUR-PHASE STRATEGY =====
         new Paragraph({ children: [new PageBreak()] }),
         heading1("3. 4단계 성장 전략"),
-        keyMessage("3Way Sensor(탄소저감) → 멀티스포츠 챌린지 → 커머스 → STO 순서로 확장하여, 각 단계가 다음 단계의 기반이 됩니다."),
+        keyMessage("SmartMove(탄소저감) → 멀티스포츠 챌린지 → 커머스 → STO 순서로 확장하여, 각 단계가 다음 단계의 기반이 됩니다."),
         spacer(),
         makeTable(
           ["Phase", "기간", "핵심 기능", "수익원"],
           [
-            ["1. 3Way Sensor", "14주", "걷기/러닝/자전거 자동감지\n탄소저감 계산\nSSP 포인트", "광고+오퍼월\n(월 76만~763만)"],
+            ["1. SmartMove", "14주", "걷기/러닝/자전거 자동감지\n탄소저감 계산\nSSP 포인트", "광고+오퍼월\n(월 76만~763만)"],
             ["2. 멀티스포츠", "18주", "GPX 코스 자동생성\n양방향 랭킹\n파크런 이벤트", "프리미엄 구독\n스폰서십"],
             ["3. 커머스", "18주", "일반샵+깜깜이방\nAI 상품설명 자동생성\n운영 완전 자동화", "커머스 수수료\n(8~20%)"],
             ["4. STO", "20주", "탄소 토큰증권\n한국 STO + 해외 블록체인", "토큰 거래\nB2B ESG"],
@@ -260,16 +260,16 @@ const doc = new Document({
 
         // ===== 4. PHASE 1 DEEP DIVE =====
         new Paragraph({ children: [new PageBreak()] }),
-        heading1("4. Phase 1 상세: 3Way Sensor + 탄소저감"),
+        heading1("4. Phase 1 상세: SmartMove + 탄소저감"),
         keyMessage("스마트폰 센서로 걷기/러닝/자전거/버스/지하철을 100% 자동 감지하고, T맵 자동차 경로 대비 탄소저감량을 실시간 계산합니다."),
         spacer(),
         heading3("핵심 기술: 교통수단 100% 자동 감지"),
         makeTable(
           ["교통수단", "감지 방법", "예상 정확도"],
           [
-            ["걷기", "3Way Sensor (Platform API)", "93%+"],
-            ["러닝", "3Way Sensor (Platform API)", "95%+"],
-            ["자전거", "3Way Sensor + GPS 속도", "90%+"],
+            ["걷기", "SmartMove (Platform API)", "93%+"],
+            ["러닝", "SmartMove (Platform API)", "95%+"],
+            ["자전거", "SmartMove + GPS 속도", "90%+"],
             ["버스", "GPS 속도 + 정류장 지오펜스", "90%+ (서울)"],
             ["지하철", "GPS 신호 소실 감지", "85%+"],
             ["자가용", "지오펜스 (집/회사 반경)", "90%+"],
@@ -381,7 +381,7 @@ const doc = new Document({
         new Paragraph({ children: [new PageBreak()] }),
         heading1("9. 결론 및 승인 요청"),
         spacer(),
-        keyMessage("현재 MAU ~4,000, 전 지표 하락 중인 상황에서 앱 리뉴얼은 선택이 아닌 필수입니다. 3Way Sensor + SSP + 광고 수익 모델로 Phase 1부터 흑자 구조를 만들고, 4단계 성장 전략으로 STO(토큰증권)까지 확장합니다."),
+        keyMessage("현재 MAU ~4,000, 전 지표 하락 중인 상황에서 앱 리뉴얼은 선택이 아닌 필수입니다. SmartMove + SSP + 광고 수익 모델로 Phase 1부터 흑자 구조를 만들고, 4단계 성장 전략으로 STO(토큰증권)까지 확장합니다."),
         spacer(),
         heading3("승인 요청 사항"),
         makeTable(
