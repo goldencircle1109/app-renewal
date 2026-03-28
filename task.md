@@ -6,6 +6,26 @@
 
 ---
 
+## Korea Tourism Organization Proposal
+
+- [ ] Review and finalize email draft, fill in sender info (name/title/contact)
+- [ ] Send email (attach: business proposal, event plan, company intro)
+- [ ] Wait for KTO response, coordinate meeting schedule
+- [ ] Prepare meeting materials (summary presentation if needed)
+
+## Racing the DMZ
+
+- [ ] Update event plan based on KTO feedback
+- [ ] Confirm KTO funding application process
+
+## Park Run
+
+- [ ] Update business proposal based on KTO feedback
+- [ ] Negotiate MOU signing schedule
+- [ ] Plan pilot 5 hub site field survey
+
+---
+
 ## Next: Week 1-2 Foundation (Start immediately)
 
 - [ ] Express + TypeScript + Prisma project setup (`api/` folder)
@@ -99,6 +119,7 @@
 
 - [x] SSP point exchange research (Naver Pay, Kakao, ZeroPay, Onnuri) - 2026-03-25
 - [x] Park Run proposal update (Section 13 SSP exchange slide) - 2026-03-25
+- [x] Korea Tourism Organization proposal email draft - 2026-03-26
 - [x] App Renewal Phase 1 design spec - 2026-03-28
 - [x] Existing WB3 DB/architecture/feature analysis - 2026-03-28
 - [x] 3Way Sensor existing research review - 2026-03-28

@@ -34,6 +34,20 @@
 
 ---
 
+## 2026-03-26
+
+### Korea Tourism Organization Proposal Email Draft
+- Analyzed 3 attachment documents:
+  - Racing the DMZ event plan v5.0 (PDF): 2027 May DMZ Ultra Triathlon (421km, 2 nights 3 days)
+  - Korea Tourism Organization x Wright Brothers business proposal (PPTX): Digital stamp tour + Park Run + ESG campaign
+  - WRIGHT BROTHERS company intro 2026.03 (PDF): Company overview, business status, IP, global achievements
+- Drafted email to Korea Tourism Organization Regional Content Team
+  - Includes: company intro + proposal summary + Racing the DMZ summary
+  - File: `parkrun/메일초안_한국관광공사_지역콘텐츠육성팀.md`
+- Purpose: Explore tourism organization funding, propose cycling Park Run collaboration
+
+---
+
 ## 2026-03-28
 
 ### App Renewal Phase 1 Design Spec

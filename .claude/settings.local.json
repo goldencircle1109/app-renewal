@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm list:*)",
+      "Bash(npm install:*)",
+      "Bash(cd \"/c/dev/app renewal/parkrun\" && python \"C:/Users/admin/.claude/skills/pptx/scripts/office/soffice.py\" --headless --convert-to pdf \"한국관광공사_라이트브라더스_사업제안서.pptx\" 2>&1)",
+      "Bash(where soffice:*)",
+      "Read(//c/Program Files/LibreOffice/program/**)",
+      "Read(//c/Program Files \\(x86\\)/LibreOffice/program/**)",
+      "Bash(cd \"/c/dev/app renewal/parkrun\" && \"C:/Program Files/LibreOffice/program/soffice.exe\" --headless --convert-to pdf \"한국관광공사_라이트브라더스_사업제안서.pptx\" 2>&1)",
+      "Bash(cd \"/c/dev/app renewal/parkrun\" && pdftoppm -jpeg -r 150 \"한국관광공사_라이트브라더스_사업제안서.pdf\" slide 2>&1)",
+      "Bash(pip install:*)",
+      "Bash(cd \"/c/dev/app renewal/parkrun\" && NODE_PATH=\"C:/nvm4w/nodejs/node_modules\" node generate_pptx.js 2>&1)"
+    ]
+  }
+}
