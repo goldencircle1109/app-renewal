@@ -138,6 +138,9 @@ C:\Dev\app renewal\
 | **Push** | Firebase Cloud Messaging | existing |
 | **Car Route** | T-map API | route distance |
 | **Geocoding** | Kakao Address API | address → coords |
+| **Driver License** | 도로교통공단 자동검증 API | license verification |
+| **Vehicle Ownership** | CODEF API (자동차등록원부, 보험다모아, 하이패스) | MRV evidence |
+| **Document OCR** | Claude Vision API (Haiku) | insurance cert, contract OCR |
 | **Deployment (API)** | AWS Lambda or EC2 | existing AWS account |
 | **Deployment (Admin)** | Vercel | free/pro |
 
@@ -237,6 +240,86 @@ After 5+ repeated trips with same origin/destination:
 - GPS: Duty cycling (5s on, 25s off during activity)
 - Wi-Fi scan: Only when IN_VEHICLE detected
 - Target: ≤5% additional daily battery drain
+
+---
+
+## 3.7 MRV Evidence System (Vehicle Ownership Verification)
+
+3-Tier evidence system to prove "user previously drove a car, now uses eco-friendly transport."
+
+### Tier 1: Auto Verification (API only, for car owners)
+
+```
+Driver License API (도로교통공단) → license type, acquired date
+    +
+CODEF: Car Registration (자동차등록원부 갑부) → ownership history
+    +
+CODEF: Insurance History (보험다모아) → insurance years
+    = AUTO APPROVED (no admin needed)
+```
+
+### Tier 2: Semi-Auto (API + Document Upload + AI OCR)
+
+For family car, corporate car, lease, rental, carsharing users:
+
+```
+Driver License API → license confirmed
+    +
+User selects type: family/corporate/lease/rental/carshare
+    +
+Document photo upload (insurance cert, lease contract, employment cert)
+    +
+Claude Vision API (Haiku) → auto OCR + field extraction
+    +
+Validation: extracted name == user name && dates valid?
+    = AUTO_APPROVED / PARTIAL_MATCH / MANUAL_REVIEW / REJECTED
+```
+
+### Tier 3: Behavior-Based (when no documents available)
+
+```
+Driver License API → license confirmed
+    +
+CODEF: Hi-pass usage history (last 3 years)
+    +
+3Way Sensor: past Vehicle detection days
+    +
+Self-declaration form
+    = Admin review required
+```
+
+### Document OCR Detail (Claude Vision API)
+
+| Document | Extracted Fields | Validation |
+|----------|-----------------|------------|
+| Insurance Certificate | additional driver name, car number, period, insurer | name match + period valid |
+| Lease Contract | user name, car info, lease company, period | name match + period valid |
+| Rental Contract | user name, car info, rental company, period | name match + period valid |
+| Employment Certificate | company name, user name, employment period | name match + employed |
+
+**OCR Verdict**: AUTO_APPROVED → instant / PARTIAL_MATCH → admin 30sec review / MANUAL_REVIEW → admin full review / REJECTED → auto-reject + resubmit
+
+### New DB Tables for MRV
+
+```sql
+T_VEHICLE_VERIFICATION (
+  IDX, MEMBER_IDX, VERIFICATION_TYPE, TIER,
+  LICENSE_VERIFIED, LICENSE_TYPE, LICENSE_ACQUIRED_DATE,
+  REGISTRATION_VERIFIED, CAR_NUMBER, INSURANCE_YEARS,
+  DOCUMENT_TYPE, DOCUMENT_IMAGE_URL, OCR_RESULT json, OCR_VERDICT,
+  HIPASS_VERIFIED, SENSOR_VEHICLE_DAYS, SELF_DECLARATION,
+  STATUS, APPROVED_BY, APPROVED_AT, REJECTION_REASON, EXPIRES_AT,
+  REG_DATE, MOD_DATE
+)
+
+T_VEHICLE_OCR_LOG (
+  IDX, VERIFICATION_IDX, IMAGE_URL,
+  CLAUDE_MODEL, PROMPT_USED, RAW_RESPONSE json,
+  EXTRACTED_DATA json, MATCH_RESULT json,
+  PROCESSING_TIME_MS, COST_KRW,
+  REG_DATE
+)
+```
 
 ---
 

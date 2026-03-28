@@ -99,6 +99,11 @@ Build foundation + automatic activity/transport detection + carbon reduction cal
 | SSP Auto-Earning | Per-activity configurable rates |
 | Aggregation | Daily/weekly/monthly carbon reduction summaries |
 | Reports | Individual + platform-wide carbon reports |
+| **MRV: Driver License API** | 도로교통공단 자동검증 — license type, validity, acquired date |
+| **MRV: Vehicle Ownership** | CODEF API — 자동차등록원부(소유이력), 보험다모아(경력), 하이패스 |
+| **MRV: Document OCR** | Claude Vision API (Haiku) — insurance cert, lease/rental contract, employment cert auto-OCR |
+| **MRV: 3-Tier Verification** | Tier1 auto (API only) / Tier2 semi-auto (API+OCR) / Tier3 behavior-based |
+| **MRV: Verification UI** | Vehicle type selection, document upload, OCR result, admin review queue |
 
 ### Flutter App UI (Week 9-10)
 

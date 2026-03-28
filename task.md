@@ -88,6 +88,10 @@
 - [ ] SSP auto-earning engine (per-activity configurable rates)
 - [ ] Daily/weekly/monthly aggregation logic + API
 - [ ] Carbon reduction report API (individual + total)
+- [ ] MRV: 도로교통공단 운전면허 자동검증 API 연동
+- [ ] MRV: CODEF API 연동 (자동차등록원부, 보험다모아, 하이패스)
+- [ ] MRV: Claude Vision API OCR (보험증권, 리스계약서, 재직증명서 자동 검증)
+- [ ] MRV: 3-Tier 인증 플로우 (자동/반자동/행동기반) + 관리자 검수 큐
 
 ## Week 9-10: Flutter App UI
 
