@@ -18,10 +18,11 @@ Phase 2: Multi-Sport Challenge Platform           (~18 weeks)
          (Running/Cycling/Hiking + extensible)
          (GPX-in → Challenge-out, bidirectional)
     ↓
-Phase 3: Dark Commerce (깜깜이방)                  (~12 weeks)
+Phase 3: Dark Commerce + Smart Commerce             (~18 weeks)
+         (Ops automation, AI product desc, Smart Store import)
 ─────────────────────────────────────────────────
-Total: ~44 weeks (~11 months)
-Accelerated: ~34-38 weeks (~8.5-9.5 months)
+Total: ~50 weeks (~12.5 months)
+Accelerated: ~38-42 weeks (~9.5-10.5 months)
 ```
 
 ---
@@ -577,11 +578,50 @@ Week 30-32  SSP External Exchange (M8) — 3 weeks
 
 ---
 
-# PHASE 3: Dark Commerce (깜깜이방) (~12 weeks)
+# PHASE 3: Dark Commerce + Smart Commerce (~18 weeks)
 
 ## Scope Summary
 
-Anonymous discount marketplace for excess sports retail inventory. Dealers sell anonymously through Lightbrothers as legal buyer/reseller. Flash sale model.
+Anonymous discount marketplace (깜깜이방) + fully automated commerce operations. Three critical additions based on operational experience:
+
+1. **Operations Automation**: Order/settlement notifications (KakaoTalk, email) + tax invoice auto-issuance → eliminate manual labor
+2. **AI Product Description Generator**: Input model name → auto-generate Naver-quality product detail pages
+3. **Smart Store Auto-Import**: Connect partner Smart Stores → auto-import products → only set qty/price
+
+## Design Principle: Zero-Ops Commerce
+
+```
+BEFORE (Current WB3 — heavy manual labor):
+┌─────────────────────────────────────────────────────────────┐
+│  Order received                                              │
+│    → Staff manually sends KakaoTalk to partner               │
+│    → Staff manually sends order details via email             │
+│    → Staff manually tracks shipping                          │
+│    → Staff manually calculates settlement                    │
+│    → Staff manually issues tax invoice via 홈택스             │
+│    → Staff manually creates product pages (photos + specs)   │
+│                                                              │
+│  Result: 1-2 full-time staff needed for ~100 orders/month    │
+└─────────────────────────────────────────────────────────────┘
+
+AFTER (Renewed — fully automated):
+┌─────────────────────────────────────────────────────────────┐
+│  Order received                                              │
+│    → Auto KakaoTalk alert to partner (order details)         │
+│    → Auto email with packing slip                            │
+│    → Auto shipping tracking (GoodsFlow webhook)              │
+│    → Auto settlement calculation (cron, per tier cycle)      │
+│    → Auto tax invoice via 국세청 홈택스 API                    │
+│    → Auto settlement complete notification                   │
+│                                                              │
+│  Product registration:                                       │
+│    → Connect partner Smart Store → auto-import products      │
+│    → AI generates product description from model name        │
+│    → Partner only sets qty + price → publish                 │
+│                                                              │
+│  Result: 0 staff needed for operations                       │
+└─────────────────────────────────────────────────────────────┘
+```
 
 ## Business Model
 
@@ -596,19 +636,181 @@ Dealer (Anonymous) → LB (Special Purchase, becomes legal owner) → Consumer
 
 ## Feature List
 
-### Dealer Portal (Week 33-35)
+### M1. Dealer Portal + Smart Store Import (Week 33-35)
 
 | Feature | Detail |
 |---------|--------|
 | Dealer Registration | Business info + bank account (no public exposure) |
 | Dealer Approval | Admin review + contract signing |
 | Dealer Tiers | Bronze (new) → Silver (3mo+10sales) → Gold (6mo+30sales) |
-| Product Registration | Photos, condition (NEW/DISPLAY/REFURB), pricing |
+| NDA + Contract | Digital signing within portal |
+| **Smart Store Connection** | Partner connects their Naver Smart Store via Commerce API |
+| **Product Auto-Import** | Pull product catalog from partner's Smart Store (name, photos, specs, options) |
+| **Simplified Registration** | Auto-imported product → partner only inputs: qty, LB price, condition → publish |
+| Manual Product Registration | For partners without Smart Store: photos, condition, pricing |
 | Shipment Notification | Masked consumer info (K**, 010-****-5678) |
 | Settlement Dashboard | Earnings tracking, settlement history, monthly stats |
-| NDA + Contract | Digital signing within portal |
 
-### Anonymity Architecture (Week 35-36)
+#### Smart Store Auto-Import Flow
+
+```
+1. Partner enters Smart Store URL or Store ID
+     ↓
+2. System connects via Naver Commerce API (상품 조회)
+     ↓
+3. Pull all products:
+   ├── Product name, brand, model number
+   ├── Product images (all)
+   ├── Product description HTML
+   ├── Options (size, color, etc.)
+   ├── Specs/attributes
+   └── Category mapping
+     ↓
+4. Display imported products in partner dashboard
+     ↓
+5. Partner selects which to list on LB:
+   ├── Set LB selling price (can differ from Smart Store)
+   ├── Set available quantity
+   ├── Set condition (NEW/DISPLAY/REFURB)
+   └── Confirm → auto-create LB product listing
+     ↓
+6. Periodic sync (daily cron):
+   ├── Detect new products on Smart Store → suggest import
+   ├── Detect removed products → flag for review
+   └── Update product images/specs if changed
+```
+
+### M2. AI Product Description Generator (Week 35-37)
+
+| Feature | Detail |
+|---------|--------|
+| **Model Name Input** | Partner or admin inputs product model name (e.g., "Giant TCR Advanced Pro 1 2026") |
+| **AI Data Collection** | Claude API crawls manufacturer site + Naver Shopping for specs, features, reviews |
+| **Description Generation** | Generate Naver-quality product detail page: hero section + key features + specs table + comparison |
+| **Image Enhancement** | Auto-crop, resize, white-background product photos |
+| **Template System** | Per-category templates: bikes, components, shoes, apparel, accessories |
+| **Human Review** | AI-generated draft → admin quick review → approve/edit → publish |
+| **Batch Generation** | Import 50 products from Smart Store → batch-generate all descriptions |
+
+#### AI Description Generation Pipeline
+
+```
+Input: Model name "Shimano Ultegra R8100 Di2 Groupset"
+     ↓
+Step 1: Search & Collect
+├── Manufacturer spec sheet (shimano.com)
+├── Naver Shopping product data
+├── Key review highlights
+└── Competitor price range
+     ↓
+Step 2: Generate (Claude API)
+├── Hero description (2-3 sentences, emotional + technical)
+├── Key features (5-7 bullet points with icons)
+├── Full spec table (weight, material, compatibility)
+├── "Who is this for?" section
+├── Size/compatibility guide
+└── SEO-optimized title + meta description
+     ↓
+Step 3: Format
+├── Apply category-specific HTML template
+├── Insert product images at correct positions
+├── Generate comparison table (vs competitors)
+└── Mobile-responsive layout
+     ↓
+Step 4: Review
+├── Admin previews generated page
+├── One-click approve or inline edit
+└── Publish to product listing
+```
+
+#### Cost Consideration
+
+| Item | Cost |
+|------|------|
+| Claude API per product description | ~₩200-500 (Haiku for collection, Sonnet for generation) |
+| 100 products/month | ~₩20,000-50,000/month |
+| vs Manual copywriter | ~₩2,000,000+/month |
+| **Savings** | **~97% cost reduction** |
+
+### M3. Operations Automation Engine (Week 37-39)
+
+| Feature | Detail |
+|---------|--------|
+| **Order Notification (KakaoTalk)** | Auto-send order alert to partner via KakaoTalk Biz Message API |
+| **Order Notification (Email)** | Auto-send order details + packing slip PDF via email |
+| **Order Notification (SMS)** | Fallback for partners without KakaoTalk Biz |
+| **Shipping Auto-Track** | GoodsFlow webhook → auto-update order status |
+| **Delivery Confirmation** | Auto-detect delivery → start 7-day return window timer |
+| **Settlement Auto-Calc** | Cron job: calculate per-dealer settlement on tier cycle (1/3/5 days) |
+| **Settlement Notification** | Auto-send settlement summary to dealer (KakaoTalk + email) |
+| **Tax Invoice Auto-Issue** | 국세청 홈택스 API (e-Tax) for electronic tax invoice issuance |
+| **Monthly Report Auto-Send** | Auto-generate + send monthly sales/settlement report to each dealer |
+| **Consumer Order Updates** | Auto KakaoTalk/push: order confirmed → shipped → delivered |
+
+#### Order Lifecycle Automation
+
+```
+[Consumer places order]
+     ↓ (instant)
+① Auto: KakaoTalk to partner "New order! Product: XXX, Ship by: 4/5"
+② Auto: Email to partner with packing slip PDF + shipping label
+③ Auto: Push to consumer "Order confirmed! Expected delivery: 4/7"
+     ↓
+[Partner ships]
+④ Auto: GoodsFlow tracking number detected
+⑤ Auto: Push to consumer "Your order has shipped! Track: XXXX"
+     ↓
+[Delivered]
+⑥ Auto: GoodsFlow delivery confirmed
+⑦ Auto: Push to consumer "Delivered! 7-day return window started"
+⑧ Auto: Start 7-day auto-confirm timer
+     ↓
+[7 days passed, no return]
+⑨ Auto: Order auto-confirmed (purchase complete)
+⑩ Auto: Add to settlement batch
+     ↓
+[Settlement cycle reached]
+⑪ Auto: Calculate settlement amount (sale price - commission)
+⑫ Auto: Issue tax invoice via 홈택스 API
+⑬ Auto: Transfer settlement to dealer bank account
+⑭ Auto: KakaoTalk to dealer "Settlement ₩520,000 transferred!"
+⑮ Auto: Email settlement statement PDF
+```
+
+#### Notification Templates (KakaoTalk Biz Message)
+
+| Event | Template | Recipient |
+|-------|----------|-----------|
+| New Order | "[LB] New order received. Product: {name}, Qty: {qty}. Ship by {deadline}. View: {link}" | Partner |
+| Ship Reminder (D-1) | "[LB] Reminder: Order #{id} ships tomorrow. View: {link}" | Partner |
+| Ship Overdue | "[LB] Warning: Order #{id} is overdue for shipping. Cancel in 24h." | Partner |
+| Shipped | "[LB] Your order has shipped! Tracking: {number}. View: {link}" | Consumer |
+| Delivered | "[LB] Your order has been delivered! Rate your purchase: {link}" | Consumer |
+| Settlement Complete | "[LB] Settlement ₩{amount} transferred to {bank}. View details: {link}" | Partner |
+| Monthly Report | "[LB] {month} sales report ready. Revenue: ₩{total}. View: {link}" | Partner |
+
+#### Tax Invoice Automation (홈택스 API)
+
+```
+Settlement batch finalized
+     ↓
+For each dealer in batch:
+├── Collect: dealer business number, LB business number, amounts
+├── Call 국세청 홈택스 e-Tax API:
+│   ├── POST /tax-invoice/issue
+│   ├── Body: supplier info, buyer info, line items, amounts, tax
+│   └── Response: invoice number, issue date
+├── Store invoice reference in T_DARK_SETTLEMENT
+├── Attach invoice PDF to settlement email
+└── Log in audit trail
+
+Alternative if 홈택스 API access is complex:
+├── 1순위: 홈택스 API (direct, free)
+├── 2순위: Barobill API (세금계산서 발행 전문 SaaS, ~₩200/건)
+└── 3순위: Popbill API (similar SaaS, ~₩200/건)
+```
+
+### M4. Anonymity Architecture (Week 39-40)
 
 | Feature | Detail |
 |---------|--------|
@@ -619,7 +821,7 @@ Dealer (Anonymous) → LB (Special Purchase, becomes legal owner) → Consumer
 | Access Control | Dealer-product mapping limited to 2-3 admin staff |
 | Audit Trail | All dealer info access logged for compliance |
 
-### Flash Sale System (Week 37-38)
+### M5. Flash Sale System (Week 40-41)
 
 | Feature | Detail |
 |---------|--------|
@@ -632,119 +834,156 @@ Dealer (Anonymous) → LB (Special Purchase, becomes legal owner) → Consumer
 | Auto-Cancel | If dealer doesn't ship within deadline |
 | Auto-Confirm | 7 days after delivery + no return request |
 
-### Admin Inspection (Week 39-40)
+### M6. Consumer Experience + Payment (Week 42-43)
 
 | Feature | Detail |
 |---------|--------|
-| Product Approval Workflow | Submit → Review → Approve/Reject |
-| Photo Review | Multi-image gallery inspection |
-| Price Adjustment | Admin can tweak final consumer price |
-| Quality Scoring | Per-dealer quality tracking (repeat issues flagged) |
-| Category Management | Product category + commission rate management |
-
-### Consumer Experience (Week 41-42)
-
-| Feature | Detail |
-|---------|--------|
-| Dark Commerce Tab | Dedicated section in app (separate from regular commerce) |
+| Dark Commerce Tab | Dedicated section in app |
 | Flash Sale List | Active sales with countdown timers |
-| Product Detail | Photos, condition badge, price (LB brand only) |
-| Purchase Flow | Uses existing WB3 payment system (Inicis/PortOne/NaverPay) |
-| Order Tracking | Standard tracking (LB as sender) |
-| Returns | Defective items only (policy enforced at checkout) |
+| Product Detail | **AI-generated description** + photos + condition badge |
+| Purchase Flow | Inicis/PortOne/NaverPay |
+| Order Tracking | **Auto-updated via GoodsFlow webhook** |
+| **Auto Notifications** | KakaoTalk/push: ordered → shipped → delivered |
+| Returns | Defective items only |
 
-### Settlement System (Week 42-43)
+### M7. Settlement + Tax Automation (Week 44-45)
 
 | Feature | Detail |
 |---------|--------|
 | Ledger | Double-entry: consumer payment → LB revenue → dealer settlement |
 | Settlement Cycle | Bronze: 5 days, Silver: 3 days, Gold: 1 day |
-| Accounting Method | Total amount method (총액법): LB revenue = full sale price |
+| **Auto Calculation** | Cron-based settlement batch per tier cycle |
+| **Auto Bank Transfer** | Settlement amount → dealer bank account (via PG or banking API) |
+| **Auto Tax Invoice** | 홈택스/Barobill/Popbill API → electronic tax invoice |
+| **Auto Settlement Notice** | KakaoTalk + email with settlement PDF |
+| **Auto Monthly Report** | Per-dealer monthly sales/commission/settlement report |
+| Accounting Method | Total amount method (총액법) |
 | VAT Chain | Dealer→LB (purchase), LB→Consumer (sale) |
-| Tax Invoice | Auto-generated electronic tax invoices |
-| Monthly Reporting | Per-dealer sales, commission, settlement reports |
 
-### Existing Commerce WebView → Native (Week 43-44)
+### M8. Native Commerce + Admin (Week 46-50)
 
 | Feature | Detail |
 |---------|--------|
 | Product Catalog | B2B/B2C product browsing (native Flutter) |
-| Product Detail | Image gallery, options, specs, reviews |
+| Product Detail | **AI-generated descriptions**, image gallery, options, specs |
 | Cart + Checkout | Cart management, address selection, payment |
-| Order History | Order list, detail, tracking, cancel/return |
+| Order History | Order list, detail, **auto-updated tracking**, cancel/return |
 | Wishlist | Save favorite products |
 | Search | Full-text search with filters |
+| Admin: Dealer Mgmt | Registration, tiers, NDA, Smart Store connections |
+| Admin: Product Inspection | AI-draft review, photo review, price adjustment |
+| Admin: Flash Sale | Scheduling, monitoring, auto-expiry |
+| Admin: Settlement | Auto-calc review, dispute resolution, monthly close |
+| Admin: Anonymity Audit | Access logs, leak detection alerts |
+| Admin: Commerce Analytics | GMV, conversion, category, **AI generation stats** |
+| Admin: Notification Config | KakaoTalk templates, email templates, trigger rules |
 
 ## Phase 3 New DB Tables
 
 ```
+-- Dealer
 T_DARK_DEALER          — Anonymous dealer profiles
 T_DARK_DEALER_CONTRACT — NDA + participation contracts
 T_DARK_DEALER_TIER     — Tier progression history
+
+-- Smart Store Import
+T_DARK_SMARTSTORE      — Partner Smart Store connections
+T_DARK_IMPORT_LOG      — Product import history + sync status
+T_DARK_IMPORT_PRODUCT  — Imported product staging (before LB listing)
+
+-- Products
 T_DARK_PRODUCT         — Flash sale products
 T_DARK_PRODUCT_IMAGE   — Product photos
+T_DARK_PRODUCT_AI_DESC — AI-generated descriptions (draft + approved versions)
 T_DARK_SALE            — Flash sale definitions (duration, status)
+
+-- Orders + Settlement
 T_DARK_ORDER           — Consumer orders (linked to T_ORDER)
 T_DARK_SETTLEMENT      — Dealer settlement ledger
+T_DARK_TAX_INVOICE     — Auto-issued tax invoice records
 T_DARK_INSPECTION      — Admin inspection records
+
+-- Operations
+T_DARK_NOTIFICATION_LOG — All auto-sent notifications (KakaoTalk/email/SMS)
 T_DARK_AUDIT_LOG       — Dealer info access audit trail
+
+-- Templates
+T_NOTIFICATION_TEMPLATE — KakaoTalk/email notification templates
+T_AI_DESC_TEMPLATE     — Per-category AI description templates
 ```
 
 ## Phase 3 Admin Additions
 
 | Module | Key Features |
 |--------|-------------|
-| Dealer Management | Registration approval, tier management, NDA tracking |
-| Product Inspection | Approval workflow, photo review, price adjustment |
-| Flash Sale Management | Sale scheduling, status monitoring, auto-expiry config |
-| Settlement Admin | Settlement approval, dispute resolution, monthly close |
-| Anonymity Audit | Access log review, leak detection alerts |
-| Commerce Analytics | GMV, conversion rate, category performance, dealer scoring |
+| Dealer Management | Registration, tiers, NDA, **Smart Store connections** |
+| **Smart Store Import** | View connected stores, sync status, import queue |
+| **AI Description** | Generated drafts, batch generation, template management |
+| Product Inspection | AI-draft review, photo review, price adjustment |
+| Flash Sale Management | Scheduling, monitoring, auto-expiry |
+| **Operations Dashboard** | Auto-notification status, delivery tracking, overdue alerts |
+| **Settlement Automation** | Auto-calc review, tax invoice history, bank transfer status |
+| Anonymity Audit | Access logs, leak detection |
+| Commerce Analytics | GMV, conversion, category, **AI generation stats, ops cost savings** |
+| **Notification Config** | KakaoTalk Biz templates, email templates, trigger rules |
 
 ## Phase 3 Schedule
 
 ```
-Week 33-35  Dealer Portal
-├── Dealer registration + approval workflow
-├── Dealer tier system (Bronze/Silver/Gold)
-├── Product registration form (photos, condition, pricing)
-├── Shipment notification (masked consumer info)
-└── Settlement dashboard + NDA digital signing
+Week 33-35  Dealer Portal + Smart Store Import (M1)
+├── Dealer registration + approval + tiers + NDA
+├── Naver Commerce API integration (Smart Store connection)
+├── Product auto-import pipeline (pull → stage → select → publish)
+├── Daily sync cron (new/removed/updated product detection)
+├── Simplified product registration (imported: set qty/price only)
+└── Settlement dashboard
 
-Week 35-36  Anonymity Architecture
-├── API response filtering (zero dealer info leak)
-├── Shipping label system (LB brand only)
-├── CS routing (all inquiries to LB)
-├── Notification filtering
+Week 35-37  AI Product Description Generator (M2)
+├── Claude API integration for product description generation
+├── Data collection pipeline (manufacturer site + Naver Shopping)
+├── Per-category HTML templates (bikes, components, shoes, apparel)
+├── Batch generation (50+ products at once)
+├── Admin review interface (preview → approve/edit → publish)
+└── Image auto-processing (crop, resize, white-background)
+
+Week 37-39  Operations Automation Engine (M3)
+├── KakaoTalk Biz Message API integration (order/settlement alerts)
+├── Email auto-send (packing slip PDF, settlement statement)
+├── GoodsFlow webhook (shipping auto-track + delivery confirmation)
+├── 7-day auto-confirm timer + settlement batch cron
+├── 홈택스/Barobill API integration (tax invoice auto-issuance)
+├── Monthly auto-report generation + delivery
+└── Consumer notification pipeline (ordered → shipped → delivered)
+
+Week 39-40  Anonymity Architecture (M4)
+├── API response filtering + shipping label system
+├── CS routing + notification filtering
 └── Access control + audit trail
 
-Week 37-38  Flash Sale System
+Week 40-41  Flash Sale System (M5)
 ├── Sale creation (duration, countdown, inventory)
-├── Status transitions (cron-managed)
-├── Upcoming preview (blurred cards)
-├── Auto-cancel + auto-confirm logic
-└── Consumer flash sale list + detail UI
+├── Status transitions (cron) + auto-cancel/confirm
+└── Consumer flash sale list + upcoming preview
 
-Week 39-40  Admin Inspection
-├── Product approval workflow
-├── Photo review interface
-├── Price adjustment authority
-├── Quality scoring per dealer
-└── Category + commission management
+Week 42-43  Consumer Experience + Payment (M6)
+├── Dark Commerce tab + flash sale browsing
+├── AI-generated product detail pages
+├── Purchase flow (existing PG) + auto-updated tracking
+└── Auto consumer notifications (KakaoTalk/push)
 
-Week 41-42  Consumer Experience + Payment
-├── Dark Commerce tab in Flutter app
-├── Flash sale browsing UI
-├── Purchase flow (existing PG integration)
-├── Order tracking (LB as sender)
-└── Returns (defective only policy)
+Week 44-45  Settlement + Tax Automation (M7)
+├── Auto settlement calculation (per-tier cycle)
+├── Auto bank transfer + tax invoice issuance
+├── Auto settlement notification (KakaoTalk + email PDF)
+└── Monthly dealer report auto-generation
 
-Week 43-44  Settlement + Native Commerce
-├── Settlement ledger (double-entry)
-├── VAT chain + tax invoice auto-generation
-├── Dealer monthly reporting
-├── Existing commerce WebView → native conversion (basic)
-└── Integration testing + launch
+Week 46-50  Native Commerce + Admin (M8)
+├── Product catalog + cart + checkout (native Flutter)
+├── Order history with auto-tracking
+├── Full admin panel (10 modules)
+├── Operations dashboard + notification config
+├── Commerce analytics + AI generation stats
+└── Integration testing + Phase 3 launch
 ```
 
 ---
@@ -781,19 +1020,21 @@ PHASE 2: Multi-Sport Challenge Platform (18 weeks)
 │
 ▼ Phase 2 Launch ──────────────────────────────────
 
-PHASE 3: Dark Commerce (12 weeks)
+PHASE 3: Dark Commerce + Smart Commerce (18 weeks)
 │
-├── Week 33-35  Dealer Portal
-├── Week 35-36  Anonymity Architecture
-├── Week 37-38  Flash Sale System
-├── Week 39-40  Admin Inspection
-├── Week 41-42  Consumer Experience + Payment
-└── Week 43-44  Settlement + Native Commerce
+├── Week 33-35  Dealer Portal + Smart Store Auto-Import
+├── Week 35-37  AI Product Description Generator (Claude API)
+├── Week 37-39  Operations Automation (KakaoTalk/Email/Tax Invoice)
+├── Week 39-40  Anonymity Architecture
+├── Week 40-41  Flash Sale System
+├── Week 42-43  Consumer Experience + Payment
+├── Week 44-45  Settlement + Tax Automation
+└── Week 46-50  Native Commerce + Full Admin (10 modules)
 │
 ▼ Phase 3 Launch ──────────────────────────────────
 
-Total: 44 weeks (~11 months)
-Accelerated: 34-38 weeks (~8.5-9.5 months) with Claude parallel generation
+Total: 50 weeks (~12.5 months)
+Accelerated: 38-42 weeks (~9.5-10.5 months) with Claude parallel generation
 ```
 
 ---
@@ -806,8 +1047,8 @@ Accelerated: 34-38 weeks (~8.5-9.5 months) with Claude parallel generation
 |-------|--------|-------|
 | Phase 1 | T_ACTIVITY_RECORD, T_MEMBER_LOCATION, T_CARBON_DAILY, T_SSP_RATE_CONFIG, T_WIFI_SSID_PATTERN, T_EMISSION_FACTOR | 6 |
 | Phase 2 | T_SPORT_TYPE, T_ORGANIZATION, T_COURSE, T_COURSE_SPORT, T_COURSE_CHECKPOINT, T_COURSE_EFFORT, T_COURSE_RANKING, T_EVENT, T_EVENT_SERIES, T_EVENT_PARTICIPANT, T_EVENT_VOLUNTEER, T_STAMP_COLLECTION, T_BADGE, T_BADGE_AWARD, T_CREW, T_CREW_MEMBER, T_CREW_CHALLENGE, T_SOCIAL_FEED, T_SOCIAL_REACTION, T_SOCIAL_COMMENT, T_SSP_EXCHANGE, T_SSP_EXCHANGE_RATE | 22 |
-| Phase 3 | T_DARK_DEALER, T_DARK_DEALER_CONTRACT, T_DARK_DEALER_TIER, T_DARK_PRODUCT, T_DARK_PRODUCT_IMAGE, T_DARK_SALE, T_DARK_ORDER, T_DARK_SETTLEMENT, T_DARK_INSPECTION, T_DARK_AUDIT_LOG | 10 |
-| **Total** | + existing 107 tables | **145 tables** |
+| Phase 3 | T_DARK_DEALER, T_DARK_DEALER_CONTRACT, T_DARK_DEALER_TIER, T_DARK_SMARTSTORE, T_DARK_IMPORT_LOG, T_DARK_IMPORT_PRODUCT, T_DARK_PRODUCT, T_DARK_PRODUCT_IMAGE, T_DARK_PRODUCT_AI_DESC, T_DARK_SALE, T_DARK_ORDER, T_DARK_SETTLEMENT, T_DARK_TAX_INVOICE, T_DARK_INSPECTION, T_DARK_NOTIFICATION_LOG, T_DARK_AUDIT_LOG, T_NOTIFICATION_TEMPLATE, T_AI_DESC_TEMPLATE | 18 |
+| **Total** | + existing 107 tables | **153 tables** |
 
 ## External API Integrations
 
@@ -828,6 +1069,10 @@ Accelerated: 34-38 weeks (~8.5-9.5 months) with Claude parallel generation
 | 3 | PortOne | PG (payment gateway) |
 | 3 | NaverPay | PG (payment gateway) |
 | 3 | GoodsFlow | Shipping tracking |
+| 3 | Naver Commerce API | Smart Store product import |
+| 3 | Claude API | AI product description generation |
+| 3 | KakaoTalk Biz Message | Order/settlement auto-notifications |
+| 3 | Barobill/Popbill (or 홈택스) | Electronic tax invoice auto-issuance |
 
 ## Admin Panel Growth
 
@@ -835,8 +1080,8 @@ Accelerated: 34-38 weeks (~8.5-9.5 months) with Claude parallel generation
 |-------|------------|
 | Phase 1 | Dashboard, Members, SSP Config, Push, Banners, Challenges, Notices |
 | Phase 2 | + Sports, Organizations, Courses (bidirectional), Rankings, Events, Stamps/Badges, Crews, Exchange, Org Portal |
-| Phase 3 | + Dealers, Inspection, Flash Sales, Settlement, Anonymity Audit, Commerce Analytics |
-| **Total** | **23 admin modules** |
+| Phase 3 | + Dealers, Smart Store Import, AI Description, Inspection, Flash Sales, Ops Dashboard, Settlement Automation, Anonymity Audit, Commerce Analytics, Notification Config |
+| **Total** | **27 admin modules** |
 
 ## Flutter App Screen Count
 

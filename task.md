@@ -156,45 +156,66 @@
 
 ---
 
-## Phase 3 - Week 33-35: Dealer Portal (Dark Commerce)
+## Phase 3 - Week 33-35: Dealer Portal + Smart Store Import
 
-- [ ] Dealer registration + approval workflow
-- [ ] Dealer tier system (Bronze/Silver/Gold)
-- [ ] Product registration (photos, condition, pricing)
-- [ ] Shipment notification (masked consumer info)
-- [ ] Settlement dashboard + NDA digital signing
+- [ ] Dealer registration + approval + tiers (Bronze/Silver/Gold) + NDA
+- [ ] Naver Commerce API integration (Smart Store connection)
+- [ ] Product auto-import pipeline (pull -> stage -> select -> publish)
+- [ ] Daily sync cron (new/removed/updated product detection)
+- [ ] Simplified product registration (imported: set qty/price/condition only)
+- [ ] Settlement dashboard
 
-## Phase 3 - Week 35-36: Anonymity Architecture
+## Phase 3 - Week 35-37: AI Product Description Generator
+
+- [ ] Claude API integration for product description generation
+- [ ] Data collection pipeline (manufacturer site + Naver Shopping)
+- [ ] Per-category HTML templates (bikes, components, shoes, apparel)
+- [ ] Batch generation (50+ products at once)
+- [ ] Admin review interface (preview -> approve/edit -> publish)
+
+## Phase 3 - Week 37-39: Operations Automation Engine
+
+- [ ] KakaoTalk Biz Message API (order/settlement auto-alerts)
+- [ ] Email auto-send (packing slip PDF, settlement statement)
+- [ ] GoodsFlow webhook (shipping auto-track + delivery confirmation)
+- [ ] 7-day auto-confirm timer + settlement batch cron
+- [ ] Tax invoice auto-issue (홈택스/Barobill/Popbill API)
+- [ ] Monthly auto-report generation + delivery
+- [ ] Consumer notification pipeline (ordered -> shipped -> delivered)
+
+## Phase 3 - Week 39-40: Anonymity Architecture
 
 - [ ] API response filtering (zero dealer info leak)
 - [ ] Shipping label system (LB brand only)
 - [ ] CS routing + notification filtering
 - [ ] Access control + audit trail
 
-## Phase 3 - Week 37-38: Flash Sale System
+## Phase 3 - Week 40-41: Flash Sale System
 
 - [ ] Sale creation (duration countdown, 1-unit inventory)
 - [ ] Status transitions (Draft -> Active -> Sold Out/Expired)
 - [ ] Upcoming preview (blurred cards) + auto-cancel/confirm
 - [ ] Consumer flash sale list + detail UI
 
-## Phase 3 - Week 39-40: Admin Inspection
+## Phase 3 - Week 42-43: Consumer Experience + Payment
 
-- [ ] Product approval workflow + photo review
-- [ ] Price adjustment authority + quality scoring
-- [ ] Category + commission rate management
+- [ ] Dark Commerce tab in Flutter app + AI-generated product detail
+- [ ] Purchase flow (existing PG) + auto-updated tracking
+- [ ] Auto consumer notifications (KakaoTalk/push)
+- [ ] Returns (defective only policy)
 
-## Phase 3 - Week 41-42: Consumer Experience + Payment
+## Phase 3 - Week 44-45: Settlement + Tax Automation
 
-- [ ] Dark Commerce tab in Flutter app
-- [ ] Purchase flow (existing PG integration)
-- [ ] Order tracking (LB as sender) + returns (defective only)
+- [ ] Auto settlement calculation (per-tier cycle: 1/3/5 days)
+- [ ] Auto bank transfer + tax invoice issuance
+- [ ] Auto settlement notification (KakaoTalk + email PDF)
+- [ ] Monthly dealer report auto-generation
 
-## Phase 3 - Week 43-44: Settlement + Native Commerce
+## Phase 3 - Week 46-50: Native Commerce + Full Admin
 
-- [ ] Settlement ledger (double-entry) + VAT chain
-- [ ] Tax invoice auto-generation + dealer monthly reporting
-- [ ] Existing commerce WebView -> native conversion (basic)
+- [ ] Product catalog + cart + checkout (native Flutter)
+- [ ] Order history with auto-tracking
+- [ ] Full admin panel (10 modules: dealer, smart store, AI desc, inspection, flash sale, ops dashboard, settlement, anonymity, analytics, notification config)
 - [ ] Integration testing + Phase 3 launch
 
 ---
@@ -209,3 +230,4 @@
 - [x] 3Way Sensor existing research review - 2026-03-28
 - [x] Full roadmap Phase 1+2+3 design spec - 2026-03-28
 - [x] Phase 2 update: multi-sport + bidirectional + GPX auto-pipeline + org system - 2026-03-28
+- [x] Phase 3 update: ops automation + AI product desc + Smart Store import - 2026-03-28
