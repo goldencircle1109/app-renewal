@@ -1,4 +1,4 @@
-# App Renewal - Full Roadmap: Phase 1 + 2 + 3
+# App Renewal - Full Roadmap: Phase 1 + 2 + 3 + 4
 
 **Date:** 2026-03-28
 **Project:** Wright Brothers App Renewal
@@ -9,22 +9,25 @@
 
 ## Executive Summary
 
-Wright Brothers app renewal in 3 phases, preserving existing Aurora MySQL (107 tables).
+Wright Brothers app renewal in 4 phases, preserving existing Aurora MySQL (107 tables).
 
 ```
-Pre-Dev: BRD + PRD + Screen Planning + Design System  (~3 weeks)
+Pre-Dev: BRD + PRD + Screen Planning + Design System     (~3 weeks)
     ↓
-Phase 1: 3Way Sensor + Carbon Reduction               (~14 weeks)
+Phase 1: 3Way Sensor + Carbon Reduction                  (~14 weeks)
     ↓
-Phase 2: Multi-Sport Challenge Platform                (~18 weeks)
+Phase 2: Multi-Sport Challenge Platform                  (~18 weeks)
          (Running/Cycling/Hiking + extensible)
          (GPX-in → Challenge-out, bidirectional)
     ↓
-Phase 3: Dark Commerce + Smart Commerce                (~18 weeks)
+Phase 3: Dark Commerce + Smart Commerce                  (~18 weeks)
          (Ops automation, AI product desc, Smart Store import)
-─────────────────────────────────────────────────────
-Total: ~53 weeks (~13 months)
-Accelerated: ~40-44 weeks (~10-11 months)
+    ↓
+Phase 4: Carbon Token Securities (STO) + Global Expansion (~20 weeks)
+         (Korea STO + Overseas blockchain, two-track strategy)
+───────────────────────────────────────────────────────
+Total: ~73 weeks (~18 months)
+Accelerated: ~56-62 weeks (~14-15.5 months)
 ```
 
 ---
@@ -995,6 +998,284 @@ Week 46-50  Native Commerce + Admin (M8)
 
 ---
 
+# PHASE 4: Carbon Token Securities (STO) + Global Expansion (~20 weeks)
+
+## Scope Summary
+
+Tokenize SSP/carbon reduction data as security tokens (Korea STO) and utility tokens (overseas blockchain). Two-track strategy for domestic regulated market and global crypto market.
+
+## Core Strategy: Two-Track Approach
+
+```
+Track 1: Korea STO (Regulated Securities)
+├── Legal basis: Capital Markets Law + Electronic Securities Law (2026.01.15)
+├── Exchange: NXT or KDX (pre-authorized, 2026 H2 launch target)
+├── Structure: Broker manages tokenization, KYC/AML required
+├── WB role: SSP lock/unlock API + carbon proof data export
+├── Risk: Minimal (within Korean regulation)
+└── Target: 2027 Q1-Q2 launch
+
+Track 2: Overseas Blockchain (Utility Token)
+├── Jurisdiction: Singapore or Dubai (crypto-friendly)
+├── Blockchain: Polygon/Base L2 (low gas fees)
+├── Structure: ERC-20 smart contract
+├── WB role: Separate legal entity + smart contract + DEX listing
+├── Risk: Regulatory uncertainty by country
+└── Target: 2027 Q3-Q4 launch (6 months after Track 1)
+```
+
+## Business Model
+
+### Revenue Streams
+
+| Stream | Source | Est. Year 1 |
+|--------|--------|------------|
+| STO trading fee share | 0.5-2% per transaction (broker split) | 1-5억원 |
+| B2B carbon credit sales | Corporate ESG buyers (Samsung, LG, SK, etc.) | 5-20억원 |
+| Premium subscription boost | SSP 2x/3x multiplier for token earners | 1-3억원 |
+| Overseas token ecosystem | DEX fees, staking, governance premium | $1-10M |
+| Brand partnerships | Eco-brand sponsorships, insurance companies | 1-10억원 |
+
+### Carbon Credit Potential
+
+| Scale | Active Users | Annual Reduction | Credit Revenue (@10,000원/ton) |
+|-------|-------------|-----------------|-------------------------------|
+| Conservative | 10,000 | ~1,905 tCO₂eq | ~1,905만원/yr |
+| Realistic | 50,000 | ~9,525 tCO₂eq | ~9,525만원/yr |
+| Optimistic | 100,000 | ~19,050 tCO₂eq | ~1.9억원/yr |
+
+## Feature List
+
+### M1. SSP Token Infrastructure (Week 51-53)
+
+| Feature | Detail |
+|---------|--------|
+| **SSP Lock/Unlock System** | DB-level SSP freeze when converting to token, prevent double-spending |
+| **Token Conversion API** | SSP → carbon proof → token issuance request to broker |
+| **Conversion Status Tracking** | Each SSP record: unconverted / STO-converted / token-converted |
+| **Double-Counting Prevention** | DB triggers: STO-converted SSP cannot be overseas-token-converted |
+| **Carbon Proof Export** | JSON/CSV export of carbon reduction records (auditable) |
+| **Reverse Sync** | Token balance ↔ SSP balance display in app |
+| **SSP-to-Token Ratio** | Admin-configurable (recommended: 1 SSP = 0.01 kg CO₂) |
+| **Token Expiration Policy** | Tokens don't expire (unlike SSP 1-year expiry), migration mechanism |
+
+### M2. Carbon Certification & Audit (Week 53-55)
+
+| Feature | Detail |
+|---------|--------|
+| **KCCI Certification** | Korea Chamber of Commerce carbon credit methodology approval |
+| **환경부 Contact** | Korea Ministry of Environment pathway consultation |
+| **Third-Party Audit** | DNV, TUV, or KCCI audit of carbon calculation methodology |
+| **POPLE Registry** | Voluntary carbon market registration (existing methodology) |
+| **Multi-Source Certification** | Diversify: KCCI + Verra + Gold Standard (prevent Flowcarbon risk) |
+| **MRV Data Package** | Consolidate 3Way Sensor data + vehicle verification + T-map baseline into audit-ready format |
+| **Annual Carbon Report** | Automated generation for regulators and investors |
+
+### M3. Korea STO Track (Week 55-60)
+
+| Feature | Detail |
+|---------|--------|
+| **Broker Partnership** | Partner with NXT/KDX participating firm (Shinhan, Hana, Kiwoom, Kakao Pay) |
+| **FSC Pre-Consultation** | Financial Services Commission regulatory pathway discussion |
+| **Securities Prospectus** | Legal + accounting documentation for FSC approval |
+| **KYC/AML Integration** | Enhanced identity verification (broker provides SDK) |
+| **Broker API Integration** | REST API to broker for token issuance, balance query, trading |
+| **Investor Dashboard** | Token holdings, carbon backing, trading history in app |
+| **Beta Launch** | Limited STO issuance (100-500M won, 100-1,000 users) |
+| **Full Launch** | Nationwide marketing, corporate ESG outreach |
+
+### M4. Overseas Blockchain Track (Week 58-70)
+
+| Feature | Detail |
+|---------|--------|
+| **Legal Entity** | Incorporate in Singapore (recommended for tax/regulatory clarity) |
+| **Legal Opinion** | Jurisdictional risk assessment (US Howey Test, EU MiCA, UK FCA) |
+| **Smart Contract (ERC-20)** | Token minting, burn mechanism, pause function, access control |
+| **Security Audit** | CertiK or Trail of Bits audit (non-negotiable) |
+| **Testnet Deployment** | Polygon Mumbai 8-12 weeks testing |
+| **Mainnet Deployment** | Polygon/Base L2 production launch |
+| **DEX Listing** | Uniswap/SushiSwap liquidity provision |
+| **Geo-Blocking** | Block US users (SEC compliance) |
+| **Wallet Integration** | ethers.js/Web3.js in Flutter app (optional, or web-based) |
+| **Token Economics** | Supply cap, quarterly burn events, staking mechanics |
+
+### M5. B2B Corporate ESG Sales (Week 62-70)
+
+| Feature | Detail |
+|---------|--------|
+| **Corporate ESG Dashboard** | White-label carbon report for corporate buyers |
+| **Bulk Credit Purchase** | API for corporations to buy carbon credits in bulk |
+| **ESG Report Integration** | Generate data compatible with GRI, SASB, TCFD reporting standards |
+| **Corporate Partnership Program** | Onboarding for Samsung, LG, SK, Hyundai ESG teams |
+| **Employee Challenge** | Corporations deploy WB app for employee carbon reduction challenges |
+| **Insurance Partnerships** | Green driver discount programs with insurers |
+
+## Phase 4 New DB Tables
+
+```sql
+-- Token conversion
+T_TOKEN_CONVERSION (
+  IDX, MEMBER_IDX,
+  SSP_AMOUNT int,
+  CARBON_KG decimal(10,6),
+  TOKEN_AMOUNT decimal(18,8),
+  CONVERSION_RATE decimal(10,4),
+  TRACK enum('KOREA_STO','OVERSEAS_BLOCKCHAIN'),
+  BROKER_TX_ID varchar(100),          -- Track 1: broker transaction ID
+  BLOCKCHAIN_TX_HASH varchar(100),    -- Track 2: on-chain tx hash
+  STATUS enum('PENDING','CONFIRMED','FAILED','REVERSED'),
+  REG_DATE, MOD_DATE
+)
+
+-- SSP lock ledger (prevent double-spending)
+T_SSP_LOCK (
+  IDX, MEMBER_IDX,
+  SSP_AMOUNT int,
+  LOCK_TYPE enum('STO_CONVERSION','TOKEN_CONVERSION','ADMIN_HOLD'),
+  LOCK_REFERENCE_IDX int,             -- FK to T_TOKEN_CONVERSION
+  LOCKED_AT datetime,
+  UNLOCKED_AT datetime NULL,
+  STATUS enum('LOCKED','RELEASED','CONVERTED'),
+  REG_DATE
+)
+
+-- Carbon certification records
+T_CARBON_CERTIFICATION (
+  IDX,
+  CERTIFICATION_BODY varchar(100),    -- KCCI, Verra, Gold Standard, POPLE
+  METHODOLOGY_ID varchar(50),
+  PERIOD_START date,
+  PERIOD_END date,
+  TOTAL_REDUCTION_TONS decimal(12,4),
+  CERTIFICATE_NUMBER varchar(100),
+  CERTIFICATE_URL varchar(500),
+  AUDIT_STATUS enum('PENDING','AUDITED','APPROVED','REJECTED'),
+  REG_DATE, MOD_DATE
+)
+
+-- Corporate ESG buyer accounts
+T_CORPORATE_ESG (
+  IDX,
+  COMPANY_NAME varchar(200),
+  BUSINESS_NUMBER varchar(20),
+  CONTACT_NAME varchar(100),
+  CONTACT_EMAIL varchar(200),
+  CREDIT_PURCHASED_TONS decimal(12,4),
+  TOTAL_SPENT_KRW bigint,
+  CONTRACT_URL varchar(500),
+  STATUS enum('PROSPECT','ACTIVE','CHURNED'),
+  REG_DATE, MOD_DATE
+)
+
+-- Overseas entity and blockchain config
+T_BLOCKCHAIN_CONFIG (
+  IDX,
+  CHAIN_NAME varchar(50),            -- Polygon, Base
+  CONTRACT_ADDRESS varchar(100),
+  CHAIN_ID int,
+  ENTITY_JURISDICTION varchar(50),   -- Singapore, Dubai
+  ENTITY_NAME varchar(200),
+  IS_ACTIVE enum('Y','N'),
+  REG_DATE, MOD_DATE
+)
+```
+
+## Phase 4 Admin Additions
+
+| Module | Key Features |
+|--------|-------------|
+| **Token Dashboard** | Real-time STO/token stats, conversion volume, locked SSP |
+| **Conversion Management** | Conversion queue, approval (if needed), failure retry |
+| **Carbon Certification** | Certification upload, audit status, methodology management |
+| **Corporate ESG Portal** | B2B buyer onboarding, credit purchase, report generation |
+| **Blockchain Monitor** | Track 2: contract status, holder count, trading volume |
+| **Investor Relations** | Prospectus management, investor communication tools |
+
+## Phase 4 Schedule
+
+```
+Week 51-53  SSP Token Infrastructure (M1)
+├── SSP lock/unlock system + conversion status tracking
+├── Token conversion API (SSP → proof → issuance request)
+├── Double-counting prevention (DB triggers)
+├── Carbon proof export (JSON/CSV, auditable)
+├── SSP-to-token ratio configuration
+└── App: token balance display + conversion UI
+
+Week 53-55  Carbon Certification & Audit (M2)
+├── KCCI + 환경부 certification pathway engagement
+├── Third-party audit (DNV/TUV) of carbon methodology
+├── POPLE voluntary registry registration
+├── Multi-source certification strategy (prevent Flowcarbon risk)
+├── MRV data package consolidation
+└── Annual carbon report automation
+
+Week 55-58  Korea STO Track - Preparation (M3a)
+├── Broker partnership (NXT/KDX participating firm)
+├── FSC pre-consultation
+├── Securities prospectus drafting (legal + accounting)
+├── KYC/AML integration (broker SDK)
+└── Broker API integration (token issuance, balance, trading)
+
+Week 58-60  Korea STO Track - Launch (M3b)
+├── FSC formal approval process
+├── Beta launch (100-1,000 users, 1-5억원 initial issuance)
+├── Investor dashboard in app
+└── Full launch + corporate ESG marketing
+
+Week 58-62  Overseas Blockchain - Development (M4a, parallel with M3b)
+├── Singapore/Dubai entity incorporation
+├── Legal opinion (US/EU/UK jurisdictional assessment)
+├── ERC-20 smart contract (Solidity: mint, burn, pause, access control)
+├── Security audit (CertiK/Trail of Bits)
+└── Testnet deployment (Polygon Mumbai, 8-12 weeks)
+
+Week 62-66  Overseas Blockchain - Launch (M4b)
+├── Mainnet deployment (Polygon/Base L2)
+├── DEX listing (Uniswap/SushiSwap, initial liquidity)
+├── Geo-blocking (US users)
+├── Token economics activation (supply cap, burn schedule)
+└── Global marketing campaign
+
+Week 62-70  B2B Corporate ESG Sales (M5)
+├── Corporate ESG dashboard (white-label carbon reports)
+├── Bulk credit purchase API
+├── ESG report integration (GRI, SASB, TCFD compatible)
+├── Corporate partnership onboarding (first 5-10 companies)
+├── Employee carbon challenge program
+└── Insurance partnership (green driver discounts)
+```
+
+## Phase 4 Key Risks
+
+| Risk | Severity | Mitigation |
+|------|----------|------------|
+| FSC rejection | High | Pre-consultation + regulatory sandbox participation |
+| Token price collapse (KlimaDAO 99% drop) | Critical | STO structure limits speculation + burn mechanism + supply cap |
+| Certification body policy flip (Flowcarbon) | Critical | Multi-source certs (KCCI + Verra + Gold Standard + custom) |
+| Smart contract hack | Critical | CertiK/Trail of Bits audit + 80% cold storage + pause function |
+| Double-counting (same SSP → STO + crypto) | High | DB triggers, one-way conversion flag, technical prevention |
+| US SEC classification (overseas token) | High | Geo-block US + legal opinion + not marketed as investment |
+| Corporate demand insufficient (Nori failure) | Medium | Secure LOI from 3-5 corporations before launch |
+
+## Phase 4 Cost Estimates
+
+| Item | Cost |
+|------|------|
+| Securities law firm (STO prospectus) | 3,000만-1억원 |
+| FSC regulatory consultation | 1,000만-3,000만원 |
+| Carbon certification (KCCI/third-party) | 2,000만-5,000만원 |
+| Smart contract development (Track 2) | 3,000만-5,000만원 |
+| Security audit (CertiK/Trail of Bits) | 5,000만-2억원 |
+| Overseas entity incorporation | 1,000만-3,000만원 |
+| International legal opinion | 3,000만-1억원 |
+| DEX initial liquidity | 5,000만-2억원 |
+| **Total Phase 4** | **약 2.3억-10.6억원** |
+
+> Note: Track 1 (Korea STO) alone costs ~1-3억원. Track 2 (overseas) adds 1.3-7.6억원. Can start Track 1 only and add Track 2 later based on results.
+
+---
+
 # UNIFIED TIMELINE
 
 ```
@@ -1063,8 +1344,20 @@ PHASE 3: Dark Commerce + Smart Commerce (18 weeks)
 │
 ▼ Phase 3 Launch ──────────────────────────────────
 
-Total: 53 weeks (~13 months)
-Accelerated: 40-44 weeks (~10-11 months) with Claude parallel generation
+PHASE 4: Carbon Token Securities + Global Expansion (20 weeks)
+│
+├── Week 51-53  SSP Token Infrastructure (lock/unlock, conversion API)
+├── Week 53-55  Carbon Certification & Audit (KCCI, 환경부, third-party)
+├── Week 55-58  Korea STO Preparation (broker, FSC, prospectus)
+├── Week 58-60  Korea STO Launch (beta → full)
+├── Week 58-62  Overseas Blockchain Dev (Singapore entity, ERC-20, audit)
+├── Week 62-66  Overseas Blockchain Launch (mainnet, DEX listing)
+└── Week 62-70  B2B Corporate ESG Sales (dashboard, bulk API, partnerships)
+│
+▼ Phase 4 Launch ──────────────────────────────────
+
+Total: 73 weeks (~18 months)
+Accelerated: 56-62 weeks (~14-15.5 months) with Claude parallel generation
 ```
 
 ---
@@ -1078,7 +1371,8 @@ Accelerated: 40-44 weeks (~10-11 months) with Claude parallel generation
 | Phase 1 | T_ACTIVITY_RECORD, T_MEMBER_LOCATION, T_CARBON_DAILY, T_SSP_RATE_CONFIG, T_WIFI_SSID_PATTERN, T_EMISSION_FACTOR | 6 |
 | Phase 2 | T_SPORT_TYPE, T_ORGANIZATION, T_COURSE, T_COURSE_SPORT, T_COURSE_CHECKPOINT, T_COURSE_EFFORT, T_COURSE_RANKING, T_EVENT, T_EVENT_SERIES, T_EVENT_PARTICIPANT, T_EVENT_VOLUNTEER, T_STAMP_COLLECTION, T_BADGE, T_BADGE_AWARD, T_CREW, T_CREW_MEMBER, T_CREW_CHALLENGE, T_SOCIAL_FEED, T_SOCIAL_REACTION, T_SOCIAL_COMMENT, T_SSP_EXCHANGE, T_SSP_EXCHANGE_RATE | 22 |
 | Phase 3 | T_DARK_DEALER, T_DARK_DEALER_CONTRACT, T_DARK_DEALER_TIER, T_DARK_SMARTSTORE, T_DARK_IMPORT_LOG, T_DARK_IMPORT_PRODUCT, T_DARK_PRODUCT, T_DARK_PRODUCT_IMAGE, T_DARK_PRODUCT_AI_DESC, T_DARK_SALE, T_DARK_ORDER, T_DARK_SETTLEMENT, T_DARK_TAX_INVOICE, T_DARK_INSPECTION, T_DARK_NOTIFICATION_LOG, T_DARK_AUDIT_LOG, T_NOTIFICATION_TEMPLATE, T_AI_DESC_TEMPLATE | 18 |
-| **Total** | + existing 107 tables | **153 tables** |
+| Phase 4 | T_TOKEN_CONVERSION, T_SSP_LOCK, T_CARBON_CERTIFICATION, T_CORPORATE_ESG, T_BLOCKCHAIN_CONFIG | 5 |
+| **Total** | + existing 107 tables | **158 tables** |
 
 ## External API Integrations
 
@@ -1103,6 +1397,10 @@ Accelerated: 40-44 weeks (~10-11 months) with Claude parallel generation
 | 3 | Claude API | AI product description generation |
 | 3 | KakaoTalk Biz Message | Order/settlement auto-notifications |
 | 3 | Barobill/Popbill (or 홈택스) | Electronic tax invoice auto-issuance |
+| 4 | NXT/KDX Broker API | Korea STO token issuance + trading |
+| 4 | Polygon/Base L2 | Overseas blockchain smart contract |
+| 4 | KCCI/Verra/Gold Standard | Carbon credit certification |
+| 4 | CertiK/Trail of Bits | Smart contract security audit |
 
 ## Admin Panel Growth
 
@@ -1111,7 +1409,8 @@ Accelerated: 40-44 weeks (~10-11 months) with Claude parallel generation
 | Phase 1 | Dashboard, Members, SSP Config, Push, Banners, Challenges, Notices |
 | Phase 2 | + Sports, Organizations, Courses (bidirectional), Rankings, Events, Stamps/Badges, Crews, Exchange, Org Portal |
 | Phase 3 | + Dealers, Smart Store Import, AI Description, Inspection, Flash Sales, Ops Dashboard, Settlement Automation, Anonymity Audit, Commerce Analytics, Notification Config |
-| **Total** | **27 admin modules** |
+| Phase 4 | + Token Dashboard, Conversion Mgmt, Carbon Certification, Corporate ESG Portal, Blockchain Monitor, Investor Relations |
+| **Total** | **33 admin modules** |
 
 ## Flutter App Screen Count
 

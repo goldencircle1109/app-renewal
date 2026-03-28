@@ -248,6 +248,46 @@
 
 ---
 
+## Phase 4 - Week 51-53: SSP Token Infrastructure
+
+- [ ] SSP lock/unlock system + conversion status tracking
+- [ ] Token conversion API (SSP -> carbon proof -> issuance request)
+- [ ] Double-counting prevention (DB triggers, one-way conversion)
+- [ ] Carbon proof export (JSON/CSV, auditable format)
+- [ ] SSP-to-token ratio config + token balance display in app
+
+## Phase 4 - Week 53-55: Carbon Certification & Audit
+
+- [ ] KCCI + Ministry of Environment certification pathway
+- [ ] Third-party audit (DNV/TUV) of carbon methodology
+- [ ] POPLE voluntary registry + multi-source certification
+- [ ] MRV data package consolidation + annual carbon report automation
+
+## Phase 4 - Week 55-60: Korea STO (Track 1)
+
+- [ ] Broker partnership (NXT/KDX participating firm)
+- [ ] FSC pre-consultation + securities prospectus drafting
+- [ ] KYC/AML integration (broker SDK)
+- [ ] Broker API integration (token issuance, balance, trading)
+- [ ] Beta launch (100-1,000 users) -> full launch
+
+## Phase 4 - Week 58-66: Overseas Blockchain (Track 2, parallel)
+
+- [ ] Singapore/Dubai entity incorporation + legal opinion
+- [ ] ERC-20 smart contract (Solidity: mint, burn, pause, access control)
+- [ ] Security audit (CertiK/Trail of Bits)
+- [ ] Testnet (Polygon Mumbai) -> mainnet deployment
+- [ ] DEX listing (Uniswap/SushiSwap) + geo-blocking (US)
+
+## Phase 4 - Week 62-70: B2B Corporate ESG Sales
+
+- [ ] Corporate ESG dashboard (white-label carbon reports)
+- [ ] Bulk credit purchase API + ESG report integration (GRI/SASB/TCFD)
+- [ ] Corporate partnership onboarding (first 5-10 companies)
+- [ ] Employee carbon challenge program + insurance partnerships
+
+---
+
 ## Completed
 
 - [x] SSP point exchange research (Naver Pay, Kakao, ZeroPay, Onnuri) - 2026-03-25
@@ -259,3 +299,5 @@
 - [x] Full roadmap Phase 1+2+3 design spec - 2026-03-28
 - [x] Phase 2 update: multi-sport + bidirectional + GPX auto-pipeline + org system - 2026-03-28
 - [x] Phase 3 update: ops automation + AI product desc + Smart Store import - 2026-03-28
+- [x] MRV 3-Tier vehicle verification + Claude Vision OCR - 2026-03-28
+- [x] Phase 4 added: Carbon Token Securities (STO) + Global Expansion - 2026-03-28
