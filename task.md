@@ -86,6 +86,9 @@
 - [ ] T-map car route API integration
 - [ ] Carbon reduction calculation engine (baseline vs actual)
 - [ ] Emission factor management system (admin-configurable)
+- [ ] SSP source tagging system (CARBON/AD/SHOP/BONUS tags on every SSP transaction)
+- [ ] SSP exchange validation (only AD+SHOP exchangeable, CARBON blocked)
+- [ ] SSP balance display (total + exchangeable + carbon split)
 - [ ] SSP auto-earning engine (per-activity configurable rates)
 - [ ] Daily/weekly/monthly aggregation logic + API
 - [ ] Carbon reduction report API (individual + total)

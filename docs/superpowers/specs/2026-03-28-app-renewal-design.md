@@ -398,19 +398,72 @@ System segments each mode separately, calculates emission per segment, sums tota
 
 ## 5. SSP Point System
 
-### 5.1 Configurable Rate Structure
+### 5.1 SSP Source Tagging Policy (Plan C: Unified SSP + Exchange Rules)
+
+Users see ONE SSP balance, but internally every SSP is tagged by source. This prevents deficit from carbon-only users exchanging for gift cards.
+
+```
+┌──────────────────────────────────────────────┐
+│  User sees: "My SSP: 3,500"                  │
+│  ├── Exchangeable: 1,200 (from ads + shop)   │
+│  └── Carbon: 2,300 (future token value)      │
+└──────────────────────────────────────────────┘
+```
+
+**Source Tags:**
+
+| Tag | Earned From | Exchangeable? | Tokenizable? | Cost to WB |
+|-----|------------|---------------|-------------|-----------|
+| **CARBON** | Walking, running, cycling, transit (carbon reduction) | **NO** | **YES** (Phase 4 STO) | ₩0 |
+| **AD** | Rewarded video, offerwall missions | **YES** | NO | Covered by ad revenue |
+| **SHOP** | Product purchase, rental | **YES** | NO | Covered by commerce margin |
+| **BONUS** | Challenge rewards, events, referral | **Configurable** | NO | Marketing budget |
+
+**Exchange Rules:**
+
+```
+Gift card / Naver Pay / Kakao exchange:
+  → Only AD + SHOP SSP can be used
+  → CARBON SSP CANNOT be exchanged for cash-equivalent rewards
+  → Deduction order: AD first → SHOP second (FIFO)
+
+Rankings / Badges / Challenges:
+  → ALL SSP types count (CARBON + AD + SHOP + BONUS)
+
+Token Securities conversion (Phase 4):
+  → Only CARBON SSP can be converted to tokens
+  → Each CARBON SSP = 0.01 kg CO₂ (auditable)
+  → AD/SHOP/BONUS SSP cannot become tokens
+```
+
+**Why this works:**
+
+```
+User motivation 1: "Carbon SSP = future token value → keep commuting by bike"
+User motivation 2: "Want gift card now → watch ads or do offerwall missions"
+WB economics: Carbon SSP costs ₩0, Ad SSP covered by ad revenue → zero deficit
+```
+
+### 5.2 Configurable Rate Structure
 
 ```typescript
 interface SSPRateConfig {
-  // Carbon-based rewards (per kg CO₂ reduced)
+  // CARBON source rates (per kg CO₂ reduced)
   carbonReductionRate: number;  // e.g., 100 SSP per 1 kg CO₂
 
-  // Activity-based rewards (direct, optional)
+  // CARBON source: activity-based
   walkingPerKm: number;        // e.g., 5 SSP/km
   runningPerKm: number;        // e.g., 8 SSP/km
   cyclingPerKm: number;        // e.g., 10 SSP/km
   busPerTrip: number;          // e.g., 3 SSP/trip
   subwayPerTrip: number;       // e.g., 3 SSP/trip
+
+  // AD source rates
+  rewardedVideoSSP: number;    // e.g., 10 SSP per view
+  offerwallBaseRate: number;   // e.g., 50% of CPA revenue as SSP
+
+  // SHOP source rates
+  purchaseSSPRate: number;     // e.g., 1% of purchase amount as SSP
 
   // Bonus multipliers
   streakBonus: number;         // e.g., 1.5x for 7-day streak
@@ -418,17 +471,67 @@ interface SSPRateConfig {
 }
 ```
 
-All rates configurable via admin panel. Carbon consultancy can adjust rates without code changes.
+All rates configurable via admin panel. Carbon consultancy can adjust CARBON rates. Business team adjusts AD/SHOP rates.
 
-### 5.2 SSP Ledger
+### 5.3 SSP Ledger
 
 Every SSP transaction recorded with:
-- Activity reference (which trip/activity)
+- **Source tag** (CARBON / AD / SHOP / BONUS)
+- **Source detail** (WALKING, REWARDED_VIDEO, OFFERWALL_CPA, PURCHASE, etc.)
+- Activity reference (which trip/activity/ad/order)
 - Rate applied at time of earning
-- Carbon reduction amount (if carbon-based)
+- Carbon reduction amount (CARBON source only)
+- **is_exchangeable** flag (AD + SHOP = true, CARBON = false)
+- **is_tokenizable** flag (CARBON = true, others = false)
 - Bonus multiplier (if applicable)
 
-Full audit trail for MRV compliance.
+Full audit trail for MRV compliance and token conversion.
+
+### 5.4 SSP Balance Display (App UI)
+
+```
+┌─────────────────────────────────────┐
+│  💰 My SSP                    3,500  │
+│  ─────────────────────────────────  │
+│  🌱 Carbon SSP          2,300      │
+│     "Future token value"            │
+│     → Earned from eco-commuting     │
+│     → Convertible to STO (Phase 4)  │
+│                                     │
+│  💳 Exchangeable SSP     1,200      │
+│     "Use now"                       │
+│     → From ads + shopping           │
+│     → Exchange for gift cards       │
+│     [Exchange Now →]                │
+│                                     │
+│  ─────────────────────────────────  │
+│  💡 "Watch ad to earn more          │
+│      exchangeable SSP"       [▶️]   │
+└─────────────────────────────────────┘
+```
+
+### 5.5 Exchange Validation Logic
+
+```typescript
+function validateExchange(memberId: number, amount: number): ExchangeResult {
+  const exchangeableBalance = getSSPBalance(memberId, {
+    sources: ['AD', 'SHOP'],
+    // CARBON and BONUS(default) excluded
+  });
+
+  if (amount > exchangeableBalance) {
+    return {
+      success: false,
+      message: `교환 가능 SSP가 부족합니다. 현재 ${exchangeableBalance} SSP`,
+      suggestion: '광고 시청이나 오퍼월 미션으로 교환 가능 SSP를 모아보세요!'
+    };
+  }
+
+  // Deduct: AD first, then SHOP (FIFO order)
+  deductSSP(memberId, amount, deductOrder: ['AD', 'SHOP']);
+  return { success: true };
+}
+```
 
 ---
 
@@ -559,6 +662,32 @@ T_SSP_RATE_CONFIG (
   EFFECTIVE_TO date,
   STATUS varchar(1) default 'Y',
   REG_IDX, REG_DATE, MOD_IDX, MOD_DATE
+)
+
+-- SSP ledger with source tagging (Plan C)
+T_SSP_LEDGER (
+  IDX, MEMBER_IDX,
+  SSP_AMOUNT int,
+  SOURCE enum('CARBON','AD','SHOP','BONUS'),
+  SOURCE_DETAIL varchar(50),        -- WALKING, REWARDED_VIDEO, OFFERWALL_CPA, PURCHASE, etc.
+  REFERENCE_TYPE varchar(20),       -- ACTIVITY, AD_VIEW, OFFERWALL, ORDER, CHALLENGE
+  REFERENCE_IDX int,                -- FK to source record
+  CARBON_KG decimal(10,6) NULL,     -- CARBON source only
+  IS_EXCHANGEABLE boolean,          -- true: AD+SHOP, false: CARBON
+  IS_TOKENIZABLE boolean,           -- true: CARBON only
+  BALANCE_AFTER int,                -- running balance after this transaction
+  REG_DATE datetime default NOW()
+)
+
+-- Ad revenue tracking
+T_AD_REVENUE_LOG (
+  IDX, MEMBER_IDX,
+  AD_TYPE enum('REWARDED_VIDEO','OFFERWALL','BANNER'),
+  AD_NETWORK varchar(30),           -- ADMOB, ADISON, KAKAO_ADFIT
+  REVENUE_KRW decimal(10,2),        -- WB revenue from this ad view
+  SSP_REWARDED int,                 -- SSP given to user
+  CAMPAIGN_ID varchar(100),         -- offerwall campaign reference
+  REG_DATE datetime default NOW()
 )
 
 -- Wi-Fi SSID pattern DB
