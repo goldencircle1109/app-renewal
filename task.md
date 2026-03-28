@@ -27,7 +27,31 @@
 
 ---
 
-## Next: Week 1-2 Foundation (Start immediately)
+## NEXT: Week -3 BRD + PRD (Start immediately)
+
+- [ ] BRD: business goals, target users, success metrics, competitive analysis
+- [ ] PRD Phase 1: 3Way Sensor + Carbon Reduction (detailed specs, acceptance criteria)
+- [ ] PRD Phase 2: Multi-Sport Challenge Platform (detailed specs)
+- [ ] PRD Phase 3: Dark Commerce + Smart Commerce (detailed specs)
+
+## Week -2: Screen Planning + Design System Decision
+
+- [ ] App IA (information architecture + tab/navigation structure)
+- [ ] All ~65 screens lo-fi wireframes (HTML, Claude-generated, browser preview)
+- [ ] Admin IA + key module wireframes (~27 modules)
+- [ ] User flow diagrams (onboarding, core activity loop, SSP exchange, commerce)
+- [ ] Design system decision (color palette, typography, spacing, component rules)
+
+## Week -1: API Design + Final Review
+
+- [ ] Screen-based API endpoint spec (RESTful, request/response for each screen)
+- [ ] Data model finalization (all new tables confirmed)
+- [ ] Design system code prep (Flutter ThemeData + Tailwind config definitions)
+- [ ] Full document review + commit all docs
+
+---
+
+## Week 1-2: Foundation
 
 - [ ] Express + TypeScript + Prisma project setup (`api/` folder)
 - [ ] Aurora MySQL connection + `prisma db pull` introspect (107 tables)

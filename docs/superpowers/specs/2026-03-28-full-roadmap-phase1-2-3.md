@@ -12,17 +12,19 @@
 Wright Brothers app renewal in 3 phases, preserving existing Aurora MySQL (107 tables).
 
 ```
-Phase 1: 3Way Sensor + Carbon Reduction          (~14 weeks)
+Pre-Dev: BRD + PRD + Screen Planning + Design System  (~3 weeks)
     ↓
-Phase 2: Multi-Sport Challenge Platform           (~18 weeks)
+Phase 1: 3Way Sensor + Carbon Reduction               (~14 weeks)
+    ↓
+Phase 2: Multi-Sport Challenge Platform                (~18 weeks)
          (Running/Cycling/Hiking + extensible)
          (GPX-in → Challenge-out, bidirectional)
     ↓
-Phase 3: Dark Commerce + Smart Commerce             (~18 weeks)
+Phase 3: Dark Commerce + Smart Commerce                (~18 weeks)
          (Ops automation, AI product desc, Smart Store import)
-─────────────────────────────────────────────────
-Total: ~50 weeks (~12.5 months)
-Accelerated: ~38-42 weeks (~9.5-10.5 months)
+─────────────────────────────────────────────────────
+Total: ~53 weeks (~13 months)
+Accelerated: ~40-44 weeks (~10-11 months)
 ```
 
 ---
@@ -994,6 +996,29 @@ Week 46-50  Native Commerce + Admin (M8)
 2026
 ─────────────────────────────────────────────────────
 
+PRE-DEV: BRD + PRD + Screen Planning + Design System (3 weeks)
+│
+├── Week -3     BRD + PRD
+│               ├── BRD: business goals, target users, success metrics
+│               ├── PRD Phase 1: 3Way Sensor + Carbon (detailed specs)
+│               ├── PRD Phase 2: Multi-Sport Challenge (detailed specs)
+│               └── PRD Phase 3: Dark Commerce + Smart Commerce (detailed specs)
+│
+├── Week -2     Screen Planning + Design System Decision
+│               ├── App IA (information architecture + navigation)
+│               ├── All ~65 screens lo-fi wireframes (HTML, Claude-generated)
+│               ├── Admin IA + key module wireframes
+│               ├── User flow diagrams (onboarding, core loops)
+│               └── Design system decision (colors, fonts, spacing, components)
+│
+└── Week -1     API Design + Final Review
+                ├── Screen-based API endpoint spec (RESTful)
+                ├── Data model finalization
+                ├── Design system code prep (Flutter ThemeData + Tailwind config)
+                └── Full document review + commit
+│
+▼ Pre-Dev Complete ────────────────────────────────
+
 PHASE 1: 3Way Sensor + Carbon Reduction (14 weeks)
 │
 ├── Week 1-2    Foundation (API+DB+Auth+Flutter)
@@ -1033,8 +1058,8 @@ PHASE 3: Dark Commerce + Smart Commerce (18 weeks)
 │
 ▼ Phase 3 Launch ──────────────────────────────────
 
-Total: 50 weeks (~12.5 months)
-Accelerated: 38-42 weeks (~9.5-10.5 months) with Claude parallel generation
+Total: 53 weeks (~13 months)
+Accelerated: 40-44 weeks (~10-11 months) with Claude parallel generation
 ```
 
 ---
