@@ -134,7 +134,8 @@ C:\Dev\app renewal\
 | **DB** | Aurora MySQL (existing) | MySQL 8.0 compatible |
 | **Mobile App** | Flutter + Dart | 3.x |
 | **Admin Web** | Next.js + TypeScript + Tailwind + shadcn/ui | 14.x |
-| **Auth** | Firebase Admin SDK | existing |
+| **Auth** | Firebase Admin SDK (Google, Apple, Kakao) | 3 providers only |
+| **i18n** | flutter_localizations + intl | Korean, English, Japanese, Chinese |
 | **Push** | Firebase Cloud Messaging | existing |
 | **Car Route** | T-map API | route distance |
 | **Geocoding** | Kakao Address API | address → coords |
@@ -563,11 +564,13 @@ T_EMISSION_FACTOR (
 ## 8. App Screens (Flutter)
 
 ### 8.1 Onboarding
-1. Welcome + app intro (3 slides)
-2. Social login (Kakao / Naver / Google / Apple)
-3. Home/Work address registration
-4. Permission requests (location, activity, notifications)
-5. T-map baseline calculation (loading)
+1. Language selection (한국어 / English / 日本語 / 中文)
+2. Welcome + app intro (3 slides, localized)
+3. Social login (Google / Apple / Kakao) — 3 providers, supports foreign users
+4. Profile setup (name, nationality — optional for foreign users)
+5. Home/Work address registration (skip option for tourists)
+6. Permission requests (location, activity, notifications)
+7. T-map baseline calculation (loading, skip if tourist mode)
 
 ### 8.2 Home Screen
 - Today's carbon reduction (big number + comparison to car)
@@ -613,7 +616,7 @@ T_EMISSION_FACTOR (
 |-----|------|
 | 1-2 | Express+TS+Prisma project setup, folder structure |
 | 3-4 | Aurora MySQL connection + `prisma db pull` introspect |
-| 5-6 | Firebase Auth middleware + social login API |
+| 5-6 | Firebase Auth (Google/Apple/Kakao) + i18n (KO/EN/JA/ZH) |
 | 7-8 | Flutter project creation, routing, state management |
 | 9-10 | Member API (register/login/profile/address) |
 | 11-14 | Flutter ↔ API integration, login screen working |

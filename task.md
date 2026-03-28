@@ -56,7 +56,8 @@
 - [ ] Express + TypeScript + Prisma project setup (`api/` folder)
 - [ ] Aurora MySQL connection + `prisma db pull` introspect (107 tables)
 - [ ] Prisma schema review + new tables creation (T_ACTIVITY_RECORD, T_MEMBER_LOCATION, T_CARBON_DAILY, T_SSP_RATE_CONFIG, T_WIFI_SSID_PATTERN, T_EMISSION_FACTOR)
-- [ ] Firebase Auth middleware + social login API (Kakao/Naver/Google/Apple)
+- [ ] Firebase Auth (Google/Apple/Kakao, 3 providers — foreign user support)
+- [ ] i18n setup (flutter_localizations + intl: KO/EN/JA/ZH)
 - [ ] Flutter project creation + folder structure + routing + state management (`app/` folder)
 - [ ] Member API (register/login/profile/address)
 - [ ] Flutter <-> API integration + login screen working
