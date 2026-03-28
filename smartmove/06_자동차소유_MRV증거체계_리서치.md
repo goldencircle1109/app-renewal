@@ -111,7 +111,7 @@ Step 1: 운전면허 진위확인 → "면허 있음" ✅
 
 Step 2: 보완 증거 수집
   ├── 하이패스 이용내역 (CODEF) → "최근 3년 고속도로 이용"
-  ├── 3Way Sensor 과거 데이터 → "과거에 자동차(Vehicle) 감지 이력"
+  ├── SmartMove 과거 데이터 → "과거에 자동차(Vehicle) 감지 이력"
   └── 사용자 자기신고서 (사유서 작성)
 
 결과: 행동 증거 + 자기신고 → 관리자 심사 후 승인
@@ -203,7 +203,7 @@ Step 2: 보완 증거 수집
 | 계약서 OCR | ❌ | ❌ | ❌ | ✅ | ✅ | ❌ | AI+서류 |
 | 재직증명 OCR | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | AI+서류 |
 | 앱 이용내역 | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | AI+서류 |
-| 3Way Sensor 이력 | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 자동 |
+| SmartMove 이력 | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 자동 |
 
 ---
 
@@ -245,7 +245,7 @@ Step 2: 보완 증거 수집
     ▼
 [인증 완료]
     ├── T맵 API: 집↔회사 자동차 경로 거리 기준값 설정
-    ├── 3Way Sensor 탄소저감 기록 시작
+    ├── SmartMove 탄소저감 기록 시작
     └── SSP 적립 시작
 ```
 
@@ -278,7 +278,7 @@ T_VEHICLE_VERIFICATION (
 
   -- Tier 3: 행동 기반
   HIPASS_VERIFIED enum('Y','N','NA') default 'NA',
-  SENSOR_VEHICLE_DAYS int default 0,  -- 3Way Sensor 과거 Vehicle 감지 일수
+  SENSOR_VEHICLE_DAYS int default 0,  -- SmartMove 과거 Vehicle 감지 일수
   SELF_DECLARATION text,              -- 자기신고서 내용
 
   -- 승인

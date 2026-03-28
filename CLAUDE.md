@@ -37,7 +37,7 @@ When developing any feature, ALWAYS check the legacy codebase first:
 | Document | Path | Purpose |
 |----------|------|---------|
 | BRD | `docs/BRD/BRD_complete.md` | Business requirements (10 sections) |
-| Phase 1 Design | `docs/superpowers/specs/2026-03-28-app-renewal-design.md` | 3Way Sensor + Carbon Reduction spec |
+| Phase 1 Design | `docs/superpowers/specs/2026-03-28-app-renewal-design.md` | SmartMove + Carbon Reduction spec |
 | Full Roadmap | `docs/superpowers/specs/2026-03-28-full-roadmap-phase1-2-3.md` | Phase 1+2+3 unified roadmap |
 | Task List | `task.md` | Current task status and weekly breakdown |
 | Project History | `PROJECT_HISTORY.md` | Date-by-date work log |
@@ -64,7 +64,7 @@ C:\Dev\app renewal\
 ├── docs/         ← BRD, PRD, design specs
 ├── parkrun/      ← Park Run research documents
 ├── darkcommerce/ ← Dark Commerce research documents
-├── 3way sensor/  ← 3Way Sensor research documents
+├── smartmove/  ← SmartMove research documents
 └── .specify/     ← Spec-Kit configuration
 ```
 
@@ -84,7 +84,7 @@ C:\Dev\app renewal\
 
 ```
 Pre-Dev (3w): BRD + PRD + Screen Planning + Design System  ← CURRENT
-Phase 1 (14w): 3Way Sensor + Carbon Reduction + SSP + Admin
+Phase 1 (14w): SmartMove + Carbon Reduction + SSP + Admin
 Phase 2 (18w): Multi-Sport Challenge (GPX, ranking, events, crew)
 Phase 3 (18w): Dark Commerce + Smart Commerce (ops automation, AI desc)
 Phase 4 (20w): Carbon Token Securities (STO) + Global Expansion

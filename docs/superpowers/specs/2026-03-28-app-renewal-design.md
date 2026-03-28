@@ -9,13 +9,13 @@
 
 ## 1. Executive Summary
 
-Wright Brothers app renewal project. Preserve existing Aurora MySQL database (107 tables), build new tech stack from scratch. Phase 1 focuses on 3Way Sensor (activity detection) + carbon reduction calculation system.
+Wright Brothers app renewal project. Preserve existing Aurora MySQL database (107 tables), build new tech stack from scratch. Phase 1 focuses on SmartMove (activity detection) + carbon reduction calculation system.
 
 ### Launch Sequence
 
 | Phase | Scope | Target |
 |-------|-------|--------|
-| **1차** | 3Way Sensor + Carbon Reduction + SSP | ~14 weeks |
+| **1차** | SmartMove + Carbon Reduction + SSP | ~14 weeks |
 | **2차** | Riding GPS + Park Run + Strava/Garmin | After Phase 1 |
 | **3차** | Commerce (B2B/B2C/C2C/Rental) | After Phase 2 |
 
@@ -121,7 +121,7 @@ C:\Dev\app renewal\
 │
 ├── docs/                     ← Design & planning docs
 ├── parkrun/                  ← Park Run research
-└── 3way sensor/              ← 3Way Sensor research
+└── smartmove/              ← SmartMove research
 ```
 
 ### 2.3 Tech Stack
@@ -150,7 +150,7 @@ C:\Dev\app renewal\
 
 ---
 
-## 3. 3Way Sensor - Activity Detection
+## 3. SmartMove - Activity Detection
 
 ### 3.1 Detection Flow (Complete)
 
@@ -328,7 +328,7 @@ Driver License API → license confirmed
     +
 CODEF: Hi-pass usage history (last 3 years)
     +
-3Way Sensor: past Vehicle detection days
+SmartMove: past Vehicle detection days
     +
 Self-declaration form
     = Admin review required
@@ -651,7 +651,7 @@ Revenue flow:
 Additions to existing Aurora MySQL schema:
 
 ```sql
--- Activity records (from 3Way Sensor)
+-- Activity records (from SmartMove)
 T_ACTIVITY_RECORD (
   IDX, MEMBER_IDX,
   ACTIVITY_TYPE enum('WALKING','RUNNING','CYCLING','BUS','SUBWAY','KTX','TAXI','CAR'),
@@ -864,7 +864,7 @@ T_EMISSION_FACTOR (
 | 9-10 | Member API (register/login/profile/address) |
 | 11-14 | Flutter ↔ API integration, login screen working |
 
-### Week 3-4: 3Way Sensor + GPS (14 days)
+### Week 3-4: SmartMove + GPS (14 days)
 
 | Day | Task |
 |-----|------|
@@ -968,11 +968,11 @@ After Phase 2, Phase 3 migrates commerce from WebView to native:
 
 ## 12. References
 
-- [3Way Sensor Technical Research](../../3way%20sensor/01_기술_리서치_보고서.md)
-- [3Way Sensor Implementation Plan](../../3way%20sensor/02_구현_계획서.md)
-- [3Way Sensor Code Samples](../../3way%20sensor/03_코드_샘플.md)
-- [Transport Auto-Detection Research](../../3way%20sensor/04_교통수단_자동감지_리서치.md)
-- [Carbon Credit Risk Review](../../3way%20sensor/라이트브라더스_외부사업_등록_리스크_검토보고서.md)
+- [SmartMove Technical Research](../../smartmove%20sensor/01_기술_리서치_보고서.md)
+- [SmartMove Implementation Plan](../../smartmove%20sensor/02_구현_계획서.md)
+- [SmartMove Code Samples](../../smartmove%20sensor/03_코드_샘플.md)
+- [Transport Auto-Detection Research](../../smartmove%20sensor/04_교통수단_자동감지_리서치.md)
+- [Carbon Credit Risk Review](../../smartmove%20sensor/라이트브라더스_외부사업_등록_리스크_검토보고서.md)
 - [SSP Point Exchange Research](../../parkrun/07_SSP_포인트교환_종합리서치.md)
 - [Park Run Proposal](../../parkrun/05_관광공사_자전거파크런_사업제안서.md)
 - [WB3 Database ERD](C:/Dev/wrightbrothers/WB3_데이터베이스_ERD.md)

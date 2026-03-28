@@ -30,7 +30,7 @@
 ## NEXT: Week -3 BRD + PRD (Start immediately)
 
 - [x] BRD complete (docs/BRD/BRD_complete.md) ← DONE
-- [ ] PRD Phase 1: 3Way Sensor + Carbon Reduction (detailed specs, acceptance criteria)
+- [ ] PRD Phase 1: SmartMove + Carbon Reduction (detailed specs, acceptance criteria)
 - [ ] PRD Phase 2: Multi-Sport Challenge Platform (detailed specs)
 - [ ] PRD Phase 3: Dark Commerce + Smart Commerce (detailed specs)
 
@@ -62,7 +62,7 @@
 - [ ] Member API (register/login/profile/address)
 - [ ] Flutter <-> API integration + login screen working
 
-## Week 3-4: 3Way Sensor + GPS
+## Week 3-4: SmartMove + GPS
 
 - [ ] Flutter activity_recognition plugin (walking/running/cycling detection)
 - [ ] GPS speed validation + distance measurement
@@ -306,7 +306,7 @@
 - [x] Korea Tourism Organization proposal email draft - 2026-03-26
 - [x] App Renewal Phase 1 design spec - 2026-03-28
 - [x] Existing WB3 DB/architecture/feature analysis - 2026-03-28
-- [x] 3Way Sensor existing research review - 2026-03-28
+- [x] SmartMove existing research review - 2026-03-28
 - [x] Full roadmap Phase 1+2+3 design spec - 2026-03-28
 - [x] Phase 2 update: multi-sport + bidirectional + GPX auto-pipeline + org system - 2026-03-28
 - [x] Phase 3 update: ops automation + AI product desc + Smart Store import - 2026-03-28

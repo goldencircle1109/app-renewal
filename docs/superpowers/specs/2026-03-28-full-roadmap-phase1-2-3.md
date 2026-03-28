@@ -14,7 +14,7 @@ Wright Brothers app renewal in 4 phases, preserving existing Aurora MySQL (107 t
 ```
 Pre-Dev: BRD + PRD + Screen Planning + Design System     (~3 weeks)
     ↓
-Phase 1: 3Way Sensor + Carbon Reduction                  (~14 weeks)
+Phase 1: SmartMove + Carbon Reduction                  (~14 weeks)
     ↓
 Phase 2: Multi-Sport Challenge Platform                  (~18 weeks)
          (Running/Cycling/Hiking + extensible)
@@ -52,7 +52,7 @@ Accelerated: ~56-62 weeks (~14-15.5 months)
 
 ---
 
-# PHASE 1: 3Way Sensor + Carbon Reduction (~14 weeks)
+# PHASE 1: SmartMove + Carbon Reduction (~14 weeks)
 
 ## Scope Summary
 
@@ -72,7 +72,7 @@ Build foundation + automatic activity/transport detection + carbon reduction cal
 | Flutter App | Project skeleton, routing, state management |
 | Member API | Register/login/profile/address CRUD |
 
-### 3Way Sensor (Week 3-4)
+### SmartMove (Week 3-4)
 
 | Feature | Detail |
 |---------|--------|
@@ -147,7 +147,7 @@ Build foundation + automatic activity/transport detection + carbon reduction cal
 ## Phase 1 New DB Tables
 
 ```
-T_ACTIVITY_RECORD     — Activity records from 3Way Sensor
+T_ACTIVITY_RECORD     — Activity records from SmartMove
 T_MEMBER_LOCATION     — Home/work/school geofence locations
 T_CARBON_DAILY        — Daily carbon reduction summary
 T_SSP_RATE_CONFIG     — SSP earning rates (admin-managed)
@@ -631,7 +631,7 @@ Two-channel commerce platform + fully automated operations:
 [User taps "깜깜이방" tab]
     ↓
 Check 1: Phase 1 active? (activity record within last 7 days)
-  NO → "3Way Sensor를 활성화하고 활동을 기록해주세요"
+  NO → "SmartMove를 활성화하고 활동을 기록해주세요"
   YES ↓
 
 Check 2: Monthly entry ticket purchased?
@@ -1167,7 +1167,7 @@ Track 2: Overseas Blockchain (Utility Token)
 | **Third-Party Audit** | DNV, TUV, or KCCI audit of carbon calculation methodology |
 | **POPLE Registry** | Voluntary carbon market registration (existing methodology) |
 | **Multi-Source Certification** | Diversify: KCCI + Verra + Gold Standard (prevent Flowcarbon risk) |
-| **MRV Data Package** | Consolidate 3Way Sensor data + vehicle verification + T-map baseline into audit-ready format |
+| **MRV Data Package** | Consolidate SmartMove data + vehicle verification + T-map baseline into audit-ready format |
 | **Annual Carbon Report** | Automated generation for regulators and investors |
 
 ### M3. Korea STO Track (Week 55-60)
@@ -1385,7 +1385,7 @@ PRE-DEV: BRD + PRD + Screen Planning + Design System (3 weeks)
 │
 ├── Week -3     BRD + PRD
 │               ├── BRD: business goals, target users, success metrics
-│               ├── PRD Phase 1: 3Way Sensor + Carbon (detailed specs)
+│               ├── PRD Phase 1: SmartMove + Carbon (detailed specs)
 │               ├── PRD Phase 2: Multi-Sport Challenge (detailed specs)
 │               └── PRD Phase 3: Dark Commerce + Smart Commerce (detailed specs)
 │
@@ -1404,10 +1404,10 @@ PRE-DEV: BRD + PRD + Screen Planning + Design System (3 weeks)
 │
 ▼ Pre-Dev Complete ────────────────────────────────
 
-PHASE 1: 3Way Sensor + Carbon Reduction (14 weeks)
+PHASE 1: SmartMove + Carbon Reduction (14 weeks)
 │
 ├── Week 1-2    Foundation (API+DB+Auth+Flutter)
-├── Week 3-4    3Way Sensor (walk/run/cycle detection)
+├── Week 3-4    SmartMove (walk/run/cycle detection)
 ├── Week 5-6    Transport Auto-Detection (Wi-Fi+Geofence)
 ├── Week 7-8    Carbon Reduction + SSP Engine
 ├── Week 9-10   Flutter App UI

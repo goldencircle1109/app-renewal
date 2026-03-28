@@ -8,7 +8,7 @@
 - app renewal project folder created
 - Existing research documents uploaded:
   - `parkrun/` - Park Run research (01~06)
-  - `3way sensor/` - 3Way Sensor research (01~04)
+  - `smartmove/` - SmartMove research (01~04)
   - `STO/`, `darkcommerce/`, `garmin/` - other project folders
 
 ---
@@ -57,7 +57,7 @@
   - 638 API endpoints, 75 SQL mapper files
   - ~190만원/month infrastructure cost
 - Key decisions made:
-  1. **Launch order**: 1st 3Way Sensor → 2nd Riding+ParkRun → 3rd Commerce
+  1. **Launch order**: 1st SmartMove → 2nd Riding+ParkRun → 3rd Commerce
   2. **App strategy**: Update existing app (not new app)
   3. **DB migration**: Full migration (all 107 tables, connect via Prisma)
   4. **Backend**: Separate API server (Express + TypeScript + Prisma)
@@ -69,14 +69,14 @@
   10. **Dev approach**: "Feature first" - build fast, reinforce foundation after
 - Design spec written and committed:
   - `docs/superpowers/specs/2026-03-28-app-renewal-design.md`
-  - Covers: architecture, 3Way Sensor flow, carbon calc, SSP system, data model, admin features, app screens, 14-week schedule
+  - Covers: architecture, SmartMove flow, carbon calc, SSP system, data model, admin features, app screens, 14-week schedule
 
 ### Full Roadmap Phase 1+2+3+4
 - Explored parkrun/ folder (06_통합_기능_기획문서.md, 04_한국형_파크런_사업계획서.md) for Phase 2 scope
 - Explored darkcommerce/ folder (01~03 + WB3 분석서) for Phase 3 scope
 - Created unified roadmap covering all 3 phases:
   - `docs/superpowers/specs/2026-03-28-full-roadmap-phase1-2-3.md`
-  - Phase 1 (14 weeks): 3Way Sensor + Carbon Reduction + Admin
+  - Phase 1 (14 weeks): SmartMove + Carbon Reduction + Admin
   - Phase 2 (16 weeks): GPX Segments + GPS Matching + Rankings + Strava/Garmin + Park Run + Stamp Tour + Crew + SSP Exchange
   - Phase 3 (12 weeks): Dark Commerce (깜깜이방) — Dealer Portal + Anonymity + Flash Sale + Settlement + Native Commerce
   - Total: 42 weeks (~10.5 months), accelerated 32-36 weeks
