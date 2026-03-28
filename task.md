@@ -314,5 +314,7 @@
 - [x] GTM strategy created (docs/GTM/) - 2026-03-29
 - [x] Actual metrics confirmed: MAU ~4,000 (app 2,130 + web 2,000) - 2026-03-29
 - [x] Doc review: 7 CEO decisions resolved + 13 inconsistencies fixed - 2026-03-29
+- [x] Shareholder report Word + PPT (McKinsey style) - 2026-03-29
+- [x] Rename 3Way Sensor → SmartMove (folder + 28 files + Word/PPT) - 2026-03-29
 - [x] MRV 3-Tier vehicle verification + Claude Vision OCR - 2026-03-28
 - [x] Phase 4 added: Carbon Token Securities (STO) + Global Expansion - 2026-03-28

@@ -130,3 +130,10 @@
   - PPT: `docs/shareholder/WB_App_Renewal_Shareholder_Report_2026.pptx` (10 slides)
   - Midnight Executive palette (navy + ice blue)
   - Content: Executive Summary, Why Renewal, 4-Phase Strategy, Phase 1 Detail, Revenue, Commerce, STO, Risk, Timeline, Conclusion
+
+### SmartMove Rename
+- Renamed "3Way Sensor" → "SmartMove" across entire project
+  - Folder: `3way sensor/` → `smartmove/`
+  - All .md files (28 files), generator scripts, Word/PPT regenerated
+  - Reason: 3Way = 3 modes, but system detects 7 modes (walk/run/cycle/bus/subway/taxi/car)
+  - SmartMove = future-proof, no number limitation
