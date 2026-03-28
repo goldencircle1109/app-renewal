@@ -94,66 +94,69 @@
 
 ---
 
-## Phase 2 - Week 15-16: GPX Segment Management
+## Phase 2 - Week 15-17: Multi-Sport GPX Course Engine
 
-- [ ] GPX parser (XML -> coordinates + metadata)
-- [ ] Coordinate cleanup (noise removal + Douglas-Peucker simplification)
-- [ ] Batch import KTO 60 courses + National Cycling 12 routes
-- [ ] Admin segment CRUD + map preview
-- [ ] Segment categories (8 types) + user segment creation
+- [ ] Sport type registry (RUNNING/CYCLING/HIKING + extensible)
+- [ ] GPX auto-pipeline (upload -> parse -> clean -> metadata -> checkpoints -> challenge)
+- [ ] Auto reverse course generation (B->A) + loop detection
+- [ ] Organization system (KTO, local govs, national parks) + batch GPX API
+- [ ] Admin course CRUD + bidirectional map preview
+- [ ] Multi-sport per course tagging
 
-## Phase 2 - Week 17-18: GPS Matching Engine
+## Phase 2 - Week 18-19: Bidirectional GPS Matching Engine
 
-- [ ] Bounding box filter + start/end point detection (50m radius)
-- [ ] Route similarity validation (80% checkpoint threshold)
-- [ ] Time validation (speed filters + stop time filters)
+- [ ] Direction detection (A->B vs B->A from first 3 checkpoints)
+- [ ] Bidirectional start/end detection (either endpoint = valid start)
+- [ ] Per-sport speed/stop validation (running/cycling/hiking different thresholds)
 - [ ] Post-activity batch matching + Strava sync matching
 
-## Phase 2 - Week 19-20: Ranking System
+## Phase 2 - Week 20-21: Multi-Sport Ranking System
 
-- [ ] KOR/QOR (Course King/Queen) per segment
-- [ ] Local Legend (90-day rolling window most completions)
-- [ ] Segment leaderboard + season ranking (quarterly points)
-- [ ] Crew ranking + ranking notifications
+- [ ] Per-sport + per-direction leaderboards
+- [ ] KOR/QOR (Course King/Queen) + Local Legend + Season Ranking
+- [ ] Cross-sport champion badges
+- [ ] Crew ranking + ranking notifications + leaderboard filters
 
-## Phase 2 - Week 21-22: Strava + Garmin Integration
+## Phase 2 - Week 22-23: Strava + Garmin Integration
 
 - [ ] Strava OAuth + activity sync + webhook
 - [ ] Garmin Connect IQ + activity sync
-- [ ] Post-sync segment matching pipeline
-- [ ] Native GPS riding recording (non-Strava)
+- [ ] Sport type mapping (Strava/Garmin -> WB types)
+- [ ] Native GPS recording for all 3 sports
 
-## Phase 2 - Week 23-25: Park Run Events
+## Phase 2 - Week 24-26: Multi-Sport Event System
 
-- [ ] Event types (Park Run 5km / Bike Run 15-30km / Special)
-- [ ] Event series + registration + QR/NFC check-in
-- [ ] Live leaderboard (WebSocket) + GPS tracking
-- [ ] Completion detection + results + SNS share cards
+- [ ] Event types (Park Run 5km / Bike Run / Hike / Special / Multi-Sport)
+- [ ] Bidirectional events (participants choose direction)
+- [ ] QR/NFC check-in + GPS tracking + live leaderboard (WebSocket, per-sport)
+- [ ] Completion detection (either direction) + results + SNS share cards
 - [ ] Volunteer matching system
 
-## Phase 2 - Week 25-26: Digital Stamp Tour
+## Phase 2 - Week 26-27: Stamp Tour + Challenge System
 
-- [ ] Stamp/badge data model + checkpoint GPS trigger
-- [ ] Stamp book UI + collection progress
-- [ ] KTO tourism info integration
+- [ ] GPX-auto stamp generation (no manual setup needed)
+- [ ] Bidirectional stamp collection (A->B and B->A both count)
+- [ ] Organization stamp books + grand slam + cross-sport badges
+- [ ] Tourism info integration at checkpoints
 
-## Phase 2 - Week 27-28: Crew Hub
+## Phase 2 - Week 28-29: Crew Hub (Multi-Sport)
 
-- [ ] Crew CRUD + member management + roles
-- [ ] Crew events + inter-crew challenges
+- [ ] Multi-sport crews + crew CRUD + member management
+- [ ] Crew events + inter-crew challenges (per sport or cross-sport)
 - [ ] Social feed + kudos + comments
 - [ ] Crew search + leaderboard
 
-## Phase 2 - Week 29-30: SSP External Exchange
+## Phase 2 - Week 30-32: SSP External Exchange
 
 - [ ] Naver Pay Points (Daou Addcon B2B API)
 - [ ] Kakao Gift Biz API (mobile voucher delivery)
 - [ ] Giftishow Biz / ZeroPay voucher / Onnuri gift certificate
 - [ ] Exchange rate admin + tax handling (22% > 50K KRW)
+- [ ] Integration testing + Phase 2 launch
 
 ---
 
-## Phase 3 - Week 31-33: Dealer Portal (Dark Commerce)
+## Phase 3 - Week 33-35: Dealer Portal (Dark Commerce)
 
 - [ ] Dealer registration + approval workflow
 - [ ] Dealer tier system (Bronze/Silver/Gold)
@@ -161,33 +164,33 @@
 - [ ] Shipment notification (masked consumer info)
 - [ ] Settlement dashboard + NDA digital signing
 
-## Phase 3 - Week 33-34: Anonymity Architecture
+## Phase 3 - Week 35-36: Anonymity Architecture
 
 - [ ] API response filtering (zero dealer info leak)
 - [ ] Shipping label system (LB brand only)
 - [ ] CS routing + notification filtering
 - [ ] Access control + audit trail
 
-## Phase 3 - Week 35-36: Flash Sale System
+## Phase 3 - Week 37-38: Flash Sale System
 
 - [ ] Sale creation (duration countdown, 1-unit inventory)
 - [ ] Status transitions (Draft -> Active -> Sold Out/Expired)
 - [ ] Upcoming preview (blurred cards) + auto-cancel/confirm
 - [ ] Consumer flash sale list + detail UI
 
-## Phase 3 - Week 37-38: Admin Inspection
+## Phase 3 - Week 39-40: Admin Inspection
 
 - [ ] Product approval workflow + photo review
 - [ ] Price adjustment authority + quality scoring
 - [ ] Category + commission rate management
 
-## Phase 3 - Week 39-40: Consumer Experience + Payment
+## Phase 3 - Week 41-42: Consumer Experience + Payment
 
 - [ ] Dark Commerce tab in Flutter app
 - [ ] Purchase flow (existing PG integration)
 - [ ] Order tracking (LB as sender) + returns (defective only)
 
-## Phase 3 - Week 41-42: Settlement + Native Commerce
+## Phase 3 - Week 43-44: Settlement + Native Commerce
 
 - [ ] Settlement ledger (double-entry) + VAT chain
 - [ ] Tax invoice auto-generation + dealer monthly reporting
@@ -205,3 +208,4 @@
 - [x] Existing WB3 DB/architecture/feature analysis - 2026-03-28
 - [x] 3Way Sensor existing research review - 2026-03-28
 - [x] Full roadmap Phase 1+2+3 design spec - 2026-03-28
+- [x] Phase 2 update: multi-sport + bidirectional + GPX auto-pipeline + org system - 2026-03-28

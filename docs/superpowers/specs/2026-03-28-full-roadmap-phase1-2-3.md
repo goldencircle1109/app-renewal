@@ -12,14 +12,16 @@
 Wright Brothers app renewal in 3 phases, preserving existing Aurora MySQL (107 tables).
 
 ```
-Phase 1: 3Way Sensor + Carbon Reduction     (~14 weeks)
+Phase 1: 3Way Sensor + Carbon Reduction          (~14 weeks)
     ↓
-Phase 2: Riding + Park Run + WB RUN         (~16 weeks)
+Phase 2: Multi-Sport Challenge Platform           (~18 weeks)
+         (Running/Cycling/Hiking + extensible)
+         (GPX-in → Challenge-out, bidirectional)
     ↓
-Phase 3: Dark Commerce (깜깜이방)            (~12 weeks)
-─────────────────────────────────────────────
-Total: ~42 weeks (~10.5 months)
-Accelerated: ~32-36 weeks (~8-9 months)
+Phase 3: Dark Commerce (깜깜이방)                  (~12 weeks)
+─────────────────────────────────────────────────
+Total: ~44 weeks (~11 months)
+Accelerated: ~34-38 weeks (~8.5-9.5 months)
 ```
 
 ---
@@ -140,53 +142,162 @@ T_EMISSION_FACTOR     — CO₂ emission factors per transport
 
 ---
 
-# PHASE 2: Riding + Park Run + WB RUN (~16 weeks)
+# PHASE 2: Multi-Sport Challenge Platform (~18 weeks)
 
 ## Scope Summary
 
-GPS riding with Strava/Garmin integration, segment ranking system, digital stamp tour, park run events, crew system, and SSP external reward exchange.
+Multi-sport (running/cycling/hiking + extensible) challenge platform with GPX-driven auto course generation, bidirectional course support, segment ranking, park run events, and SSP external exchange. Any organization (KTO, local government, etc.) can create courses by simply uploading GPX data.
+
+## Core Design Principles
+
+### Principle 1: Multi-Sport Architecture
+
+All features are **sport-agnostic by design**. Sport type is a configurable dimension, not hardcoded logic.
+
+```
+T_SPORT_TYPE (extensible sport registry)
+├── RUNNING     ← Launch sport
+├── CYCLING     ← Launch sport
+├── HIKING      ← Launch sport
+├── (future) TRAIL_RUNNING
+├── (future) SWIMMING
+├── (future) KAYAKING
+└── (future) any sport with GPS tracking
+```
+
+Every course, ranking, event, crew, and challenge is tagged with `sport_type`. Users filter by sport. Leaderboards are per-sport. One GPX course can support multiple sports (e.g., a river path usable for both running and cycling).
+
+### Principle 2: GPX-In → Challenge-Out (One-Click Course Generation)
+
+```
+[Any Organization]              [Admin / API]
+       │                              │
+       └── Upload GPX file ──────────→│
+                                      ▼
+                              ┌───────────────────┐
+                              │  GPX Auto-Pipeline │
+                              ├───────────────────┤
+                              │ 1. Parse XML       │
+                              │ 2. Clean coords    │
+                              │ 3. Calc metadata   │
+                              │    (distance,      │
+                              │     elevation,     │
+                              │     difficulty)    │
+                              │ 4. Detect loop     │
+                              │ 5. Generate reverse│
+                              │    course (B→A)    │
+                              │ 6. Auto-create     │
+                              │    checkpoints     │
+                              │ 7. Create challenge│
+                              │    with stamps     │
+                              └────────┬──────────┘
+                                       ▼
+                              Course + Challenge + Stamps
+                              ready for users instantly
+```
+
+**No developer needed.** Admin uploads GPX → system generates everything automatically:
+- Forward course (A→B)
+- Reverse course (B→A) — auto-generated
+- Checkpoints at distance intervals (every 5km default, configurable)
+- Digital stamps for each checkpoint
+- Challenge definition with completion criteria
+- Leaderboard initialized
+- Course map preview
+
+### Principle 3: Bidirectional Courses (A→B and B→A)
+
+```
+Original GPX: Seoul → Busan (서해안 자전거길, 633km)
+
+System auto-generates TWO courses:
+├── Course A: Seoul → Busan (정방향)
+│   Checkpoints: Seoul → Incheon → Gunsan → Mokpo → ... → Busan
+│
+└── Course B: Busan → Seoul (역방향, auto-reversed)
+    Checkpoints: Busan → ... → Mokpo → Gunsan → Incheon → Seoul
+
+Both directions:
+✅ Count as challenge completion
+✅ Have separate leaderboards (conditions differ: wind, elevation profile)
+✅ Earn same SSP rewards
+✅ Collect same stamps (checkpoint order reversed)
+```
+
+**Loop courses** (start == end, e.g., 한강 순환): Clockwise and counter-clockwise both count. System detects loop automatically and creates single bidirectional course.
+
+### Principle 4: Multi-Client Organization Support
+
+```
+T_ORGANIZATION (course providers)
+├── KTO (한국관광공사) → 60 courses
+├── Seoul City (서울시) → N courses
+├── Gangwon Province (강원도) → N courses
+├── Jeju Tourism (제주관광공사) → N courses
+├── National Parks (국립공원관리공단) → hiking trails
+├── Any local government → GPX upload → instant courses
+└── User-created (community) → admin moderation
+```
+
+Each organization gets:
+- Own dashboard (their courses' stats)
+- Branded stamp collection ("서울시 코스 전체 완주" badge)
+- API access for GPX batch upload
+- ESG/carbon reduction reporting for their courses
 
 ## Feature List
 
-### M1. GPX Segment Management (Week 15-16)
+### M1. Multi-Sport GPX Course Engine (Week 15-17)
 
 | Feature | Detail |
 |---------|--------|
+| **Sport Type Registry** | Extensible sport types: RUNNING, CYCLING, HIKING + future sports. Per-sport speed limits, difficulty calc, SSP rates |
+| **GPX Auto-Pipeline** | Upload GPX → auto-generate course with all metadata, no manual input required |
 | GPX Parser | XML parsing → coordinate extraction (trkpt lat/lon/ele) |
 | Coordinate Cleanup | Noise removal + Douglas-Peucker simplification |
-| Metadata Calculation | Haversine distance, elevation gain, loop detection |
-| Batch Import | KTO 60 courses + National Cycling 12 routes |
-| Admin Segment CRUD | Create/edit/delete/activate segments |
-| Segment Categories | 8 types: city, sea, island, river, mountain, challenge, history, healing |
-| User Segment Creation | Users create segments from past rides (admin moderation) |
+| Metadata Auto-Calc | Haversine distance, elevation gain/loss, estimated difficulty (per sport) |
+| **Loop Detection** | Start-end distance <500m → loop course, single bidirectional entry |
+| **Auto Reverse Course** | Non-loop: auto-generate B→A version with reversed checkpoints |
+| **Auto Checkpoints** | Generate checkpoints at configurable intervals (default: every 5km running, 10km cycling, 3km hiking) |
+| **Auto Challenge Creation** | Each course auto-creates challenge definition + stamp collection |
+| **Organization System** | T_ORGANIZATION: KTO, local governments, national parks, community |
+| Organization Dashboard | Per-org course stats, user counts, carbon reduction |
+| **Batch GPX API** | REST endpoint for organizations to upload GPX programmatically |
+| Admin Course CRUD | Manual override, edit, activate/deactivate |
+| Course Categories | 8 types: city, sea, island, river, mountain, challenge, history, healing |
+| **Multi-Sport per Course** | One GPX path can be tagged for multiple sports (e.g., river path: running + cycling) |
 
-### M2. GPS Matching Engine (Week 17-18)
+### M2. Bidirectional GPS Matching Engine (Week 18-19)
 
 | Feature | Detail |
 |---------|--------|
 | Bounding Box Filter | Narrow candidates from 10,000s to 10s |
-| Start Point Detection | GPS within 50m of segment start → candidate marking |
-| Route Similarity | Checkpoint validation (80% threshold) |
-| End Point Detection | GPS within 50m of segment end → completion confirmed |
-| Time Validation | Speed filters (min/max), stop time filter (>30min = invalid) |
-| Post-Activity Matching | Batch matching after activity upload (Phase 2a) |
-| Real-Time Matching | Live segment during activity via GPS streaming (Phase 2b) |
-| Strava Sync Matching | Match segments from Strava-imported activities |
+| **Direction Detection** | Determine if user is going A→B or B→A based on first 3 checkpoints |
+| Start Point Detection | GPS within 50m of segment start OR end → candidate (bidirectional) |
+| Route Similarity | Checkpoint validation (80% threshold), works in either direction |
+| End Point Detection | GPS within 50m of opposite endpoint → completion confirmed |
+| **Per-Sport Speed Validation** | Running: 3-25 km/h, Cycling: 8-60 km/h, Hiking: 1-8 km/h |
+| **Per-Sport Stop Filter** | Running: >30min stop = invalid, Hiking: >2hr stop = invalid (rest is normal) |
+| Post-Activity Matching | Batch matching after activity upload |
+| Real-Time Matching | Live segment during activity via GPS streaming (premium) |
+| Strava/Garmin Sync Matching | Match from imported activities |
 
-### M3. Ranking System (Week 19-20)
+### M3. Multi-Sport Ranking System (Week 20-21)
 
 | Feature | Detail |
 |---------|--------|
-| KOR/QOR (Course King/Queen) | Per-segment male/female fastest time, crown icon |
-| Local Legend | 90-day rolling window, most completions, wreath icon |
-| Segment Leaderboard | Full ranking by time, filterable |
-| Season Ranking | Quarterly points: base (100) + rank bonus (+50/+20) + difficulty bonus |
-| Crew Ranking | Per-crew aggregate stats |
-| Live Segment | Real-time PR/KOR comparison during ride (premium) |
-| Leaderboard Filters | Gender, age group, crew, period, friends (premium features) |
+| **Per-Sport Leaderboards** | Separate rankings for running, cycling, hiking per course |
+| **Per-Direction Leaderboards** | A→B and B→A have separate leaderboards (different conditions) |
+| KOR/QOR (Course King/Queen) | Per-course, per-sport, per-direction male/female fastest |
+| Local Legend | 90-day rolling window, most completions (either direction counts) |
+| Season Ranking | Quarterly points: base (100) + rank bonus + difficulty bonus |
+| Crew Ranking | Per-crew, per-sport aggregate stats |
+| **Cross-Sport Champion** | Users active in 2+ sports get multi-sport badges |
+| Live Segment | Real-time PR/KOR comparison during activity (premium) |
+| Leaderboard Filters | Gender, age group, crew, period, sport, direction |
 | Notifications | "Your KOR was beaten!", "New personal best!" |
 
-### M4. Strava & Garmin Integration (Week 21-22)
+### M4. Strava & Garmin Integration (Week 22-23)
 
 | Feature | Detail |
 |---------|--------|
@@ -195,48 +306,54 @@ GPS riding with Strava/Garmin integration, segment ranking system, digital stamp
 | Strava Webhook | Real-time activity push from Strava |
 | Garmin Connect IQ | Connect/disconnect Garmin account |
 | Garmin Activity Sync | Pull activities via Garmin Health API |
-| Post-Sync Processing | Auto segment matching + SSP earning + ranking update |
-| Existing Code Reference | `API/api/routes/v1/user/mypage/riding.js` (existing Strava sync) |
+| **Sport Type Mapping** | Strava/Garmin activity types → WB sport types auto-mapping |
+| Post-Sync Processing | Auto course matching + SSP earning + ranking update |
+| **Native GPS Recording** | WB app native recording for all 3 sports (non-Strava/Garmin users) |
 
-### M5. Park Run Event System (Week 23-25)
+### M5. Multi-Sport Event System (Week 24-26)
 
 | Feature | Detail |
 |---------|--------|
-| Event Types | WB Park Run (5km running, Sat 8am), WB Bike Run (15-30km cycling, Sat 9am), Special Events |
+| **Event Types per Sport** | WB Park Run (5km running), WB Bike Run (15-30km cycling), WB Hike (5-15km hiking), Special Events |
 | Event Series | Recurring weekly events with auto-generation |
-| Registration | One-tap sign up, volunteer sign up, reminder notifications |
+| **Multi-Sport Events** | Single event can include multiple sports (e.g., mini triathlon) |
+| Registration | One-tap sign up, volunteer sign up, reminders |
 | Check-In | QR code scan + NFC tap |
-| GPS Tracking | Auto-start at event time, real-time tracking |
-| Live Leaderboard | WebSocket-based real-time rankings during event |
-| Completion Detection | GPS-based auto-finish (50m from endpoint) |
-| Results | Instant ranking, SNS share card generation |
-| Volunteer System | Role matching (marshal, timer, photographer), volunteer SSP rewards |
-| Event Statistics | Participation trends, PR tracking, cumulative stats |
+| GPS Tracking | Auto-start, real-time tracking |
+| Live Leaderboard | WebSocket-based, per-sport real-time rankings |
+| **Bidirectional Events** | Circular course events: participants choose direction |
+| Completion Detection | GPS-based auto-finish (50m from endpoint, either direction) |
+| Results | Instant ranking, SNS share card, per-sport results |
+| Volunteer System | Role matching, volunteer SSP rewards |
 
-### M6. Digital Stamp Tour (Week 25-26)
-
-| Feature | Detail |
-|---------|--------|
-| Stamp Collection | Digital stamps for completing KTO 60 courses |
-| Checkpoint Stamps | Mid-route checkpoint stamps (GPS-triggered) |
-| Badge System | Region badges, category badges, grand slam badge |
-| Stamp Book UI | Visual collection interface, progress tracking |
-| SSP Bonus | Extra SSP for stamp collection milestones |
-| KTO Integration | Tourism info, nearby certified restaurants/hotels |
-
-### M7. Crew Hub (Week 27-28)
+### M6. Digital Stamp Tour + Challenge System (Week 26-27)
 
 | Feature | Detail |
 |---------|--------|
-| Crew Creation | Create running/cycling crew, set rules/description |
+| **GPX-Auto Stamps** | Uploaded GPX auto-generates stamp checkpoints (no manual setup) |
+| **Bidirectional Stamps** | Stamps collectible in either direction (A→B or B→A) |
+| **Organization Stamp Books** | Per-org collections ("관광공사 60선 완주", "제주도 전체 코스") |
+| **Grand Slam Badges** | Complete all courses in a region/org/sport → special badge |
+| **Cross-Sport Badges** | Complete same course in 2+ sports → multi-sport badge |
+| Checkpoint GPS Trigger | Auto-stamp when passing within 100m of checkpoint |
+| Stamp Book UI | Visual collection, progress per org/region/sport |
+| SSP Milestone Bonus | Extra SSP at collection milestones (10/25/50/100 stamps) |
+| Tourism Integration | Nearby restaurants/hotels/attractions at each checkpoint |
+
+### M7. Crew Hub (Week 28-29)
+
+| Feature | Detail |
+|---------|--------|
+| **Multi-Sport Crews** | Crews tagged with sport types (running crew, cycling crew, multi-sport) |
+| Crew Creation | Create crew, set rules/description/sport focus |
 | Crew Management | Member invite/approve/remove, roles (leader/admin/member) |
-| Crew Events | Crew-specific regular runs, auto-recording |
-| Crew vs Crew | Inter-crew weekly/monthly challenges |
-| Crew Leaderboard | Aggregate distance, average pace, member rankings |
-| Social Feed | Activity sharing, kudos (likes), comments |
-| Crew Search | By region, skill level, activity type |
+| Crew Events | Crew-specific regular runs/rides/hikes, auto-recording |
+| Crew vs Crew | Inter-crew challenges (per sport or cross-sport) |
+| Crew Leaderboard | Aggregate distance, per sport, member rankings |
+| Social Feed | Activity sharing, kudos, comments |
+| Crew Search | By region, sport, skill level |
 
-### M8. SSP External Reward Exchange (Week 29-30)
+### M8. SSP External Reward Exchange (Week 30-32)
 
 | Feature | Detail |
 |---------|--------|
@@ -246,95 +363,216 @@ GPS riding with Strava/Garmin integration, segment ranking system, digital stamp
 | Giftishow Biz | KT Alpha API (convenience store/cafe/restaurant coupons) |
 | Onnuri Gift Certificate | Corporate purchase portal batch distribution |
 | ZeroPay Voucher | BizZeroPay PIN-based voucher |
-| Exchange Rate Admin | Admin-configurable exchange rates per reward type |
+| Exchange Rate Admin | Admin-configurable per reward type |
 | Tax Handling | Auto 22% withholding for amounts >50,000 KRW |
 
-## Phase 2 New DB Tables
+## Phase 2 Core Data Model
 
-```
-T_SEGMENT             — GPX segment definitions
-T_SEGMENT_EFFORT      — Segment completion records
-T_SEGMENT_RANKING     — Rankings (KOR/QOR/local legend/season)
-T_EVENT               — Park run events
+```sql
+-- Sport type registry (extensible)
+T_SPORT_TYPE (
+  IDX, CODE varchar(20), NAME, ICON,
+  MIN_SPEED_KMH, MAX_SPEED_KMH,
+  MAX_STOP_MINUTES, DEFAULT_CHECKPOINT_INTERVAL_KM,
+  SSP_RATE_PER_KM, IS_ACTIVE, SORT_ORDER
+)
+-- Launch data: RUNNING, CYCLING, HIKING
+
+-- Organization (course providers)
+T_ORGANIZATION (
+  IDX, NAME, TYPE enum('GOVERNMENT','TOURISM','NATIONAL_PARK','COMMUNITY'),
+  LOGO_URL, CONTACT_EMAIL, API_KEY,
+  IS_ACTIVE, REG_DATE, MOD_DATE
+)
+
+-- Course (auto-generated from GPX)
+T_COURSE (
+  IDX, ORGANIZATION_IDX, NAME, DESCRIPTION,
+  CATEGORY enum('CITY','SEA','ISLAND','RIVER','MOUNTAIN','CHALLENGE','HISTORY','HEALING'),
+  REGION varchar(50),
+  DISTANCE_KM, ELEVATION_GAIN_M, ELEVATION_LOSS_M,
+  DIFFICULTY int(1-5),
+  IS_LOOP boolean,
+  DIRECTION enum('FORWARD','REVERSE','BIDIRECTIONAL'),
+  PARENT_COURSE_IDX int NULL,  -- reverse course points to original
+  GPX_DATA json,               -- original GPX
+  POLYLINE text,               -- simplified for map display
+  START_LAT, START_LON, END_LAT, END_LON,
+  IS_ACTIVE, REG_DATE, MOD_DATE
+)
+
+-- Course ↔ Sport mapping (many-to-many)
+T_COURSE_SPORT (
+  IDX, COURSE_IDX, SPORT_TYPE_IDX,
+  CUSTOM_DIFFICULTY int NULL,  -- sport-specific difficulty override
+  CUSTOM_SSP_RATE decimal NULL
+)
+
+-- Auto-generated checkpoints
+T_COURSE_CHECKPOINT (
+  IDX, COURSE_IDX, SEQUENCE_NO,
+  NAME varchar(100),           -- auto: "Checkpoint 1 (5km)"
+  LATITUDE, LONGITUDE,
+  DISTANCE_FROM_START_KM,
+  RADIUS_M int default 100,
+  HAS_STAMP boolean default true,
+  TOURISM_INFO json NULL       -- nearby attractions
+)
+
+-- Course completion records
+T_COURSE_EFFORT (
+  IDX, COURSE_IDX, SPORT_TYPE_IDX, MEMBER_IDX,
+  DIRECTION enum('FORWARD','REVERSE'),
+  SOURCE enum('WB_APP','STRAVA','GARMIN'),
+  START_TIME, END_TIME, ELAPSED_SEC, MOVING_SEC,
+  AVG_SPEED_KMH, MAX_SPEED_KMH, AVG_HEART_RATE,
+  IS_PERSONAL_BEST, RANK_AT_TIME,
+  SSP_EARNED, CARBON_REDUCED_KG,
+  CHECKPOINTS_PASSED json,    -- which checkpoints hit
+  IS_VALID, GPS_DATA json,
+  WEATHER json NULL,
+  REG_DATE
+)
+
+-- Rankings (per course × sport × direction)
+T_COURSE_RANKING (
+  IDX, COURSE_IDX, SPORT_TYPE_IDX,
+  DIRECTION enum('FORWARD','REVERSE'),
+  RANKING_TYPE enum('KOR','QOR','LOCAL_LEGEND','SEASON'),
+  MEMBER_IDX, RANK int,
+  BEST_EFFORT_IDX, BEST_ELAPSED_SEC,
+  EFFORT_COUNT_90D int,       -- for local legend
+  SEASON_POINTS int,          -- for season ranking
+  SEASON_ID varchar(10),
+  UPDATED_AT,
+  UNIQUE(COURSE_IDX, SPORT_TYPE_IDX, DIRECTION, RANKING_TYPE, MEMBER_IDX, SEASON_ID)
+)
+
+-- Events (multi-sport)
+T_EVENT (
+  IDX, COURSE_IDX, SPORT_TYPE_IDX,
+  EVENT_SERIES_IDX, EVENT_NUMBER,
+  TITLE, EVENT_TYPE enum('PARKRUN','BIKERUN','HIKE','SPECIAL'),
+  EVENT_DATE, START_TIME, MAX_PARTICIPANTS,
+  ALLOW_REVERSE boolean default true,
+  STATUS enum('DRAFT','OPEN','ONGOING','COMPLETED','CANCELLED'),
+  REG_DATE, MOD_DATE
+)
+
 T_EVENT_SERIES        — Recurring event definitions
-T_EVENT_PARTICIPANT   — Event registrations + results
+T_EVENT_PARTICIPANT   — Registrations + results + direction chosen
 T_EVENT_VOLUNTEER     — Volunteer assignments
-T_STAMP               — Digital stamp collection
-T_STAMP_CHECKPOINT    — Mid-route checkpoint definitions
-T_BADGE               — Badge definitions + awards
-T_CREW                — Crew/club definitions
-T_CREW_MEMBER         — Crew membership
-T_CREW_CHALLENGE      — Inter-crew challenges
-T_SOCIAL_FEED         — Activity sharing posts
-T_SOCIAL_REACTION     — Kudos/likes
-T_SOCIAL_COMMENT      — Comments
-T_SSP_EXCHANGE        — SSP → external reward transactions
-T_SSP_EXCHANGE_RATE   — Exchange rate configuration
+
+-- Stamps & Badges
+T_STAMP_COLLECTION (
+  IDX, MEMBER_IDX, COURSE_IDX, CHECKPOINT_IDX,
+  DIRECTION enum('FORWARD','REVERSE'),
+  EFFORT_IDX,
+  COLLECTED_AT
+)
+
+T_BADGE (
+  IDX, NAME, DESCRIPTION, ICON_URL,
+  BADGE_TYPE enum('COURSE','REGION','ORG','SPORT','CROSS_SPORT','GRAND_SLAM','MILESTONE'),
+  CRITERIA json,              -- auto-evaluated: {"org": "KTO", "complete_all": true}
+  SPORT_TYPE_IDX NULL,
+  ORGANIZATION_IDX NULL
+)
+
+T_BADGE_AWARD (IDX, MEMBER_IDX, BADGE_IDX, AWARDED_AT)
+
+-- Crews (multi-sport)
+T_CREW (
+  IDX, NAME, DESCRIPTION, LOGO_URL,
+  PRIMARY_SPORT_IDX, IS_MULTI_SPORT boolean,
+  REGION, MAX_MEMBERS, IS_PUBLIC,
+  REG_DATE, MOD_DATE
+)
+
+T_CREW_MEMBER, T_CREW_CHALLENGE
+
+-- Social
+T_SOCIAL_FEED, T_SOCIAL_REACTION, T_SOCIAL_COMMENT
+
+-- SSP Exchange
+T_SSP_EXCHANGE, T_SSP_EXCHANGE_RATE
 ```
 
 ## Phase 2 Admin Additions
 
 | Module | Key Features |
 |--------|-------------|
-| Segment Management | GPX import, segment CRUD, map preview, activation |
-| Ranking Admin | Season management, ranking reset, anomaly detection |
-| Event Management | Event series CRUD, check-in monitoring, results publishing |
-| Stamp/Badge Admin | Stamp/badge CRUD, collection progress stats |
+| **Sport Management** | Sport type CRUD, per-sport speed/SSP/difficulty config |
+| **Organization Management** | Org registration, API key issuance, per-org dashboard |
+| **Course Management** | GPX upload → auto-generation, batch import, course CRUD, map preview |
+| **Bidirectional Preview** | View both A→B and B→A courses on map |
+| Ranking Admin | Season management, ranking reset, anomaly detection, per-sport/direction |
+| Event Management | Multi-sport event CRUD, check-in monitoring, results |
+| Stamp/Badge Admin | Auto-generated stamp review, badge CRUD, collection stats |
 | Crew Moderation | Crew approval, reported content review |
 | Exchange Management | Exchange rate settings, transaction history, settlement |
-| KTO Dashboard | Tourism-specific stats for Korea Tourism Organization reporting |
+| **Organization Portal** | Per-org login, their courses' stats, GPX upload, ESG reports |
 
 ## Phase 2 Schedule
 
 ```
-Week 15-16  GPX Segment Management (M1)
-├── GPX parser + coordinate cleanup + metadata calc
-├── Batch import KTO 60 + National 12
-├── Admin segment CRUD
-└── Segment data model + API
+Week 15-17  Multi-Sport GPX Course Engine (M1) — 3 weeks
+├── Sport type registry + extensible architecture
+├── GPX auto-pipeline (parse → clean → metadata → checkpoints → challenge)
+├── Auto reverse course generation (B→A)
+├── Loop detection + bidirectional handling
+├── Organization system + batch GPX API
+├── Admin course CRUD + map preview
+└── Multi-sport per course tagging
 
-Week 17-18  GPS Matching Engine (M2)
-├── Bounding box + start/end detection
-├── Route similarity + time validation
-├── Post-activity batch matching
-└── Strava sync matching integration
+Week 18-19  Bidirectional GPS Matching Engine (M2) — 2 weeks
+├── Direction detection (A→B vs B→A from first 3 checkpoints)
+├── Bidirectional start/end detection (either endpoint = valid start)
+├── Route similarity + per-sport speed/stop validation
+├── Post-activity batch matching + Strava sync matching
+└── Real-time matching (premium)
 
-Week 19-20  Ranking System (M3)
-├── KOR/QOR + Local Legend
-├── Segment leaderboard + season ranking
-├── Crew ranking
-└── Ranking notifications + badges
+Week 20-21  Multi-Sport Ranking System (M3) — 2 weeks
+├── Per-sport + per-direction leaderboards
+├── KOR/QOR + Local Legend + Season Ranking
+├── Cross-sport champion badges
+├── Crew ranking + notifications
+└── Leaderboard filters (sport, direction, gender, age, crew)
 
-Week 21-22  Strava & Garmin Integration (M4)
+Week 22-23  Strava & Garmin Integration (M4) — 2 weeks
 ├── Strava OAuth + activity sync + webhook
 ├── Garmin Connect IQ + activity sync
-├── Post-sync segment matching pipeline
-└── GPS riding recording (native, non-Strava)
+├── Sport type mapping (Strava/Garmin → WB types)
+├── Native GPS recording for all 3 sports
+└── Post-sync course matching pipeline
 
-Week 23-25  Park Run Events (M5)
-├── Event types + series + registration
+Week 24-26  Multi-Sport Event System (M5) — 3 weeks
+├── Event types: Park Run / Bike Run / Hike / Special / Multi-Sport
+├── Bidirectional events (participants choose direction)
 ├── QR/NFC check-in + GPS tracking
-├── Live leaderboard (WebSocket)
-├── Completion detection + results + share cards
+├── Live leaderboard (WebSocket, per-sport)
+├── Completion detection (either direction) + results + share cards
 └── Volunteer matching system
 
-Week 25-26  Digital Stamp Tour (M6)
-├── Stamp/badge data model
-├── Checkpoint GPS trigger
-├── Stamp book UI
-└── KTO tourism info integration
+Week 26-27  Stamp Tour + Challenge System (M6) — 2 weeks
+├── GPX-auto stamp generation (no manual setup)
+├── Bidirectional stamp collection
+├── Organization stamp books + grand slam badges
+├── Cross-sport badges
+└── Tourism info integration at checkpoints
 
-Week 27-28  Crew Hub (M7)
-├── Crew CRUD + member management
-├── Crew events + challenges
+Week 28-29  Crew Hub (M7) — 2 weeks
+├── Multi-sport crews + crew CRUD
+├── Crew events + inter-crew challenges (per sport or cross-sport)
 ├── Social feed + kudos + comments
 └── Crew search + leaderboard
 
-Week 29-30  SSP External Exchange (M8)
+Week 30-32  SSP External Exchange (M8) — 3 weeks
 ├── Naver Pay (Daou Addcon API)
 ├── Kakao Gift Biz API
 ├── Giftishow Biz / ZeroPay / Onnuri
-└── Exchange rate admin + tax handling
+├── Exchange rate admin + tax handling
+└── Integration testing + Phase 2 launch
 ```
 
 ---
@@ -358,7 +596,7 @@ Dealer (Anonymous) → LB (Special Purchase, becomes legal owner) → Consumer
 
 ## Feature List
 
-### Dealer Portal (Week 31-33)
+### Dealer Portal (Week 33-35)
 
 | Feature | Detail |
 |---------|--------|
@@ -370,7 +608,7 @@ Dealer (Anonymous) → LB (Special Purchase, becomes legal owner) → Consumer
 | Settlement Dashboard | Earnings tracking, settlement history, monthly stats |
 | NDA + Contract | Digital signing within portal |
 
-### Anonymity Architecture (Week 33-34)
+### Anonymity Architecture (Week 35-36)
 
 | Feature | Detail |
 |---------|--------|
@@ -381,7 +619,7 @@ Dealer (Anonymous) → LB (Special Purchase, becomes legal owner) → Consumer
 | Access Control | Dealer-product mapping limited to 2-3 admin staff |
 | Audit Trail | All dealer info access logged for compliance |
 
-### Flash Sale System (Week 35-36)
+### Flash Sale System (Week 37-38)
 
 | Feature | Detail |
 |---------|--------|
@@ -394,7 +632,7 @@ Dealer (Anonymous) → LB (Special Purchase, becomes legal owner) → Consumer
 | Auto-Cancel | If dealer doesn't ship within deadline |
 | Auto-Confirm | 7 days after delivery + no return request |
 
-### Admin Inspection (Week 37-38)
+### Admin Inspection (Week 39-40)
 
 | Feature | Detail |
 |---------|--------|
@@ -404,7 +642,7 @@ Dealer (Anonymous) → LB (Special Purchase, becomes legal owner) → Consumer
 | Quality Scoring | Per-dealer quality tracking (repeat issues flagged) |
 | Category Management | Product category + commission rate management |
 
-### Consumer Experience (Week 39-40)
+### Consumer Experience (Week 41-42)
 
 | Feature | Detail |
 |---------|--------|
@@ -415,7 +653,7 @@ Dealer (Anonymous) → LB (Special Purchase, becomes legal owner) → Consumer
 | Order Tracking | Standard tracking (LB as sender) |
 | Returns | Defective items only (policy enforced at checkout) |
 
-### Settlement System (Week 40-41)
+### Settlement System (Week 42-43)
 
 | Feature | Detail |
 |---------|--------|
@@ -426,7 +664,7 @@ Dealer (Anonymous) → LB (Special Purchase, becomes legal owner) → Consumer
 | Tax Invoice | Auto-generated electronic tax invoices |
 | Monthly Reporting | Per-dealer sales, commission, settlement reports |
 
-### Existing Commerce WebView → Native (Week 41-42)
+### Existing Commerce WebView → Native (Week 43-44)
 
 | Feature | Detail |
 |---------|--------|
@@ -466,42 +704,42 @@ T_DARK_AUDIT_LOG       — Dealer info access audit trail
 ## Phase 3 Schedule
 
 ```
-Week 31-33  Dealer Portal
+Week 33-35  Dealer Portal
 ├── Dealer registration + approval workflow
 ├── Dealer tier system (Bronze/Silver/Gold)
 ├── Product registration form (photos, condition, pricing)
 ├── Shipment notification (masked consumer info)
 └── Settlement dashboard + NDA digital signing
 
-Week 33-34  Anonymity Architecture
+Week 35-36  Anonymity Architecture
 ├── API response filtering (zero dealer info leak)
 ├── Shipping label system (LB brand only)
 ├── CS routing (all inquiries to LB)
 ├── Notification filtering
 └── Access control + audit trail
 
-Week 35-36  Flash Sale System
+Week 37-38  Flash Sale System
 ├── Sale creation (duration, countdown, inventory)
 ├── Status transitions (cron-managed)
 ├── Upcoming preview (blurred cards)
 ├── Auto-cancel + auto-confirm logic
 └── Consumer flash sale list + detail UI
 
-Week 37-38  Admin Inspection
+Week 39-40  Admin Inspection
 ├── Product approval workflow
 ├── Photo review interface
 ├── Price adjustment authority
 ├── Quality scoring per dealer
 └── Category + commission management
 
-Week 39-40  Consumer Experience + Payment
+Week 41-42  Consumer Experience + Payment
 ├── Dark Commerce tab in Flutter app
 ├── Flash sale browsing UI
 ├── Purchase flow (existing PG integration)
 ├── Order tracking (LB as sender)
 └── Returns (defective only policy)
 
-Week 41-42  Settlement + Native Commerce
+Week 43-44  Settlement + Native Commerce
 ├── Settlement ledger (double-entry)
 ├── VAT chain + tax invoice auto-generation
 ├── Dealer monthly reporting
@@ -529,32 +767,33 @@ PHASE 1: 3Way Sensor + Carbon Reduction (14 weeks)
 │
 ▼ Phase 1 Launch ──────────────────────────────────
 
-PHASE 2: Riding + Park Run (16 weeks)
+PHASE 2: Multi-Sport Challenge Platform (18 weeks)
 │
-├── Week 15-16  GPX Segment Management
-├── Week 17-18  GPS Matching Engine
-├── Week 19-20  Ranking System (KOR/QOR/Legend/Season)
-├── Week 21-22  Strava + Garmin Integration
-├── Week 23-25  Park Run Event System
-├── Week 25-26  Digital Stamp Tour
-├── Week 27-28  Crew Hub (Social)
-└── Week 29-30  SSP External Exchange (Naver/Kakao/Onnuri)
+├── Week 15-17  Multi-Sport GPX Course Engine
+│               (sport registry, GPX auto-pipeline, reverse course, org system)
+├── Week 18-19  Bidirectional GPS Matching Engine
+├── Week 20-21  Multi-Sport Ranking System (KOR/QOR/Legend/Season)
+├── Week 22-23  Strava + Garmin Integration
+├── Week 24-26  Multi-Sport Event System (ParkRun/BikeRun/Hike)
+├── Week 26-27  Stamp Tour + Challenge System
+├── Week 28-29  Crew Hub (Multi-Sport)
+└── Week 30-32  SSP External Exchange (Naver/Kakao/Onnuri/ZeroPay)
 │
 ▼ Phase 2 Launch ──────────────────────────────────
 
 PHASE 3: Dark Commerce (12 weeks)
 │
-├── Week 31-33  Dealer Portal
-├── Week 33-34  Anonymity Architecture
-├── Week 35-36  Flash Sale System
-├── Week 37-38  Admin Inspection
-├── Week 39-40  Consumer Experience + Payment
-└── Week 41-42  Settlement + Native Commerce
+├── Week 33-35  Dealer Portal
+├── Week 35-36  Anonymity Architecture
+├── Week 37-38  Flash Sale System
+├── Week 39-40  Admin Inspection
+├── Week 41-42  Consumer Experience + Payment
+└── Week 43-44  Settlement + Native Commerce
 │
 ▼ Phase 3 Launch ──────────────────────────────────
 
-Total: 42 weeks (~10.5 months)
-Accelerated: 32-36 weeks (~8-9 months) with Claude parallel generation
+Total: 44 weeks (~11 months)
+Accelerated: 34-38 weeks (~8.5-9.5 months) with Claude parallel generation
 ```
 
 ---
@@ -566,9 +805,9 @@ Accelerated: 32-36 weeks (~8-9 months) with Claude parallel generation
 | Phase | Tables | Count |
 |-------|--------|-------|
 | Phase 1 | T_ACTIVITY_RECORD, T_MEMBER_LOCATION, T_CARBON_DAILY, T_SSP_RATE_CONFIG, T_WIFI_SSID_PATTERN, T_EMISSION_FACTOR | 6 |
-| Phase 2 | T_SEGMENT, T_SEGMENT_EFFORT, T_SEGMENT_RANKING, T_EVENT, T_EVENT_SERIES, T_EVENT_PARTICIPANT, T_EVENT_VOLUNTEER, T_STAMP, T_STAMP_CHECKPOINT, T_BADGE, T_CREW, T_CREW_MEMBER, T_CREW_CHALLENGE, T_SOCIAL_FEED, T_SOCIAL_REACTION, T_SOCIAL_COMMENT, T_SSP_EXCHANGE, T_SSP_EXCHANGE_RATE | 18 |
+| Phase 2 | T_SPORT_TYPE, T_ORGANIZATION, T_COURSE, T_COURSE_SPORT, T_COURSE_CHECKPOINT, T_COURSE_EFFORT, T_COURSE_RANKING, T_EVENT, T_EVENT_SERIES, T_EVENT_PARTICIPANT, T_EVENT_VOLUNTEER, T_STAMP_COLLECTION, T_BADGE, T_BADGE_AWARD, T_CREW, T_CREW_MEMBER, T_CREW_CHALLENGE, T_SOCIAL_FEED, T_SOCIAL_REACTION, T_SOCIAL_COMMENT, T_SSP_EXCHANGE, T_SSP_EXCHANGE_RATE | 22 |
 | Phase 3 | T_DARK_DEALER, T_DARK_DEALER_CONTRACT, T_DARK_DEALER_TIER, T_DARK_PRODUCT, T_DARK_PRODUCT_IMAGE, T_DARK_SALE, T_DARK_ORDER, T_DARK_SETTLEMENT, T_DARK_INSPECTION, T_DARK_AUDIT_LOG | 10 |
-| **Total** | + existing 107 tables | **141 tables** |
+| **Total** | + existing 107 tables | **145 tables** |
 
 ## External API Integrations
 
@@ -595,18 +834,18 @@ Accelerated: 32-36 weeks (~8-9 months) with Claude parallel generation
 | Phase | New Modules |
 |-------|------------|
 | Phase 1 | Dashboard, Members, SSP Config, Push, Banners, Challenges, Notices |
-| Phase 2 | + Segments, Rankings, Events, Stamps/Badges, Crews, Exchange, KTO Dashboard |
+| Phase 2 | + Sports, Organizations, Courses (bidirectional), Rankings, Events, Stamps/Badges, Crews, Exchange, Org Portal |
 | Phase 3 | + Dealers, Inspection, Flash Sales, Settlement, Anonymity Audit, Commerce Analytics |
-| **Total** | **20 admin modules** |
+| **Total** | **23 admin modules** |
 
 ## Flutter App Screen Count
 
 | Phase | Screens |
 |-------|---------|
 | Phase 1 | Home, Activity History, Carbon Dashboard, My Page, Settings, Onboarding (~15 screens) |
-| Phase 2 | + Riding, Segments, Rankings, Events, Stamps, Crew, Exchange, Social Feed (~25 screens) |
+| Phase 2 | + Riding (3 sports), Courses (bidirectional), Rankings, Events, Stamps, Crew, Exchange, Social Feed (~30 screens) |
 | Phase 3 | + Flash Sales, Product Detail, Cart, Checkout, Orders, Dealer Portal (~20 screens) |
-| **Total** | **~60 screens** |
+| **Total** | **~65 screens** |
 
 ---
 
@@ -617,6 +856,10 @@ Accelerated: 32-36 weeks (~8-9 months) with Claude parallel generation
 | Wi-Fi SSID coverage outside Seoul | 1 | Medium | Fallback to simple vehicle popup for non-Seoul |
 | T-map API rate limits/costs | 1 | Low | Cache results, recalculate weekly |
 | Strava API rate limits | 2 | Medium | Webhook for real-time, batch sync overnight |
+| Bidirectional matching accuracy | 2 | Medium | Direction detection from first 3 checkpoints, fallback to full-route analysis |
+| Hiking GPS accuracy (dense forest) | 2 | Medium | Wider checkpoint radius (150m vs 100m), altitude validation |
+| Multi-sport leaderboard complexity | 2 | Low | Clean per-sport/per-direction separation, no cross-contamination |
+| GPX data quality from orgs | 2 | Medium | Auto-cleanup pipeline, admin review flag for low-quality imports |
 | Real-time WebSocket scaling | 2 | Medium | Start with post-activity matching, add live later |
 | Park Run event no-shows | 2 | Low | Reminder notifications, no-show tracking |
 | Dealer identity leak | 3 | **Critical** | Multi-layer filtering, audit trail, access control |
