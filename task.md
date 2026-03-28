@@ -192,13 +192,16 @@
 
 ---
 
-## Phase 3 - Week 33-35: Dealer Portal + Smart Store Import
+## Phase 3 - Week 33-35: Dual Commerce + Dealer Portal + Smart Store Import
 
+- [ ] Dual channel architecture (Normal Shop + Dark Room)
+- [ ] Multi-sport category system (T_SHOP_CATEGORY, cross-sport tagging)
+- [ ] Dark Room SSP entry ticket system (500 AD/SHOP SSP/month, Phase 1 active check)
 - [ ] Dealer registration + approval + tiers (Bronze/Silver/Gold) + NDA
 - [ ] Naver Commerce API integration (Smart Store connection)
 - [ ] Product auto-import pipeline (pull -> stage -> select -> publish)
 - [ ] Daily sync cron (new/removed/updated product detection)
-- [ ] Simplified product registration (imported: set qty/price/condition only)
+- [ ] Simplified product registration (imported: set qty/price/condition + channel selection)
 - [ ] Settlement dashboard
 
 ## Phase 3 - Week 35-37: AI Product Description Generator

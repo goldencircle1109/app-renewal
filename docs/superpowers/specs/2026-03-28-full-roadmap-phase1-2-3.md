@@ -592,15 +592,100 @@ Week 30-32  SSP External Exchange (M8) — 3 weeks
 
 ---
 
-# PHASE 3: Dark Commerce + Smart Commerce (~18 weeks)
+# PHASE 3: Dual Commerce (Normal Shop + Dark Room) + Smart Commerce (~18 weeks)
 
 ## Scope Summary
 
-Anonymous discount marketplace (깜깜이방) + fully automated commerce operations. Three critical additions based on operational experience:
+Two-channel commerce platform + fully automated operations:
 
-1. **Operations Automation**: Order/settlement notifications (KakaoTalk, email) + tax invoice auto-issuance → eliminate manual labor
-2. **AI Product Description Generator**: Input model name → auto-generate Naver-quality product detail pages
-3. **Smart Store Auto-Import**: Connect partner Smart Stores → auto-import products → only set qty/price
+1. **Normal Shop** (일반샵): Full-price products, partner name visible, open to all users
+2. **Dark Room** (깜깜이방): Discounted products, partner anonymous, **Phase 1 active user + SSP entry ticket required**
+3. **Operations Automation**: Order/settlement notifications + tax invoice auto-issuance
+4. **AI Product Description Generator**: Model name → auto-generate product pages
+5. **Smart Store Auto-Import**: Partner Smart Store → auto-import → set qty/price only
+
+## Design Principle: Dual-Channel Commerce
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│  Partner registers product                                    │
+│    ↓                                                         │
+│  Choose channel:                                              │
+│  ├── [일반샵] Normal Shop                                     │
+│  │   ├── Full price                                          │
+│  │   ├── Partner name visible                                │
+│  │   ├── Standard commission (5-8%)                          │
+│  │   └── Accessible by ALL users                             │
+│  │                                                           │
+│  └── [깜깜이방] Dark Room                                     │
+│      ├── Discounted price (excess inventory, old stock)       │
+│      ├── Partner ANONYMOUS (LB brand only)                    │
+│      ├── Higher commission (8-20%)                            │
+│      └── Access: Phase 1 active + SSP entry ticket (500/month)│
+└─────────────────────────────────────────────────────────────┘
+```
+
+### Dark Room Entry System (SSP 입장권)
+
+```
+[User taps "깜깜이방" tab]
+    ↓
+Check 1: Phase 1 active? (activity record within last 7 days)
+  NO → "3Way Sensor를 활성화하고 활동을 기록해주세요"
+  YES ↓
+
+Check 2: Monthly entry ticket purchased?
+  NO → "입장권 구매: 500 SSP (교환 가능 SSP만 사용)"
+       [구매하기] ← AD/SHOP SSP only, CARBON SSP blocked
+  YES ↓
+
+[Dark Room products visible]
+  Flash sale items with countdown timers
+  Anonymous seller (LB brand)
+  Discounted prices
+```
+
+**Entry Ticket Economics:**
+- 500 AD/SHOP SSP = user watched ~50 rewarded videos or completed offerwall missions
+- WB revenue from those ads: ~₩1,000
+- Entry ticket SSP cost to WB: ₩0 (already funded by ad revenue)
+- Dark Room purchase commission: 8-20% additional revenue
+- **Net result: every Dark Room user generates ad revenue BEFORE buying anything**
+
+### Multi-Sport Category Structure (Normal Shop + Dark Room shared)
+
+```
+Filter 1: Sport (tab/chip) — same for both channels
+  [All] [🚴Cycling] [🏃Running] [🏔Hiking] [⛺Camping] [🏊Swimming] [⛷Ski] [+More]
+
+Filter 2: Category (dynamic based on sport selection)
+  Cycling → [Complete Bike] [Parts] [Accessories] [Apparel]
+  Running → [Shoes] [Apparel] [GPS Watch] [Accessories]
+  Hiking  → [Boots] [Backpack] [Apparel] [Gear]
+  Camping → [Tent] [Sleeping] [Cooking] [Lighting]
+
+Filter 3: Detail filters (sidebar/modal)
+  ├── Price range slider
+  ├── Brand multi-select
+  ├── Condition: New / Display / Refurb (Dark Room only)
+  └── Sort: Popular / Price / Newest
+```
+
+**Cross-Sport Tagging:** One product can appear in multiple sport tabs
+- "Garmin Fenix 8 GPS Watch" → Running + Cycling + Hiking + Swimming
+- "Gore-Tex Windbreaker" → Running + Hiking + Cycling + Camping
+
+**Future Category Expansion (DB ready, not activated at launch):**
+
+| Category Type | Phase 3 Launch | Post-stabilization | Phase 5+ |
+|--------------|---------------|-------------------|----------|
+| **SPORT** | ✅ Active | ✅ | ✅ |
+| **TECH** (laptop, phone) | ❌ DB ready only | ✅ Dark Room only | ✅ Both |
+| **LIFE** (home, fashion) | ❌ DB ready only | ❌ | ✅ Dark Room first |
+
+Strategy: Sports-only at launch (category killer like Musinsa). Non-sport categories via Dark Room first (anonymous = less brand identity conflict), then expand to Normal Shop if proven.
+
+## Design Principle: Zero-Ops Commerce
 
 ## Design Principle: Zero-Ops Commerce
 
@@ -920,6 +1005,16 @@ T_DARK_INSPECTION      — Admin inspection records
 -- Operations
 T_DARK_NOTIFICATION_LOG — All auto-sent notifications (KakaoTalk/email/SMS)
 T_DARK_AUDIT_LOG       — Dealer info access audit trail
+
+-- Category Structure (multi-sport + future expansion)
+T_SHOP_CATEGORY        — Sport-based categories (CATEGORY_TYPE: SPORT/TECH/LIFE)
+T_PRODUCT_SPORT        — Product ↔ Sport cross-tagging (many-to-many)
+
+-- Normal Shop
+T_SHOP_PRODUCT         — Normal shop products (full price, partner visible)
+
+-- Dark Room Entry
+T_DARK_ENTRY_TICKET    — Monthly SSP entry tickets (500 AD/SHOP SSP)
 
 -- Templates
 T_NOTIFICATION_TEMPLATE — KakaoTalk/email notification templates
