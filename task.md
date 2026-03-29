@@ -7,52 +7,24 @@
 
 ---
 
-## CEO Decision Required: Development Timeline
-
-### Option A: Full Scope (50 weeks, ~12.5 months)
-
-Phase 1~3 all features complete before launch. Quality: 100%.
+## Timeline Decision: Option C Hybrid (38 weeks, CONFIRMED 2026-03-29)
 
 ```
-Phase 1 (14w): SmartMove full (7 transport + Wi-Fi + geofence + MRV + ads + full admin)
-Phase 2 (18w): Multi-sport full (GPX + bidirectional + Strava + Garmin + ParkRun + crew + SSP exchange)
-Phase 3 (18w): Commerce full (Normal + Dark Room + AI desc + Smart Store + full automation)
-Total: 50 weeks
+Pre-Dev (2w) → Phase 1 MVP (8w) → LAUNCH → Phase 1 보강 (4w) → Phase 2 (12w) → Phase 3 (12w)
+                                     ↓
+                               10주 후 출시 = 2026년 6월 중순
+
+Week -2~-1:  Pre-Dev (PRD 핵심 + 화면기획 10개 + API설계)
+Week 1-2:    Foundation (API + DB + Auth + Flutter)
+Week 3-4:    SmartMove MVP (walk/run/cycle + SSP Plan C)
+Week 5-6:    Carbon calc (T-map) + home screen + basic app UI
+Week 7-8:    AdMob + offerwall + admin 5 modules + integration test
+★ Week 10:   APP STORE LAUNCH (Phase 1 MVP, 90% quality)
+Week 9-12:   Phase 1 보강 (Wi-Fi + geofence + MRV + admin expansion)
+Week 13-24:  Phase 2 compressed (multi-sport + Strava + ranking + stamp)
+Week 25-36:  Phase 3 compressed (Normal Shop + Dark Room + automation)
+Week 38:     Phase 1~3 FULL COMPLETE
 ```
-
-### Option B: 3-Month MVP (13 weeks) ← then iterate
-
-Phase 1~3 core features only, launch fast, add rest weekly.
-
-```
-Week 1-2:   Foundation (API + DB + Auth + Flutter)
-Week 3-4:   P1 MVP: walk/run/cycle detection + SSP (Plan C tagging)
-Week 5:     P1 MVP: carbon calc (T-map) + home screen
-Week 6:     P1+: AdMob rewarded + offerwall + basic admin (5 modules only)
-Week 7-8:   P2 MVP: GPX course import + Strava sync + basic ranking
-Week 9:     P2 MVP: stamp tour + activity history UI
-Week 10-11: P3 MVP: Normal Shop (port WB3 commerce) + order/payment/shipping
-Week 12:    P3 MVP: basic notifications + my page + settings
-Week 13:    Integration test + App Store submission
-
-EXCLUDED (add after launch, weekly updates):
-  - Wi-Fi SSID bus/subway detection (GPS speed fallback used)
-  - Geofence car/taxi inference (simple popup instead)
-  - MRV vehicle verification (Phase 4 STO timing)
-  - Pattern learning (manual registration only)
-  - Garmin (Strava covers 80%)
-  - Bidirectional courses (forward only first)
-  - ParkRun events (course challenge only)
-  - Crew / social feed
-  - SSP external exchange (Naver Pay, Kakao, etc.)
-  - Dark Room (Normal Shop only first)
-  - AI product description
-  - Smart Store auto-import
-  - Full operations automation
-  - Full admin (27 modules → 5 core only)
-```
-
-**After 3-month launch: add excluded features 2-3 per week for next 6 months**
 
 ---
 
@@ -76,31 +48,21 @@ EXCLUDED (add after launch, weekly updates):
 
 ---
 
-## NEXT: Week -3 BRD + PRD (Start immediately)
+## NEXT: Pre-Dev Week -2~-1 (2 weeks, start immediately)
 
 - [x] BRD complete (docs/BRD/BRD_complete.md) ← DONE
-- [ ] PRD Phase 1: SmartMove + Carbon Reduction (detailed specs, acceptance criteria)
-- [ ] PRD Phase 2: Multi-Sport Challenge Platform (detailed specs)
-- [ ] PRD Phase 3: Dark Commerce + Smart Commerce (detailed specs)
-
-## Week -2: Screen Planning + Design System Decision
-
-- [ ] App IA (information architecture + tab/navigation structure)
-- [ ] All ~65 screens lo-fi wireframes (HTML, Claude-generated, browser preview)
-- [ ] Admin IA + key module wireframes (~27 modules)
-- [ ] User flow diagrams (onboarding, core activity loop, SSP exchange, commerce)
+- [ ] PRD Phase 1 core (SmartMove + Carbon, acceptance criteria for MVP scope only)
+- [ ] App IA (tab/navigation structure, core 10 screens)
+- [ ] Core 10 screens lo-fi wireframes (home, activity, carbon, mypage, settings, onboarding, mission center, login, address setup, admin dashboard)
 - [ ] Design system decision (color palette, typography, spacing, component rules)
-
-## Week -1: API Design + Final Review
-
-- [ ] Screen-based API endpoint spec (RESTful, request/response for each screen)
-- [ ] Data model finalization (all new tables confirmed)
-- [ ] Design system code prep (Flutter ThemeData + Tailwind config definitions)
-- [ ] Full document review + commit all docs
+- [ ] API endpoint spec for Phase 1 MVP (auth, member, activity, carbon, ssp, ad)
+- [ ] Data model finalization (Phase 1 new tables confirmed)
+- [ ] Design system code prep (Flutter ThemeData + Tailwind config)
+- [ ] PRD Phase 2/3 rough draft (detailed specs during Phase 1 보강 period)
 
 ---
 
-## Week 1-2: Foundation
+## Week 1-2: Foundation (Phase 1 MVP start)
 
 - [ ] Express + TypeScript + Prisma project setup (`api/` folder)
 - [ ] Aurora MySQL connection + `prisma db pull` introspect (107 tables)
@@ -111,7 +73,7 @@ EXCLUDED (add after launch, weekly updates):
 - [ ] Member API (register/login/profile/address)
 - [ ] Flutter <-> API integration + login screen working
 
-## Week 3-4: SmartMove + GPS
+## Week 3-4: SmartMove MVP (walk/run/cycle only)
 
 - [ ] Flutter activity_recognition plugin (walking/running/cycling detection)
 - [ ] GPS speed validation + distance measurement
@@ -120,66 +82,51 @@ EXCLUDED (add after launch, weekly updates):
 - [ ] Battery optimization (duty cycling, background mode)
 - [ ] Real-world walk/run/cycle testing + accuracy tuning
 
-## Week 5-6: Transport Auto-Detection
-
-- [ ] Wi-Fi SSID scan module (Android + iOS)
-- [ ] Seoul bus/subway/KTX SSID pattern DB build
-- [ ] SSID matching engine + vehicle classification logic
-- [ ] Home/Work registration (Kakao Address API -> geocoding)
-- [ ] Geofence setup + car/taxi auto-inference
-- [ ] Pattern learning (repeated routes -> auto home/work recognition)
-- [ ] Full transport detection integration test
-
-## Week 7-8: Carbon Reduction + SSP Engine
+## Week 5-6: Carbon Reduction + SSP + Basic UI
 
 - [ ] T-map car route API integration
 - [ ] Carbon reduction calculation engine (baseline vs actual)
 - [ ] Emission factor management system (admin-configurable)
-- [ ] SSP source tagging system (CARBON/AD/SHOP/BONUS tags on every SSP transaction)
+- [ ] SSP source tagging system (CARBON/AD/SHOP/BONUS)
 - [ ] SSP exchange validation (only AD+SHOP exchangeable, CARBON blocked)
-- [ ] SSP balance display (total + exchangeable + carbon split)
 - [ ] SSP auto-earning engine (per-activity configurable rates)
-- [ ] Daily/weekly/monthly aggregation logic + API
-- [ ] Carbon reduction report API (individual + total)
-- [ ] MRV: 도로교통공단 운전면허 자동검증 API 연동
-- [ ] MRV: CODEF API 연동 (자동차등록원부, 보험다모아, 하이패스)
-- [ ] MRV: Claude Vision API OCR (보험증권, 리스계약서, 재직증명서 자동 검증)
-- [ ] MRV: 3-Tier 인증 플로우 (자동/반자동/행동기반) + 관리자 검수 큐
+- [ ] Home/Work registration (Kakao Address API -> geocoding)
+- [ ] Home screen (today's carbon reduction, activity summary, SSP)
+- [ ] Activity history list + detail screens
+- [ ] Carbon dashboard (charts, car comparison)
+
+## Week 7-8: Ads + Admin + Launch Prep
+
 - [ ] AdMob 리워드 동영상 연동 (google_mobile_ads, "광고 보고 2배 SSP")
 - [ ] 오퍼월 연동 (애디슨 AdiSON SDK + postback callback API)
 - [ ] "미션센터" 탭 UI (오퍼월 + 리워드 동영상 목록)
-- [ ] 배너 광고 (카카오 애드핏 or AdMob, 대시보드 하단)
-
-## Week 9-10: Flutter App UI
-
-- [ ] Home screen (today's carbon reduction, activity summary, SSP)
-- [ ] Activity history list + detail screens
-- [ ] Carbon dashboard (charts, car comparison visualization)
 - [ ] My page (profile, SSP balance, home/work management)
 - [ ] Settings screen (notifications, privacy, social accounts)
-- [ ] Full app navigation + design polish
+- [ ] Next.js admin: dashboard + member mgmt + SSP settings + push + notices (5 modules)
+- [ ] App <-> API <-> Admin integration test
+- [ ] Real walk/run/cycle scenario end-to-end test
+- [ ] Bug fixes + App Store / Google Play submission
 
-## Week 11-13: Admin Panel
+## ★ Week 10: LAUNCH (Phase 1 MVP, 90% quality)
 
-- [ ] Next.js 14 project setup + layout + auth (`admin/` folder)
-- [ ] Dashboard (carbon stats charts, user statistics)
-- [ ] Member management (list, detail, SSP history, activity history)
-- [ ] SSP settings (activity rates, emission factors CRUD)
-- [ ] Push notification management (FCM send, targeting, scheduling)
-- [ ] Banner/popup management (image upload, display period)
-- [ ] Challenge management (create, participants, results)
-- [ ] Notice board (CRUD, rich text editor, pin/unpin)
+## Week 9-12: Phase 1 보강 (post-launch, weekly updates)
 
-## Week 14: Integration + Launch
-
-- [ ] App <-> API <-> Admin full integration test
-- [ ] Real commute scenario end-to-end test
-- [ ] Bug fixes + performance optimization
-- [ ] App Store / Google Play submission
+- [ ] Wi-Fi SSID scan module (Android only, iOS uses GPS speed)
+- [ ] Bus stop geofence (iOS alternative for bus detection)
+- [ ] Geofence car/taxi auto-inference
+- [ ] Pattern learning (repeated routes -> auto home/work)
+- [ ] MRV: 도로교통공단 운전면허 자동검증 API
+- [ ] MRV: CODEF API (자동차등록원부, 보험다모아, 하이패스)
+- [ ] MRV: Claude Vision API OCR (보험증권, 리스계약서 자동 검증)
+- [ ] MRV: 3-Tier 인증 플로우 + 관리자 검수 큐
+- [ ] Daily/weekly/monthly aggregation cron
+- [ ] 배너 광고 (카카오 애드핏)
+- [ ] Admin expansion: banner/popup, challenge, full SSP config
+- [ ] PRD Phase 2/3 detailed specs
 
 ---
 
-## Phase 2 - Week 15-17: Multi-Sport GPX Course Engine
+## Phase 2 - Week 13-15: Multi-Sport GPX Course Engine (compressed 12 weeks)
 
 - [ ] Sport type registry (RUNNING/CYCLING/HIKING + extensible)
 - [ ] GPX auto-pipeline (upload -> parse -> clean -> metadata -> checkpoints -> challenge)
@@ -188,28 +135,28 @@ EXCLUDED (add after launch, weekly updates):
 - [ ] Admin course CRUD + bidirectional map preview
 - [ ] Multi-sport per course tagging
 
-## Phase 2 - Week 18-19: Bidirectional GPS Matching Engine
+## Phase 2 - Week 16-17: Bidirectional GPS Matching Engine
 
 - [ ] Direction detection (A->B vs B->A from first 3 checkpoints)
 - [ ] Bidirectional start/end detection (either endpoint = valid start)
 - [ ] Per-sport speed/stop validation (running/cycling/hiking different thresholds)
 - [ ] Post-activity batch matching + Strava sync matching
 
-## Phase 2 - Week 20-21: Multi-Sport Ranking System
+## Phase 2 - Week 18-19: Multi-Sport Ranking System
 
 - [ ] Per-sport + per-direction leaderboards
 - [ ] KOR/QOR (Course King/Queen) + Local Legend + Season Ranking
 - [ ] Cross-sport champion badges
 - [ ] Crew ranking + ranking notifications + leaderboard filters
 
-## Phase 2 - Week 22-23: Strava + Garmin Integration
+## Phase 2 - Week 20: Strava + Garmin Integration
 
 - [ ] Strava OAuth + activity sync + webhook
 - [ ] Garmin Connect IQ + activity sync
 - [ ] Sport type mapping (Strava/Garmin -> WB types)
 - [ ] Native GPS recording for all 3 sports
 
-## Phase 2 - Week 24-26: Multi-Sport Event System
+## Phase 2 - Week 21-22: Multi-Sport Event System
 
 - [ ] Event types (Park Run 5km / Bike Run / Hike / Special / Multi-Sport)
 - [ ] Bidirectional events (participants choose direction)
@@ -217,21 +164,21 @@ EXCLUDED (add after launch, weekly updates):
 - [ ] Completion detection (either direction) + results + SNS share cards
 - [ ] Volunteer matching system
 
-## Phase 2 - Week 26-27: Stamp Tour + Challenge System
+## Phase 2 - Week 22-23: Stamp Tour + Challenge System
 
 - [ ] GPX-auto stamp generation (no manual setup needed)
 - [ ] Bidirectional stamp collection (A->B and B->A both count)
 - [ ] Organization stamp books + grand slam + cross-sport badges
 - [ ] Tourism info integration at checkpoints
 
-## Phase 2 - Week 28-29: Crew Hub (Multi-Sport)
+## Phase 2 - Week 23: Crew Hub (Multi-Sport)
 
 - [ ] Multi-sport crews + crew CRUD + member management
 - [ ] Crew events + inter-crew challenges (per sport or cross-sport)
 - [ ] Social feed + kudos + comments
 - [ ] Crew search + leaderboard
 
-## Phase 2 - Week 30-32: SSP External Exchange
+## Phase 2 - Week 24: SSP External Exchange
 
 - [ ] Naver Pay Points (Daou Addcon B2B API)
 - [ ] Kakao Gift Biz API (mobile voucher delivery)
@@ -241,7 +188,7 @@ EXCLUDED (add after launch, weekly updates):
 
 ---
 
-## Phase 3 - Week 33-35: Dual Commerce + Dealer Portal + Smart Store Import
+## Phase 3 - Week 25-27: Dual Commerce + Dealer Portal (compressed 12 weeks)
 
 - [ ] Dual channel architecture (Normal Shop + Dark Room)
 - [ ] Multi-sport category system (T_SHOP_CATEGORY, cross-sport tagging)
@@ -253,7 +200,7 @@ EXCLUDED (add after launch, weekly updates):
 - [ ] Simplified product registration (imported: set qty/price/condition + channel selection)
 - [ ] Settlement dashboard
 
-## Phase 3 - Week 35-37: AI Product Description Generator
+## Phase 3 - Week 28-29: AI Product Description Generator
 
 - [ ] Claude API integration for product description generation
 - [ ] Data collection pipeline (manufacturer site + Naver Shopping)
@@ -261,7 +208,7 @@ EXCLUDED (add after launch, weekly updates):
 - [ ] Batch generation (50+ products at once)
 - [ ] Admin review interface (preview -> approve/edit -> publish)
 
-## Phase 3 - Week 37-39: Operations Automation Engine
+## Phase 3 - Week 30-31: Operations Automation Engine
 
 - [ ] KakaoTalk Biz Message API (order/settlement auto-alerts)
 - [ ] Email auto-send (packing slip PDF, settlement statement)
@@ -271,35 +218,35 @@ EXCLUDED (add after launch, weekly updates):
 - [ ] Monthly auto-report generation + delivery
 - [ ] Consumer notification pipeline (ordered -> shipped -> delivered)
 
-## Phase 3 - Week 39-40: Anonymity Architecture
+## Phase 3 - Week 32: Anonymity Architecture
 
 - [ ] API response filtering (zero dealer info leak)
 - [ ] Shipping label system (LB brand only)
 - [ ] CS routing + notification filtering
 - [ ] Access control + audit trail
 
-## Phase 3 - Week 40-41: Flash Sale System
+## Phase 3 - Week 33: Flash Sale System
 
 - [ ] Sale creation (duration countdown, 1-unit inventory)
 - [ ] Status transitions (Draft -> Active -> Sold Out/Expired)
 - [ ] Upcoming preview (blurred cards) + auto-cancel/confirm
 - [ ] Consumer flash sale list + detail UI
 
-## Phase 3 - Week 42-43: Consumer Experience + Payment
+## Phase 3 - Week 34: Consumer Experience + Payment
 
 - [ ] Dark Commerce tab in Flutter app + AI-generated product detail
 - [ ] Purchase flow (existing PG) + auto-updated tracking
 - [ ] Auto consumer notifications (KakaoTalk/push)
 - [ ] Returns (defective only policy)
 
-## Phase 3 - Week 44-45: Settlement + Tax Automation
+## Phase 3 - Week 35: Settlement + Tax Automation
 
 - [ ] Auto settlement calculation (per-tier cycle: 1/3/5 days)
 - [ ] Auto bank transfer + tax invoice issuance
 - [ ] Auto settlement notification (KakaoTalk + email PDF)
 - [ ] Monthly dealer report auto-generation
 
-## Phase 3 - Week 46-50: Native Commerce + Full Admin
+## Phase 3 - Week 36: Native Commerce + Full Admin + Launch
 
 - [ ] Product catalog + cart + checkout (native Flutter)
 - [ ] Order history with auto-tracking
@@ -308,7 +255,7 @@ EXCLUDED (add after launch, weekly updates):
 
 ---
 
-## Phase 4 - Week 51-53: SSP Token Infrastructure
+## Phase 4 - Week 37-39: SSP Token Infrastructure
 
 - [ ] SSP lock/unlock system + conversion status tracking
 - [ ] Token conversion API (SSP -> carbon proof -> issuance request)
@@ -316,14 +263,14 @@ EXCLUDED (add after launch, weekly updates):
 - [ ] Carbon proof export (JSON/CSV, auditable format)
 - [ ] SSP-to-token ratio config + token balance display in app
 
-## Phase 4 - Week 53-55: Carbon Certification & Audit
+## Phase 4 - Week 39-41: Carbon Certification & Audit
 
 - [ ] KCCI + Ministry of Environment certification pathway
 - [ ] Third-party audit (DNV/TUV) of carbon methodology
 - [ ] POPLE voluntary registry + multi-source certification
 - [ ] MRV data package consolidation + annual carbon report automation
 
-## Phase 4 - Week 55-60: Korea STO (Track 1)
+## Phase 4 - Week 41-46: Korea STO (Track 1)
 
 - [ ] Broker partnership (NXT/KDX participating firm)
 - [ ] FSC pre-consultation + securities prospectus drafting
@@ -331,7 +278,7 @@ EXCLUDED (add after launch, weekly updates):
 - [ ] Broker API integration (token issuance, balance, trading)
 - [ ] Beta launch (100-1,000 users) -> full launch
 
-## Phase 4 - Week 58-66: Overseas Blockchain (Track 2, parallel)
+## Phase 4 - Week 44-52: Overseas Blockchain (Track 2, parallel)
 
 - [ ] Singapore/Dubai entity incorporation + legal opinion
 - [ ] ERC-20 smart contract (Solidity: mint, burn, pause, access control)
@@ -339,7 +286,7 @@ EXCLUDED (add after launch, weekly updates):
 - [ ] Testnet (Polygon Mumbai) -> mainnet deployment
 - [ ] DEX listing (Uniswap/SushiSwap) + geo-blocking (US)
 
-## Phase 4 - Week 62-70: B2B Corporate ESG Sales
+## Phase 4 - Week 48-56: B2B Corporate ESG Sales
 
 - [ ] Corporate ESG dashboard (white-label carbon reports)
 - [ ] Bulk credit purchase API + ESG report integration (GRI/SASB/TCFD)

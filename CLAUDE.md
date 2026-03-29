@@ -83,11 +83,13 @@ C:\Dev\app renewal\
 ## Phase Overview
 
 ```
-Pre-Dev (3w): BRD + PRD + Screen Planning + Design System  ← CURRENT
-Phase 1 (14w): SmartMove + Carbon Reduction + SSP + Admin
-Phase 2 (18w): Multi-Sport Challenge (GPX, ranking, events, crew)
-Phase 3 (18w): Dark Commerce + Smart Commerce (ops automation, AI desc)
+Pre-Dev (2w): PRD core + Screen Planning + API Design  ← CURRENT
+Phase 1 MVP (8w): SmartMove + Carbon + SSP + Ads + Admin 5 modules → LAUNCH
+Phase 1 보강 (4w): Wi-Fi + Geofence + MRV + Admin expansion (post-launch)
+Phase 2 (12w): Multi-Sport Challenge (GPX, ranking, Strava, events, crew)
+Phase 3 (12w): Dual Commerce (Normal Shop + Dark Room + automation)
 Phase 4 (20w): Carbon Token Securities (STO) + Global Expansion
+Timeline: Option C Hybrid (38 weeks to Phase 1~3 complete, launch at Week 10)
 ```
 
 ## Session Start Checklist
