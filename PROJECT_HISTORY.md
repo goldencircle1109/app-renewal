@@ -169,3 +169,29 @@
   - First launch: Week 10 → **Week 7** (3 weeks faster)
   - Phase 1~3 complete: Week 38 → **Week 25.5** (12.5 weeks faster)
 - Updated: task.md, CLAUDE.md with Pipeline-accelerated timeline
+
+### Dev Pipeline Enhancement (dotfiles project)
+- VoltAgent QA agents 3개 설치: accessibility-tester, compliance-auditor, error-detective
+- T4 QA팀: 11개 → 16개 에이전트 + 3단계 실행 (7+7+2)
+- 4가지 리스크 대책 반영:
+  1. T3↔T4 루프: CRITICAL 즉시/HIGH 일괄/MEDIUM 이월, 루프 상한 3회
+  2. 승인 병목: 15분 타임아웃 + --auto-approve + 범위 사전 설정
+  3. 컨텍스트 한계: 요약 반환 + 팀별 세션 분리 + T4 3단계 순차
+  4. T3 병렬 충돌: 파일 소유권 규칙 + 실행 순서 제어
+- T5→T1→마스터→사용자 보고 체계 구축 (ALERT_INFO/WARNING/CRITICAL)
+- 마스터 오케스트라 7가지 능동적 관리 기능:
+  1. 동적 모델 선택 (Haiku/Sonnet/Opus, 비용 40-60% 절감)
+  2. 병목 감지 + 자동 조율 (7개 규칙)
+  3. 스프린트 회고 자동화 (retrospective.md + decisions.md)
+  4. 에이전트 성능 채점 (100점, 60% 미만 교체 제안)
+  5. 도구 자동 추천 (/batch, context7, /loop)
+  6. 팀 간 마찰 해결 (순환 의존성, 리소스 경합)
+  7. 컨텍스트 드리프트 감지 (35분 룰)
+- team-management-protocol.md 생성 (팀 내 7가지 기능)
+- 3가지 파이프라인 모드 추가: Hotfix(5분) / Standard(1-2시간) / Full(4시간+)
+- UI 프리뷰 시스템: T2 후 HTML 목업 + T5 후 Playwright 스크린샷
+- 최신 트렌드 반영: /batch, Anthropic PR 리뷰, GitHub Agentic Workflows, Sentry MCP, Figma MCP
+- Weekly RemoteTrigger 등록 (매주 월요일 15:03 KST, 9개 영역 자동 리서치)
+- 34개 이슈 검토 + pipeline-config.json 도입 (프로젝트 독립적 파이프라인)
+- Critical 8건 + Important 10건 + Improvement 5건 수정 완료
+- auto-sync teams/ 보호 로직 구현 (sync-claude.sh + session-end.sh)

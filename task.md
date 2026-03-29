@@ -1,7 +1,7 @@
 # Task List - App Renewal
 
-**Last updated:** 2026-03-29
-**Current phase:** Pre-Dev (BRD complete, PRD next)
+**Last updated:** 2026-03-30
+**Current phase:** Pre-Dev (BRD complete, Dev Pipeline ready, PRD next)
 **Design spec:** `docs/superpowers/specs/2026-03-28-app-renewal-design.md`
 **Full roadmap:** `docs/superpowers/specs/2026-03-28-full-roadmap-phase1-2-3.md`
 
@@ -318,3 +318,10 @@ Pipeline 효과: 38주 → 25.5주 (33% 단축, -12.5주)
 - [x] Rename 3Way Sensor → SmartMove (folder + 28 files + Word/PPT) - 2026-03-29
 - [x] MRV 3-Tier vehicle verification + Claude Vision OCR - 2026-03-28
 - [x] Phase 4 added: Carbon Token Securities (STO) + Global Expansion - 2026-03-28
+- [x] Option C Hybrid timeline decision (38w, launch Week 10) - 2026-03-30
+- [x] Dev Pipeline acceleration applied (38w → 25.5w, 33% faster) - 2026-03-30
+- [x] Dev Pipeline enhancement: 16 QA agents, 7 adaptive features, 3 modes - 2026-03-30
+- [x] Dev Pipeline 34 issues reviewed + all Critical/Important fixed - 2026-03-30
+- [x] pipeline-config.json template (project-agnostic pipeline) - 2026-03-30
+- [x] Weekly RemoteTrigger registered (9-area trend research) - 2026-03-30
+- [x] auto-sync teams/ protection implemented - 2026-03-30
