@@ -137,3 +137,23 @@
   - All .md files (28 files), generator scripts, Word/PPT regenerated
   - Reason: 3Way = 3 modes, but system detects 7 modes (walk/run/cycle/bus/subway/taxi/car)
   - SmartMove = future-proof, no number limitation
+
+---
+
+## 2026-03-30
+
+### Timeline Decision: Option C Hybrid (38 weeks)
+- Compared 3 timeline options in detail:
+  - Option A: Full Scope 50 weeks (all features, 100% quality, first launch at week 17)
+  - Option B: 3-Month MVP 13 weeks (70% quality, P1+P2+P3 core, high risk on commerce)
+  - Option C: Hybrid 38 weeks (Phase 1 MVP 90% → launch at week 10, then iterate)
+- **CEO decision: Option C confirmed**
+- Key characteristics:
+  - Pre-Dev: 2 weeks (compressed from 3, PRD core + 10 screens + API spec)
+  - Phase 1 MVP: 8 weeks → App Store launch at Week 10
+  - Phase 1 보강: 4 weeks post-launch (Wi-Fi, geofence, MRV, admin expansion)
+  - Phase 2: 12 weeks compressed (from 18)
+  - Phase 3: 12 weeks compressed (from 18)
+  - Phase 1~3 full complete: Week 38 (Option A was Week 50 = 12 weeks faster)
+  - First launch: Week 10 (Option A was Week 17 = 7 weeks faster)
+- Updated: task.md (all week numbers adjusted), CLAUDE.md (phase overview)
