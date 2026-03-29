@@ -7,23 +7,27 @@
 
 ---
 
-## Timeline Decision: Option C Hybrid (38 weeks, CONFIRMED 2026-03-29)
+## Timeline Decision: Option C Hybrid + Dev Pipeline (25.5 weeks, CONFIRMED 2026-03-30)
 
 ```
-Pre-Dev (2w) → Phase 1 MVP (8w) → LAUNCH → Phase 1 보강 (4w) → Phase 2 (12w) → Phase 3 (12w)
+Dev Pipeline (6팀 자동 오케스트레이션):
+  T1(일정) → T2(설계,5에이전트병렬) → T3(개발,3명병렬) → T6(보안) → T4(QA,11에이전트) → T5(배포)
+
+Pre-Dev (2w) → Phase 1 MVP (5w) → LAUNCH → 보강 (2.5w) → Phase 2 (8w) → Phase 3 (8w)
                                      ↓
-                               10주 후 출시 = 2026년 6월 중순
+                               7주 후 출시 = 2026년 6월 초
 
 Week -2~-1:  Pre-Dev (PRD 핵심 + 화면기획 10개 + API설계)
-Week 1-2:    Foundation (API + DB + Auth + Flutter)
-Week 3-4:    SmartMove MVP (walk/run/cycle + SSP Plan C)
-Week 5-6:    Carbon calc (T-map) + home screen + basic app UI
-Week 7-8:    AdMob + offerwall + admin 5 modules + integration test
-★ Week 10:   APP STORE LAUNCH (Phase 1 MVP, 90% quality)
-Week 9-12:   Phase 1 보강 (Wi-Fi + geofence + MRV + admin expansion)
-Week 13-24:  Phase 2 compressed (multi-sport + Strava + ranking + stamp)
-Week 25-36:  Phase 3 compressed (Normal Shop + Dark Room + automation)
-Week 38:     Phase 1~3 FULL COMPLETE
+Week 1:      Foundation (T3 병렬: API팀+Flutter팀+인프라팀 동시)
+Week 2-3:    SmartMove MVP (T3 병렬: 센서팀+API팀+UI팀 동시)
+Week 4-5:    Carbon + SSP + Ads + Admin 5모듈 (T3 병렬 + T4 QA 자동)
+★ Week 7:    APP STORE LAUNCH (Phase 1 MVP, 90% quality)
+Week 6-8:    Phase 1 보강 (T3 병렬: Wi-Fi+Geofence+MRV+Admin 동시)
+Week 9-16:   Phase 2 (1주 스프린트 × 8: T2→T3→T4 파이프라인 반복)
+Week 17-24:  Phase 3 (1주 스프린트 × 8: T2→T3→T4 파이프라인 반복)
+Week 25.5:   Phase 1~3 FULL COMPLETE
+
+Pipeline 효과: 38주 → 25.5주 (33% 단축, -12.5주)
 ```
 
 ---

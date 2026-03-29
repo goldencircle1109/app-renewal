@@ -157,3 +157,15 @@
   - Phase 1~3 full complete: Week 38 (Option A was Week 50 = 12 weeks faster)
   - First launch: Week 10 (Option A was Week 17 = 7 weeks faster)
 - Updated: task.md (all week numbers adjusted), CLAUDE.md (phase overview)
+
+### Dev Pipeline Integration
+- Analyzed Dev Pipeline (dotfiles/claude/agents/teams/) impact on timeline:
+  - 6 teams: T1(schedule) → T2(design,5 agents) → T3(dev,3 parallel) → T6(security) → T4(QA,11 agents) → T5(deploy)
+  - T3 development: frontend+backend+infra simultaneous → 60% time reduction
+  - T4 QA: 11 agents parallel (code-reviewer, security-auditor, test-automator etc.) → 75% time reduction
+  - T2 design: 5 agents parallel (architect, explorer, API designer, type analyzer, security) → 75% time reduction
+- Timeline acceleration:
+  - Option C (38w) → Option C + Pipeline (25.5w) = 33% faster (-12.5 weeks)
+  - First launch: Week 10 → **Week 7** (3 weeks faster)
+  - Phase 1~3 complete: Week 38 → **Week 25.5** (12.5 weeks faster)
+- Updated: task.md, CLAUDE.md with Pipeline-accelerated timeline
